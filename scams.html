@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Scale of the Scam — largenumbers.in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Light theme (default) — botanical green palette ── */
+:root {
+  --color-paper: #F7FAF6;
+  --color-surface: #EBF5E8;
+  --color-ink: #2F4B26;
+  --color-ink-muted: rgba(47,75,38,0.55);
+  --color-grid: rgba(47,75,38,0.1);
+  --color-outline: rgba(47,75,38,0.25);
+  --color-map-empty: #DCF0D8;
+  --color-map-stroke: rgba(47,75,38,0.2);
+  --color-ochre: #8A5A08;
+  --color-blue: #1A5A9E;
+  --color-red: #B02D12;
+  --color-green: #1D6840;
+  --color-violet: #6025A0;
+  --color-focus: #3E885B;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-ui: Inter, "Helvetica Neue", Arial, sans-serif;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+  --space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;
+  --radius-sm:4px;--radius-md:8px;
+  --border-thin:1px solid var(--color-grid);
+  --page-gutter:clamp(16px,3vw,48px);
+  /* chart SVG colours (read by JS via getComputedStyle) */
+  --chart-axis: rgba(47,75,38,0.45);
+  --chart-grid: rgba(47,75,38,0.09);
+  --chart-decade: rgba(47,75,38,0.03);
+  --chart-decade-label: rgba(47,75,38,0.2);
+  --chart-year-label: rgba(47,75,38,0.4);
+  --chart-ratio-label: rgba(47,75,38,0.55);
+  --yaxis-spine: rgba(47,75,38,0.35);
+  --yaxis-tick: rgba(47,75,38,0.2);
+  --yaxis-label: rgba(47,75,38,0.5);
+  --yaxis-sublabel: rgba(47,75,38,0.25);
+}
+
+/* ── Dark theme — prussian blue palette ── */
+html[data-theme="dark"] {
+  --color-paper: #020122;
+  --color-surface: #0A0935;
+  --color-ink: #F2F3AE;
+  --color-ink-muted: rgba(242,243,174,0.5);
+  --color-grid: rgba(242,243,174,0.1);
+  --color-outline: rgba(242,243,174,0.22);
+  --color-map-empty: #100E48;
+  --color-map-stroke: rgba(242,243,174,0.18);
+  --color-ochre: #EDD382;
+  --color-blue: #FC9E4F;
+  --color-red: #FF521B;
+  --color-green: #6BCB8A;
+  --color-violet: #B07AE0;
+  --color-focus: #FC9E4F;
+  --chart-axis: rgba(242,243,174,0.5);
+  --chart-grid: rgba(242,243,174,0.1);
+  --chart-decade: rgba(242,243,174,0.025);
+  --chart-decade-label: rgba(242,243,174,0.2);
+  --chart-year-label: rgba(242,243,174,0.35);
+  --chart-ratio-label: rgba(242,243,174,0.45);
+  --yaxis-spine: rgba(242,243,174,0.4);
+  --yaxis-tick: rgba(242,243,174,0.2);
+  --yaxis-label: rgba(242,243,174,0.4);
+  --yaxis-sublabel: rgba(242,243,174,0.3);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-ui)}
+body{margin:0;font-size:16px;line-height:1.5}
+.page{max-width:1440px;margin-inline:auto;padding:0 var(--page-gutter)}
+
+.site-nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--color-paper);border-bottom:var(--border-thin);
+  padding:var(--space-3) var(--page-gutter);
+  display:flex;align-items:center;gap:var(--space-5)
+}
+.site-nav .brand{display:inline-flex;align-items:center;text-decoration:none}
+.brand-logo{height:32px;width:auto;display:block}
+.brand-logo--dark{display:none}
+html[data-theme="dark"] .brand-logo--light{display:none}
+html[data-theme="dark"] .brand-logo--dark{display:block}
+.site-nav a{color:var(--color-ink-muted);text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.site-nav a.active,.site-nav a:hover{color:var(--color-ink)}
+.site-nav .spacer{flex:1}
+
+/* Nav groups with hover dropdown */
+.nav-group{position:relative;display:flex;align-items:center}
+.nav-group-label{
+  font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;
+  color:var(--color-ink-muted);cursor:default;padding:4px 0;
+  display:flex;align-items:center;gap:4px
+}
+.nav-group-label::after{content:'▾';font-size:8px;opacity:.6}
+.nav-group:hover .nav-group-label{color:var(--color-ink)}
+.nav-dropdown{
+  display:none;position:absolute;top:100%;left:-12px;
+  background:var(--color-paper);border:var(--border-thin);border-radius:var(--radius-md);
+  padding:6px 0;min-width:140px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200
+}
+.nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+.nav-group:hover .nav-dropdown{display:block}
+.nav-dropdown a{
+  display:block;padding:12px 18px;font-size:11px;text-transform:uppercase;
+  letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);
+  text-decoration:none;white-space:nowrap
+}
+.nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
+.nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
+.theme-toggle{
+  background:none;border:var(--border-thin);border-radius:var(--radius-sm);
+  padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-ui);
+  color:var(--color-ink-muted);letter-spacing:.04em;transition:color .15s,background .15s
+}
+.theme-toggle:hover{color:var(--color-ink);background:var(--color-grid)}
+
+.viz-header{padding:var(--space-7) 0 var(--space-6);border-bottom:var(--border-thin);margin-bottom:var(--space-5)}
+.viz-header-inner{display:flex;align-items:flex-start;gap:var(--space-6);flex-wrap:wrap}
+.viz-header-left{flex:1 1 auto;min-width:0}
+.viz-header-right{flex:0 0 340px;padding-top:var(--space-3)}
+
+.eyebrow{
+  display:inline-block;
+  background:var(--color-ochre);color:var(--color-paper);
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 11px;border-radius:100px;margin:0 0 var(--space-4)
+}
+.viz-header h1{
+  font-family:var(--font-display);
+  font-size:clamp(56px,9vw,112px);
+  font-weight:600;margin:0;letter-spacing:-.03em;line-height:.9;
+  color:var(--color-ink)
+}
+.viz-header .subtitle{font-size:14px;color:var(--color-ink-muted);margin:0 0 var(--space-5);max-width:52ch;line-height:1.7}
+.header-meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4)}
+
+.benchmark-block{
+  display:inline-flex;align-items:center;gap:var(--space-4);
+  background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);
+  padding:var(--space-3) var(--space-4);margin-bottom:var(--space-5)
+}
+.benchmark-amount{font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--color-ochre);font-variant-numeric:tabular-nums}
+.benchmark-label{font-size:12px;color:var(--color-ink-muted);line-height:1.4}
+.benchmark-label a{color:var(--color-ochre);text-decoration:none}
+.benchmark-label a:hover{text-decoration:underline}
+
+.inflation-note{position:relative;display:inline-flex;align-items:center;gap:var(--space-2);font-size:12px;color:var(--color-ink-muted)}
+.q-mark{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--color-grid);color:var(--color-ink-muted);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;cursor:help;flex-shrink:0;user-select:none
+}
+.inflation-tooltip{
+  display:none;position:absolute;top:26px;left:0;z-index:50;
+  background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);
+  padding:var(--space-3) var(--space-4);font-size:12px;max-width:300px;line-height:1.6;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);color:var(--color-ink)
+}
+.inflation-note:hover .inflation-tooltip,
+.inflation-note:focus-within .inflation-tooltip{display:block}
+
+.legend{
+  display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);
+  justify-content:center;
+  padding:var(--space-4) 0;margin-bottom:var(--space-4);border-bottom:var(--border-thin)
+}
+.legend-item{
+  display:flex;align-items:flex-start;gap:var(--space-2);font-size:12px;
+  cursor:pointer;border-radius:var(--radius-sm);padding:6px 10px;
+  transition:background .15s,opacity .15s;user-select:none
+}
+.legend-item:hover{background:var(--color-grid)}
+.legend-item--active{background:var(--color-grid)}
+.legend-item--dimmed{opacity:.25}
+.legend-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.legend-text small{display:block;color:var(--color-ink-muted);font-size:11px}
+
+.bm-map{fill:var(--color-ochre);stroke:var(--color-outline);stroke-width:5}
+
+.chart-frame{
+  display:flex;align-items:flex-start;
+  margin:0 calc(-1 * var(--page-gutter));
+}
+.chart-yaxis{flex-shrink:0;display:block}
+.chart-scroll-outer{
+  overflow-x:auto;overflow-y:visible;
+  flex:1;
+  padding:0 var(--page-gutter) var(--space-4) 0;
+  scrollbar-width:thin;scrollbar-color:var(--color-grid) transparent
+}
+.chart-scroll-outer::-webkit-scrollbar{height:4px}
+.chart-scroll-outer::-webkit-scrollbar-thumb{background:var(--color-grid);border-radius:2px}
+
+.scam-mark{cursor:pointer}
+.scam-mark:focus{outline:none}
+
+.detail-panel{
+  margin-top:var(--space-5);background:var(--color-surface);
+  border:var(--border-thin);border-radius:var(--radius-md);
+  overflow:hidden;animation:slide-in .15s ease
+}
+.detail-panel[hidden]{display:none}
+@keyframes slide-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.detail-strip{height:5px;width:100%}
+.detail-body{padding:var(--space-5)}
+
+.detail-header{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--space-4);margin-bottom:var(--space-4)}
+.detail-name{font-family:var(--font-display);font-size:20px;font-weight:600;margin:0}
+.detail-close{
+  background:none;border:var(--border-thin);border-radius:var(--radius-sm);
+  padding:4px 12px;cursor:pointer;font-size:12px;color:var(--color-ink-muted);white-space:nowrap;flex-shrink:0
+}
+.detail-close:hover{color:var(--color-ink)}
+
+.detail-hero{
+  display:flex;flex-direction:column;gap:var(--space-4);
+  padding:var(--space-4) 0;margin-bottom:var(--space-4);
+  border-top:var(--border-thin);border-bottom:var(--border-thin)
+}
+.detail-hero-top{display:flex;align-items:flex-start;gap:var(--space-6)}
+.detail-ratio-block{flex-shrink:0}
+.detail-ratio-number{
+  font-family:var(--font-display);font-size:clamp(36px,5vw,52px);font-weight:600;
+  line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums
+}
+.detail-ratio-label{font-size:13px;color:var(--color-ink-muted);line-height:1.4}
+.detail-ratio-label strong{color:var(--color-ink)}
+.detail-maps-preview{display:flex;gap:4px;align-items:flex-end;flex-wrap:wrap}
+
+.detail-grid{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-6);margin-bottom:var(--space-4)}
+.detail-cell label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-muted);margin-bottom:2px}
+.detail-cell .val{font-weight:600;font-variant-numeric:tabular-nums;font-size:14px}
+
+.detail-caveat{
+  font-size:13px;color:var(--color-ink-muted);line-height:1.7;
+  margin:0 0 var(--space-4);border-left:3px solid var(--color-grid);padding-left:var(--space-4)
+}
+.detail-source a{color:var(--color-ochre);font-size:13px;text-decoration:none}
+.detail-source a:hover{text-decoration:underline}
+.status-badge{
+  display:inline-block;font-size:10px;padding:2px 8px;border-radius:100px;
+  border:1px solid currentColor;text-transform:uppercase;letter-spacing:.05em
+}
+.est-note{font-size:11px;color:var(--color-ochre);font-style:italic}
+
+.how-to-read{
+  display:flex;align-items:flex-end;gap:var(--space-5);flex-wrap:wrap;
+  padding:var(--space-5) 0;border-top:var(--border-thin);margin-top:var(--space-7)
+}
+.htr-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-muted);align-self:center;flex-shrink:0}
+.htr-item{text-align:center;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.htr-item small{display:block;font-size:10px;color:var(--color-ink-muted);font-weight:400;margin-top:2px}
+
+.methodology{margin-top:var(--space-7);border-top:var(--border-thin);padding:var(--space-5) 0 var(--space-8)}
+.methodology h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-muted);margin:0 0 var(--space-3)}
+.methodology ul{margin:0;padding-left:var(--space-5);color:var(--color-ink-muted);font-size:13px;line-height:1.9}
+
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+:focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="brand">
+    <img src="css/image/largenumbers_light.png" class="brand-logo brand-logo--light" alt="largenumbers.in">
+    <img src="css/image/largenumbers_dark.png" class="brand-logo brand-logo--dark" alt="largenumbers.in">
+  </span>
+  <div class="nav-group">
+    <span class="nav-group-label">Government</span>
+    <div class="nav-dropdown">
+      <a href="scams.html" class="active">Scams</a>
+      <a href="union-budget.html">Union Budget</a>
+    </div>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">Economics</span>
+    <div class="nav-dropdown">
+      <a href="fii-outflows.html">FII Outflows</a>
+    </div>
+  </div>
+  <a href="about.html">About</a>
+  <span class="spacer"></span>
+  <button id="themeToggle" class="theme-toggle" aria-label="Switch colour theme">◑ Dark</button>
+</nav>
+
+<div class="page">
+
+  <header class="viz-header">
+    <div class="viz-header-inner">
+      <div class="viz-header-left">
+        <span class="eyebrow">India · 1990–2026</span>
+        <h1>The Scale<br>of the Scam</h1>
+      </div>
+      <div class="viz-header-right">
+        <div class="benchmark-block">
+          <svg width="20" height="24" viewBox="0 0 200 240" aria-hidden="true">
+            <path class="bm-map" d="M68.9,238.0 L65.1,238.0 L57.9,230.2 L53.5,213.9 L47.2,203.0 L44.1,189.4 L37.2,175.1 L32.8,154.0 L34.0,152.6 L32.2,144.5 L34.0,139.0 L32.2,127.5 L29.3,135.3 L19.3,138.7 L6.4,123.4 L15.8,120.7 L9.9,120.3 L2.0,112.5 L2.9,109.5 L7.3,107.4 L22.7,107.8 L20.8,97.6 L17.7,96.2 L17.1,90.1 L13.3,87.4 L13.3,84.0 L19.9,76.8 L22.4,76.8 L23.0,78.9 L29.3,78.2 L49.1,52.7 L49.1,47.2 L54.1,43.8 L43.5,36.3 L42.2,24.8 L46.6,19.3 L37.2,11.9 L37.2,9.8 L45.7,2.7 L55.7,2.0 L70.2,15.6 L81.5,11.5 L88.1,15.9 L86.8,22.1 L79.3,31.6 L83.0,41.1 L78.3,44.2 L76.1,41.8 L78.0,50.6 L93.1,60.1 L88.7,64.9 L86.8,71.7 L105.3,82.3 L113.5,81.6 L124.2,88.4 L138.0,89.7 L138.3,77.2 L142.4,75.5 L145.5,85.0 L163.1,83.6 L160.6,75.5 L166.9,74.1 L179.5,61.2 L184.5,62.5 L187.6,59.1 L192.3,64.9 L191.1,67.6 L195.8,68.0 L198.0,70.4 L195.5,74.4 L196.7,78.5 L192.7,77.5 L184.8,84.6 L184.8,92.1 L182.3,95.5 L181.0,105.0 L179.5,107.4 L175.4,107.8 L176.0,114.6 L173.2,125.8 L170.4,124.8 L167.2,111.2 L163.8,117.6 L159.7,111.2 L160.3,107.8 L166.0,103.7 L166.3,99.3 L151.8,99.3 L149.3,92.5 L147.4,93.1 L144.9,90.4 L140.8,91.4 L140.2,94.2 L145.9,99.6 L140.2,104.4 L144.6,107.1 L143.3,111.2 L146.5,115.9 L147.7,126.8 L136.1,131.2 L133.9,140.4 L126.1,146.2 L123.6,145.5 L117.0,156.0 L104.4,167.6 L103.5,172.0 L97.2,173.4 L93.4,178.8 L89.3,179.2 L88.1,189.4 L89.9,196.9 L86.2,207.1 L86.2,220.7 L82.1,221.7 L79.9,228.8 L73.9,231.2 L73.0,234.9 L68.9,238.0 Z"/>
+          </svg>
+          <div>
+            <div class="benchmark-amount">₹12,192 cr</div>
+            <div class="benchmark-label">
+              Swachh Bharat Mission, FY 2025–26<br>
+              <a href="https://www.downtoearth.org.in/amp/story/rural-water-and-sanitation/union-budget-2025-jal-jeevan-mission-and-sanitation" target="_blank" rel="noopener">Source: Down to Earth ↗</a>
+            </div>
+          </div>
+        </div>
+        <p class="subtitle">Each India map represents one year of India's Swachh Bharat Mission budget. How many SBM budgets did India's biggest financial scandals account for?</p>
+        <span class="inflation-note" tabindex="0">
+          <span class="q-mark" aria-label="Inflation adjustment explained">?</span>
+          All amounts adjusted to 2024 INR
+          <span class="inflation-tooltip" role="tooltip">
+            <strong>Why adjust for inflation?</strong><br>
+            ₹1,000 crore in 1992 had far more purchasing power than today.
+            All figures are scaled to 2024 INR using India's Consumer Price Index
+            (RBI Handbook, Table 34). Formula:
+            <em>Adjusted&nbsp;= Original&nbsp;×&nbsp;(CPI<sub>2024</sub>&nbsp;÷&nbsp;CPI<sub>year</sub>)</em>.
+            Pre-2012 values use a spliced CPI-IW series (±5–8% uncertainty).
+          </span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="legend" role="list" aria-label="Colour legend — click to filter">
+    <div class="legend-item" role="listitem" data-filter="ochre" title="Click to filter"><span class="legend-swatch" style="background:var(--color-ochre)"></span><span class="legend-text">Notional public loss <small>CAG estimate, potential not proven</small></span></div>
+    <div class="legend-item" role="listitem" data-filter="blue" title="Click to filter"><span class="legend-swatch" style="background:var(--color-blue)"></span><span class="legend-text">Alleged / bank fraud <small>Under investigation or charged</small></span></div>
+    <div class="legend-item" role="listitem" data-filter="red" title="Click to filter"><span class="legend-swatch" style="background:var(--color-red)"></span><span class="legend-text">Established fraud <small>Conviction or regulatory finding</small></span></div>
+    <div class="legend-item" role="listitem" data-filter="green" title="Click to filter"><span class="legend-swatch" style="background:var(--color-green)"></span><span class="legend-text">Investor funds / refund liability <small>Collected or owed to investors</small></span></div>
+    <div class="legend-item" role="listitem" data-filter="violet" title="Click to filter"><span class="legend-swatch" style="background:var(--color-violet)"></span><span class="legend-text">Debt default / financial crisis <small>Outstanding debt or systemic failure</small></span></div>
+  </div>
+
+  <div class="chart-frame">
+    <svg id="yaxis" class="chart-yaxis" aria-hidden="true"></svg>
+    <div class="chart-scroll-outer" id="chartOuter" role="region" aria-label="Scrollable scam timeline">
+      <svg id="chart" aria-label="Timeline of India's major financial scams, 1990–2026"><defs></defs></svg>
+    </div>
+  </div>
+
+  <aside class="detail-panel" id="detailPanel" hidden aria-live="polite" aria-atomic="true">
+    <div class="detail-strip" id="detailStrip"></div>
+    <div class="detail-body">
+      <div class="detail-header">
+        <h2 class="detail-name" id="detailName"></h2>
+        <button class="detail-close" id="detailClose" aria-label="Close detail">Close ✕</button>
+      </div>
+      <div class="detail-hero" id="detailHero"></div>
+      <div class="detail-grid" id="detailGrid"></div>
+      <p class="detail-caveat" id="detailCaveat"></p>
+      <div class="detail-source" id="detailSource"></div>
+    </div>
+  </aside>
+
+  <div class="how-to-read" id="howToRead" aria-label="How to read the India maps">
+    <span class="htr-label">How to read</span>
+  </div>
+
+  <footer class="methodology">
+    <h3>Notes &amp; methodology</h3>
+    <ul>
+      <li>Each India map equals India's Swachh Bharat Mission budget for FY 2025–26: <strong>₹12,192 crore</strong> (Gramin ₹7,192 cr + Urban ₹5,000 cr). Full maps are 100% filled; partial maps are filled from the bottom up.</li>
+      <li>All amounts are inflation-adjusted to 2024 INR using India CPI Combined (Base 2012=100), from RBI Handbook Table 34. Pre-2012 values use a spliced CPI-IW series (±5–8% uncertainty).</li>
+      <li>Headline amounts represent different things — notional losses, allegations, investor liabilities, debt defaults. They are <strong>not additive</strong> and must not be summed.</li>
+      <li>Items marked <strong>[est]</strong> with a dashed silhouette border use a best-guess estimate where no single verified figure is publicly available.</li>
+      <li>An amount in a CAG report or FIR is not a proven loss. Acquittals, ongoing proceedings and appeals are noted in each item's detail.</li>
+      <li>Data last verified: October 2026.</li>
+    </ul>
+  </footer>
+
+</div>
+
+<script type="module">
+const HEALTH_BUDGET = 12192;
+const CPI_REF = 2024;
+
+const INDIA_PATH = 'M68.9,238.0 L65.1,238.0 L57.9,230.2 L53.5,213.9 L47.2,203.0 L44.1,189.4 L37.2,175.1 L32.8,154.0 L34.0,152.6 L32.2,144.5 L34.0,139.0 L32.2,127.5 L29.3,135.3 L19.3,138.7 L6.4,123.4 L15.8,120.7 L9.9,120.3 L2.0,112.5 L2.9,109.5 L7.3,107.4 L22.7,107.8 L20.8,97.6 L17.7,96.2 L17.1,90.1 L13.3,87.4 L13.3,84.0 L19.9,76.8 L22.4,76.8 L23.0,78.9 L29.3,78.2 L49.1,52.7 L49.1,47.2 L54.1,43.8 L43.5,36.3 L42.2,24.8 L46.6,19.3 L37.2,11.9 L37.2,9.8 L45.7,2.7 L55.7,2.0 L70.2,15.6 L81.5,11.5 L88.1,15.9 L86.8,22.1 L79.3,31.6 L83.0,41.1 L78.3,44.2 L76.1,41.8 L78.0,50.6 L93.1,60.1 L88.7,64.9 L86.8,71.7 L105.3,82.3 L113.5,81.6 L124.2,88.4 L138.0,89.7 L138.3,77.2 L142.4,75.5 L145.5,85.0 L163.1,83.6 L160.6,75.5 L166.9,74.1 L179.5,61.2 L184.5,62.5 L187.6,59.1 L192.3,64.9 L191.1,67.6 L195.8,68.0 L198.0,70.4 L195.5,74.4 L196.7,78.5 L192.7,77.5 L184.8,84.6 L184.8,92.1 L182.3,95.5 L181.0,105.0 L179.5,107.4 L175.4,107.8 L176.0,114.6 L173.2,125.8 L170.4,124.8 L167.2,111.2 L163.8,117.6 L159.7,111.2 L160.3,107.8 L166.0,103.7 L166.3,99.3 L151.8,99.3 L149.3,92.5 L147.4,93.1 L144.9,90.4 L140.8,91.4 L140.2,94.2 L145.9,99.6 L140.2,104.4 L144.6,107.1 L143.3,111.2 L146.5,115.9 L147.7,126.8 L136.1,131.2 L133.9,140.4 L126.1,146.2 L123.6,145.5 L117.0,156.0 L104.4,167.6 L103.5,172.0 L97.2,173.4 L93.4,178.8 L89.3,179.2 L88.1,189.4 L89.9,196.9 L86.2,207.1 L86.2,220.7 L82.1,221.7 L79.9,228.8 L73.9,231.2 L73.0,234.9 L68.9,238.0 Z';
+const INDIA_VW = 200, INDIA_VH = 240;
+
+const SILO_W = 38;
+const SILO_H = Math.round(SILO_W * INDIA_VH / INDIA_VW);
+
+const MAX_MULT = 14;
+const CHART_H = MAX_MULT * SILO_H;
+
+const YAXIS_W = 88;
+const PAD = { top: 56, right: 80, bottom: 110, left: 0 };
+const YR0 = 1990, YR1 = 2028;
+const SVG_H = PAD.top + CHART_H + PAD.bottom;
+
+const NS = 'http://www.w3.org/2000/svg';
+
+const TYPE_COLOR = {
+  notional_loss:'ochre', unverified_aggregate_estimate:'ochre',
+  filed_amount:'blue', alleged_bank_fraud:'blue', estimated_bank_fraud:'blue',
+  identified_financing:'blue', reported_case_value:'blue', regulatory_violation:'blue',
+  amount_defrauded:'red', embezzlement_estimate:'red',
+  investor_funds_estimate:'green', proceeds_of_crime:'green',
+  funds_collected_refund_liability:'green', refund_account_balance:'green',
+  settlement_default:'green', funds_invested_and_diverted_allegation:'green',
+  debt_default:'violet', public_land_and_allocation_irregularities:'violet',
+};
+
+// Theme colours — read from CSS custom properties, refreshed on theme switch
+let THEME = {};
+
+function refreshTheme(){
+  const s = getComputedStyle(document.documentElement);
+  const g = v => s.getPropertyValue(v).trim();
+  THEME = {
+    colors: { ochre: g('--color-ochre'), blue: g('--color-blue'), red: g('--color-red'), green: g('--color-green'), violet: g('--color-violet') },
+    mapFill:          g('--color-map-empty'),
+    mapStroke:        g('--color-map-stroke'),
+    chartAxis:        g('--chart-axis'),
+    chartGrid:        g('--chart-grid'),
+    chartDecade:      g('--chart-decade'),
+    chartDecadeLabel: g('--chart-decade-label'),
+    chartYearLabel:   g('--chart-year-label'),
+    chartRatioLabel:  g('--chart-ratio-label'),
+    yaxisSpine:       g('--yaxis-spine'),
+    yaxisTick:        g('--yaxis-tick'),
+    yaxisLabel:       g('--yaxis-label'),
+    yaxisSublabel:    g('--yaxis-sublabel'),
+  };
+}
+
+let layout = null;
+let scamsData = null, inflData = null;
+let activeFilter = null;
+
+const ESTIMATED = {
+  cwg: { amount: 70000, note: 'Widely cited figure; CAG identified multiple irregularities but no single verified aggregate exists.' },
+  'nse-colocation': { amount: 1000, note: 'Rough estimate. SEBI enforcement orders involved penalties and disgorgement; no single audited loss figure is established.' },
+};
+
+function getColor(item){ return THEME.colors[TYPE_COLOR[item.amount_type]] || THEME.colors.blue; }
+
+function computeResult(item, cpi){
+  let amount = item.amount_original, isEst = false;
+  if(amount == null){
+    const e = ESTIMATED[item.id];
+    if(!e) return null;
+    amount = e.amount; isEst = true;
+  }
+  const cpiY = cpi[String(item.year)];
+  const cpiR = cpi[String(CPI_REF)];
+  const adj = cpiY ? amount * (cpiR / cpiY) : amount;
+  return { multiple: adj / HEALTH_BUDGET, adjusted: adj, isEst };
+}
+
+function yLinear(m){
+  // bottom of stack always at PAD.top + CHART_H; top of stack rises linearly
+  return PAD.top + CHART_H - m * SILO_H;
+}
+
+function xPos(yr){ return (yr - YR0) * YR_W; }
+
+function svgE(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for(const [k,v] of Object.entries(attrs)) e.setAttribute(k, String(v));
+  if(parent) parent.appendChild(e);
+  return e;
+}
+function svgTxt(content, attrs, parent){
+  const e = svgE('text', attrs, parent);
+  e.textContent = content;
+  return e;
+}
+
+function fmtCr(n){
+  if(n >= 100000) return '₹' + (n/100000).toFixed(2) + ' lakh cr';
+  return '₹' + Math.round(n).toLocaleString('en-IN') + ' cr';
+}
+function fmtMult(m){
+  if(m >= 10) return m.toFixed(1) + '×';
+  if(m >= 1)  return m.toFixed(2) + '×';
+  if(m >= 0.1) return m.toFixed(3).replace(/\.?0+$/,'') + '×';
+  return m.toFixed(4).replace(/\.?0+$/,'') + '×';
+}
+
+// Draw a single India silhouette at (tx, ty) in the given SVG parent
+// fillFrac: 0–1, fraction filled from bottom up
+// w/h: rendered pixel dimensions
+function drawOneSilhouette(parent, clipId, fillFrac, color, isEst, w, h){
+  const sx = w / INDIA_VW, sy = h / INDIA_VH;
+
+  const bg = svgE('g', { transform:`scale(${sx},${sy})` }, parent);
+  svgE('path', {
+    d: INDIA_PATH, fill: THEME.mapFill, stroke: THEME.mapStroke,
+    'stroke-width': 1 / Math.min(sx, sy),
+    'stroke-dasharray': isEst ? '3 2' : 'none',
+  }, bg);
+
+  // Coloured fill, clipped from bottom up
+  const defs = document.getElementById('chart').querySelector('defs');
+  const cp = svgE('clipPath', { id: clipId }, defs);
+  const clipY = INDIA_VH * (1 - Math.min(1, fillFrac));
+  svgE('rect', { x:0, y: clipY, width: INDIA_VW, height: INDIA_VH }, cp);
+
+  const fg = svgE('g', { transform:`scale(${sx},${sy})`, 'clip-path':`url(#${clipId})` }, parent);
+  svgE('path', { d: INDIA_PATH, fill: color }, fg);
+}
+
+// Render stacked silhouettes for one item; returns group element
+function renderItemMaps(svg, cx, multiple, color, isEst, itemId){
+  const fullMaps = Math.floor(multiple);
+  const partial  = multiple - fullMaps;
+  const hasPartial = partial > 0.005;
+  const totalMaps = fullMaps + (hasPartial ? 1 : 0) || 1;
+
+  const stackBottom = PAD.top + CHART_H; // y of x-axis line
+
+  const g = svgE('g', {
+    class: 'scam-mark', 'data-id': itemId,
+    role:'button', tabindex:0,
+    'aria-label': `${itemId}, ${fmtMult(multiple)} of Swachh Bharat Mission budget. Click for details.`,
+  }, svg);
+
+  // Draw full maps from bottom up (index 0 = bottom)
+  for(let i = 0; i < fullMaps; i++){
+    const mapTopY = stackBottom - (i + 1) * SILO_H;
+    const mapG = svgE('g', { transform:`translate(${cx - SILO_W/2},${mapTopY})` }, g);
+    drawOneSilhouette(mapG, `c-${itemId}-${i}`, 1, color, false, SILO_W, SILO_H);
+  }
+
+  // Partial map on top (or the single map for m < 1)
+  if(multiple > 0.005){
+    const fill = fullMaps === 0 ? multiple : (hasPartial ? partial : 0);
+    if(fill > 0.005 || fullMaps === 0){
+      const mapTopY = stackBottom - (fullMaps + 1) * SILO_H;
+      const mapG = svgE('g', { transform:`translate(${cx - SILO_W/2},${mapTopY})` }, g);
+      const useEst = isEst;
+      drawOneSilhouette(mapG, `c-${itemId}-p`, fill, color, useEst, SILO_W, SILO_H);
+    }
+  }
+
+  return g;
+}
+
+function renderYAxis(){
+  const ya = document.getElementById('yaxis');
+  ya.setAttribute('width', YAXIS_W);
+  ya.setAttribute('height', SVG_H);
+  ya.setAttribute('viewBox', `0 0 ${YAXIS_W} ${SVG_H}`);
+  svgE('rect',{x:0,y:0,width:YAXIS_W,height:SVG_H,fill:'var(--color-paper)'},ya);
+  svgE('line',{x1:YAXIS_W-1,y1:PAD.top,x2:YAXIS_W-1,y2:PAD.top+CHART_H,stroke:THEME.yaxisSpine,'stroke-width':1},ya);
+  for(let n = 0; n <= MAX_MULT; n++){
+    const y = yLinear(n);
+    svgE('line',{x1:YAXIS_W-6,y1:y,x2:YAXIS_W-1,y2:y,
+      stroke:n===0?THEME.chartAxis:THEME.yaxisTick,
+      'stroke-width':n===0?1.5:1},ya);
+    if(n > 0){
+      svgTxt(`${n}×`,{x:YAXIS_W-10,y:y+4,'text-anchor':'end','font-size':11,
+        fill:n===1?THEME.colors.ochre:THEME.yaxisLabel,'font-family':'Inter,sans-serif',
+        'font-variant-numeric':'tabular-nums','font-weight':n===1?600:400,
+      },ya);
+    }
+    if(n===1){
+      svgTxt('= 1 SBM',{x:YAXIS_W-10,y:y-13,'text-anchor':'end','font-size':8,fill:THEME.yaxisSublabel,
+        'font-family':'Inter,sans-serif','letter-spacing':'0.03em'},ya);
+      svgTxt('Budget',{x:YAXIS_W-10,y:y-4,'text-anchor':'end','font-size':8,fill:THEME.yaxisSublabel,
+        'font-family':'Inter,sans-serif','letter-spacing':'0.03em'},ya);
+    }
+  }
+  const y05 = yLinear(0.5);
+  svgE('line',{x1:YAXIS_W-4,y1:y05,x2:YAXIS_W-1,y2:y05,stroke:THEME.yaxisTick,'stroke-width':0.5},ya);
+  svgTxt('½×',{x:YAXIS_W-10,y:y05+4,'text-anchor':'end','font-size':9,fill:THEME.yaxisLabel,'font-family':'Inter,sans-serif'},ya);
+  const yLblY = PAD.top + CHART_H/2;
+  const yLbl = svgE('text',{x:11,y:yLblY,transform:`rotate(-90,11,${yLblY})`,
+    'text-anchor':'middle','font-size':9,fill:THEME.yaxisSublabel,'font-family':'Inter,sans-serif','letter-spacing':'0.06em'},ya);
+  yLbl.textContent = '× SBM Budget  (2024 ₹)';
+}
+
+// Compute per-year column widths based on scam density and magnitude
+function buildLayout(byYear){
+  const xLeft   = {};
+  const xCenter = {};
+  let cur = 0;
+  for(let yr = YR0; yr <= YR1; yr++){
+    const group = byYear[yr];
+    let w;
+    if(!group || group.length === 0){
+      w = 64;
+    } else {
+      const n = group.length;
+      const maxMult = Math.max(...group.map(d => d.multiple));
+      w = 96 + (n - 1) * 96;
+      if(maxMult > 30)      w += 80;
+      else if(maxMult > 20) w += 56;
+      else if(maxMult > 10) w += 28;
+    }
+    xLeft[yr]   = cur;
+    xCenter[yr] = cur + w / 2;
+    cur += w;
+  }
+  return { xLeft, xCenter, totalW: cur + PAD.right };
+}
+
+function renderChart(items, cpi){
+  // Group items by year first — needed for buildLayout
+  const byYear = {};
+  const allData = [];
+  for(const item of items){
+    const r = computeResult(item, cpi);
+    if(r === null) continue;
+    if(!byYear[item.year]) byYear[item.year] = [];
+    byYear[item.year].push({ item, ...r, color: getColor(item) });
+  }
+
+  layout = buildLayout(byYear);
+  const SVG_W = layout.totalW;
+
+  const svg = document.getElementById('chart');
+  svg.setAttribute('width',  SVG_W);
+  svg.setAttribute('height', SVG_H);
+  svg.setAttribute('viewBox', `0 0 ${SVG_W} ${SVG_H}`);
+
+  // Decade bands + labels
+  for(let d = YR0; d < YR1; d += 10){
+    const x1 = layout.xLeft[d];
+    const x2 = layout.xLeft[Math.min(d+10, YR1)] ?? SVG_W - PAD.right;
+    if(Math.floor(d/10) % 2 === 1)
+      svgE('rect',{x:x1,y:PAD.top,width:x2-x1,height:CHART_H,fill:THEME.chartDecade},svg);
+    svgTxt(`${d}s`,{x:x1+5,y:PAD.top+13,'font-size':9,fill:THEME.chartDecadeLabel,'font-family':'Inter,sans-serif','letter-spacing':'0.07em'},svg);
+  }
+
+  // Horizontal gridlines
+  for(let n = 0; n <= MAX_MULT; n++){
+    const y = yLinear(n);
+    svgE('line',{x1:0,y1:y,x2:SVG_W-PAD.right,y2:y,
+      stroke: n===0?THEME.chartAxis:THEME.chartGrid,
+      'stroke-width': n===0?1.5:n===1?1.2:0.8,
+    },svg);
+  }
+  svgE('line',{x1:0,y1:yLinear(0.5),x2:SVG_W-PAD.right,y2:yLinear(0.5),
+    stroke:THEME.chartGrid,'stroke-width':0.5,'stroke-dasharray':'4 4'},svg);
+
+  // X axis ticks + year labels (every 2 years)
+  const axisY = PAD.top + CHART_H;
+  for(let yr = YR0; yr <= YR1; yr += 2){
+    const x = layout.xCenter[yr];
+    svgE('line',{x1:x,y1:axisY,x2:x,y2:axisY+5,stroke:THEME.chartGrid,'stroke-width':1},svg);
+    svgTxt(String(yr),{x,y:axisY+19,'text-anchor':'middle','font-size':11,fill:THEME.chartYearLabel,'font-family':'Inter,sans-serif'},svg);
+  }
+
+  // Compute jitter offsets and flatten
+  const JITTER_STEP = 84; // wide enough for 13-char labels (~72px) not to touch
+  for(const group of Object.values(byYear)){
+    const n = group.length;
+    const spread = (n - 1) * JITTER_STEP;
+    group.forEach((d, i) => { d.xOff = n===1 ? 0 : -spread/2 + i*JITTER_STEP; });
+    allData.push(...group);
+  }
+
+  // Greedy label-row assignment: sort by x, place in row 0 unless it would overlap
+  const HALF_LABEL = 38;
+  allData.forEach(d => { d.cx0 = layout.xCenter[d.item.year] + (d.xOff || 0); });
+  const sorted = [...allData].sort((a,b) => a.cx0 - b.cx0);
+  const rowRight = [undefined, undefined];
+  sorted.forEach(d => {
+    let row = 0;
+    while(row < 2 && rowRight[row] !== undefined && rowRight[row] > d.cx0 - HALF_LABEL) row++;
+    if(row >= 2) row = 1;
+    d.labelRow = row;
+    rowRight[row] = d.cx0 + HALF_LABEL;
+  });
+
+  const markById = {};
+
+  for(const d of allData){
+    const { item, multiple, adjusted, isEst, color, xOff, cx0, labelRow: dLabelRow } = d;
+    const cx = cx0;
+    const isTruncated = multiple > MAX_MULT;
+    const drawMult = isTruncated ? MAX_MULT : multiple;
+
+    // Dot at x-axis
+    svgE('circle',{cx,cy:axisY,r:3.5,fill:color},svg);
+
+    // Stem
+    const stemTop = yLinear(drawMult) + Math.ceil(drawMult) * SILO_H + 6;
+    if(stemTop < axisY - 4){
+      svgE('line',{x1:cx,y1:axisY-4,x2:cx,y2:stemTop,
+        stroke:color,'stroke-width':0.7,'stroke-dasharray':'2 2',opacity:0.35},svg);
+    }
+
+    // Silhouette stack
+    const colorKey = TYPE_COLOR[item.amount_type] || 'blue';
+    const g = renderItemMaps(svg, cx, drawMult, color, isEst, item.id);
+    g.setAttribute('data-colorkey', colorKey);
+    markById[item.id] = { item, multiple, adjusted, isEst, color };
+
+    // Truncation zigzag at chart ceiling for over-scale items
+    if(isTruncated){
+      const zy = PAD.top + 3;
+      const hw = SILO_W / 2;
+      const zd = `M${cx-hw},${zy+4} l${hw/2},-4 l${hw/2},4 l${hw/2},-4 l${hw/2},4`;
+      svgE('path',{d:zd,stroke:color,'stroke-width':1.5,fill:'none','stroke-linecap':'round'},svg);
+    }
+
+    // Labels BELOW the x-axis — stagger into 2 rows to avoid overlaps
+    const labelRow = dLabelRow || 0;
+    const nameY  = axisY + 38 + labelRow * 36;
+    const ratioY = axisY + 54 + labelRow * 36;
+    const shortName = item.name
+      .replace(/ Scam| Fraud| Crisis| Case| Scandal| Securities| Accounting| Group| Cooperative| Housing| Society| Bank-Fraud| Investment/gi,'')
+      .replace(/\s+/g,' ').trim();
+    svgTxt(shortName.length > 14 ? shortName.slice(0,13)+'…' : shortName, {
+      x:cx, y:nameY, 'text-anchor':'middle', 'font-size':11, fill:color,
+      'font-family':'Inter,sans-serif', 'font-weight':600,
+    }, svg);
+    svgTxt(fmtMult(multiple) + (isTruncated ? '↑' : '') + (isEst ? '~' : ''), {
+      x:cx, y:ratioY, 'text-anchor':'middle', 'font-size':10,
+      fill:THEME.chartRatioLabel, 'font-family':'Inter,sans-serif',
+      'font-variant-numeric':'tabular-nums',
+    }, svg);
+
+    g.addEventListener('click', () => openDetail(markById[item.id]));
+    g.addEventListener('keydown', e => {
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openDetail(markById[item.id]); }
+    });
+  }
+
+  buildHowToRead();
+}
+
+function makeMiniMap(fillFrac, color, isEst, uid){
+  const W = 28, H = Math.round(W * INDIA_VH / INDIA_VW);
+  const svgEl = document.createElementNS(NS,'svg');
+  svgEl.setAttribute('width', W); svgEl.setAttribute('height', H);
+  svgEl.setAttribute('viewBox', `0 0 ${INDIA_VW} ${INDIA_VH}`);
+  svgEl.setAttribute('aria-hidden','true');
+  const defs = document.createElementNS(NS,'defs');
+  const cp = document.createElementNS(NS,'clipPath');
+  cp.setAttribute('id',`mm-${uid}`);
+  const r = document.createElementNS(NS,'rect');
+  r.setAttribute('x','0'); r.setAttribute('y', String(INDIA_VH*(1-Math.min(1,fillFrac))));
+  r.setAttribute('width',INDIA_VW); r.setAttribute('height',INDIA_VH);
+  cp.appendChild(r); defs.appendChild(cp); svgEl.appendChild(defs);
+  const bg = document.createElementNS(NS,'path');
+  bg.setAttribute('d',INDIA_PATH); bg.setAttribute('fill', THEME.mapFill);
+  bg.setAttribute('stroke', THEME.mapStroke); bg.setAttribute('stroke-width','2.5');
+  if(isEst) bg.setAttribute('stroke-dasharray','3 2');
+  svgEl.appendChild(bg);
+  const fg = document.createElementNS(NS,'path');
+  fg.setAttribute('d',INDIA_PATH); fg.setAttribute('fill',color);
+  fg.setAttribute('clip-path',`url(#mm-${uid})`);
+  svgEl.appendChild(fg);
+  return svgEl;
+}
+
+function openDetail({ item, multiple, adjusted, isEst, color }){
+  const panel = document.getElementById('detailPanel');
+  panel.hidden = false;
+
+  document.getElementById('detailStrip').style.background = color;
+  document.getElementById('detailName').textContent = item.name;
+
+  // Hero: big ratio + mini map previews
+  const hero = document.getElementById('detailHero');
+  hero.innerHTML = '';
+
+  // Big number + mini maps in a top row
+  const heroTop = document.createElement('div');
+  heroTop.className = 'detail-hero-top';
+
+  const ratioBlock = document.createElement('div');
+  ratioBlock.className = 'detail-ratio-block';
+  ratioBlock.innerHTML =
+    `<div class="detail-ratio-number" style="color:${color}">${fmtMult(multiple)}</div>` +
+    `<div class="detail-ratio-label">` +
+      `<strong>the Swachh Bharat Mission budget</strong><br>` +
+      `FY 2025–26 · ₹12,192 cr` +
+      (isEst ? `<br><span class="est-note">⚠ estimated figure — no single verified amount</span>` : '') +
+    `</div>`;
+  heroTop.appendChild(ratioBlock);
+  hero.appendChild(heroTop);
+
+  // All mini maps in a wrap row below
+  const mapsDiv = document.createElement('div');
+  mapsDiv.className = 'detail-maps-preview';
+  const fullMaps = Math.floor(multiple);
+  const partial  = multiple - fullMaps;
+  for(let i = 0; i < fullMaps; i++){
+    mapsDiv.appendChild(makeMiniMap(1, color, false, `d-full-${item.id}-${i}`));
+  }
+  if(partial > 0.005 || fullMaps === 0){
+    mapsDiv.appendChild(makeMiniMap(fullMaps===0 ? multiple : partial, color, isEst, `d-part-${item.id}`));
+  }
+  hero.appendChild(mapsDiv);
+
+  // Detail grid
+  let grid = '';
+  grid += `<div class="detail-cell"><label>2024-Adjusted</label><div class="val">${fmtCr(adjusted)}</div></div>`;
+  if(item.amount_original != null)
+    grid += `<div class="detail-cell"><label>Original (${item.year})</label><div class="val">${fmtCr(item.amount_original)}</div></div>`;
+  grid += `<div class="detail-cell"><label>What this measures</label><div class="val" style="font-size:12px;font-weight:400;color:${color};max-width:28ch">${item.amount_label}</div></div>`;
+  grid += `<div class="detail-cell"><label>Status</label><span class="status-badge" style="color:${color}">${item.status.replace(/_/g,' ')}</span></div>`;
+  if(item.accused)
+    grid += `<div class="detail-cell"><label>Accused</label><div class="val" style="font-size:12px;font-weight:400;max-width:34ch">${item.accused}</div></div>`;
+  document.getElementById('detailGrid').innerHTML = grid;
+
+  document.getElementById('detailCaveat').textContent = item.amount_caveat;
+  document.getElementById('detailSource').innerHTML =
+    `<a href="${item.source_url}" target="_blank" rel="noopener">${item.source_label} ↗</a>`;
+
+  panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+document.getElementById('detailClose').addEventListener('click', () => {
+  document.getElementById('detailPanel').hidden = true;
+});
+
+function buildHowToRead(){
+  const container = document.getElementById('howToRead');
+  container.querySelectorAll('.htr-item').forEach(el => el.remove());
+  const examples = [
+    {m:0.35,label:'35% of one'},
+    {m:1,   label:'One full'},
+    {m:1.74,label:'One + 74%'},
+  ];
+  for(const {m, label} of examples){
+    const wrap = document.createElement('div');
+    wrap.className = 'htr-item';
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:3px;align-items:flex-end;justify-content:center;margin-bottom:4px';
+    const full = Math.floor(m), partial = m - full;
+    for(let i = 0; i < full; i++){
+      row.appendChild(makeMiniMap(1, THEME.colors.ochre, false,`htr-f-${m}-${i}`));
+    }
+    if(partial > 0.005 || full === 0)
+      row.appendChild(makeMiniMap(full===0?m:partial, THEME.colors.ochre, false,`htr-p-${m}`));
+    wrap.appendChild(row);
+    wrap.innerHTML += `${m}×<small>${label}</small>`;
+    container.appendChild(wrap);
+  }
+}
+
+function applyFilter(){
+  document.querySelectorAll('.scam-mark').forEach(g => {
+    const key = g.getAttribute('data-colorkey');
+    const show = !activeFilter || key === activeFilter;
+    g.style.opacity = show ? '' : '0.07';
+  });
+  document.querySelectorAll('.legend-item[data-filter]').forEach(el => {
+    const key = el.getAttribute('data-filter');
+    el.classList.toggle('legend-item--active',  key === activeFilter);
+    el.classList.toggle('legend-item--dimmed', !!activeFilter && key !== activeFilter);
+  });
+}
+
+function rerenderChart(){
+  const chartSvg = document.getElementById('chart');
+  chartSvg.innerHTML = '<defs></defs>';
+  const ya = document.getElementById('yaxis');
+  ya.innerHTML = '';
+  renderYAxis();
+  renderChart(scamsData.items, inflData.cpi);
+  const chartOuter = document.getElementById('chartOuter');
+  if(layout) chartOuter.scrollLeft = layout.xLeft[2000];
+  applyFilter();
+}
+
+async function init(){
+  [scamsData, inflData] = await Promise.all([
+    fetch('data/scam_items.json').then(r=>r.json()),
+    fetch('data/references/inflation_inr.json').then(r=>r.json()),
+  ]);
+  refreshTheme();
+  renderYAxis();
+  renderChart(scamsData.items, inflData.cpi);
+  const chartOuter = document.getElementById('chartOuter');
+  if(layout) chartOuter.scrollLeft = layout.xLeft[2000];
+
+  // Theme toggle
+  const toggleBtn = document.getElementById('themeToggle');
+  toggleBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    toggleBtn.textContent = isDark ? '◑ Dark' : '◑ Light';
+    refreshTheme();
+    rerenderChart();
+  });
+
+  // Legend filter
+  document.querySelectorAll('.legend-item[data-filter]').forEach(el => {
+    el.addEventListener('click', () => {
+      const key = el.getAttribute('data-filter');
+      activeFilter = activeFilter === key ? null : key;
+      applyFilter();
+    });
+  });
+}
+
+init();
+</script>
+</body>
+</html>

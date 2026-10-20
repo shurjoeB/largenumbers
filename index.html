@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Large Numbers — India's big numbers, made sense of</title>
+  <meta name="description" content="India's most dizzying numbers — scams, budgets, corporate wealth — expressed as multiples of things you actually understand." />
+  <meta property="og:title" content="Large Numbers" />
+  <meta property="og:description" content="India's big numbers, made sense of." />
+  <meta property="og:image" content="https://largenumbers.in/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="wordmark">
+        <span class="wordmark-big">Large</span><span class="wordmark-accent">Numbers</span>
+      </a>
+      <p class="tagline">India's big numbers, made sense of.</p>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Left panel: picker -->
+    <aside class="picker-panel">
+      <nav id="category-tabs" class="category-tabs" aria-label="Categories"></nav>
+      <div id="item-list" class="item-list" role="list" aria-label="Numbers"></div>
+    </aside>
+
+    <!-- Right panel: comparison -->
+    <section id="comparison-panel" class="comparison-panel" aria-live="polite" aria-label="Comparison">
+      <div class="empty-state">
+        <div class="welcome-icon">🔢</div>
+        <h2 class="welcome-title">Pick a number</h2>
+        <p class="welcome-sub">Select any item on the left to see it in context — compared to something you already understand.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>All values in crore INR unless noted. Data sourced from public government records, CAG, SEBI, BSE and Forbes India.</p>
+    <p>Built for <a href="https://largenumbers.in" target="_blank">largenumbers.in</a> — a personal project.</p>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "india-gdp",
+    "label": "India's Annual GDP",
+    "shortLabel": "India's GDP",
+    "value": 29500000,
+    "year": 2024,
+    "emoji": "🇮🇳",
+    "source": "https://mospi.gov.in/",
+    "sourceLabel": "MoSPI"
+  },
+  {
+    "id": "india-union-budget",
+    "label": "India's Union Budget",
+    "shortLabel": "Union Budget",
+    "value": 4765000,
+    "year": 2024,
+    "emoji": "📋",
+    "source": "https://indiabudget.gov.in/",
+    "sourceLabel": "India Budget"
+  },
+  {
+    "id": "mumbai-gdp",
+    "label": "GDP of Mumbai",
+    "shortLabel": "Mumbai's GDP",
+    "value": 1400000,
+    "year": 2023,
+    "emoji": "🏙️",
+    "source": "https://www.businessstandard.com/",
+    "sourceLabel": "Business Standard"
+  },
+  {
+    "id": "defence-budget",
+    "label": "India's Defence Budget",
+    "shortLabel": "Defence Budget",
+    "value": 621541,
+    "year": 2024,
+    "emoji": "⚔️",
+    "source": "https://indiabudget.gov.in/",
+    "sourceLabel": "India Budget"
+  },
+  {
+    "id": "maharashtra-budget",
+    "label": "Maharashtra State Budget",
+    "shortLabel": "Maharashtra Budget",
+    "value": 612000,
+    "year": 2024,
+    "emoji": "🏛️",
+    "source": "https://finance.maharashtra.gov.in/",
+    "sourceLabel": "Maharashtra Finance"
+  },
+  {
+    "id": "kerala-budget",
+    "label": "Kerala's Annual Budget",
+    "shortLabel": "Kerala's Budget",
+    "value": 212000,
+    "year": 2024,
+    "emoji": "🌴",
+    "source": "https://kerala.gov.in/",
+    "sourceLabel": "Kerala Govt"
+  },
+  {
+    "id": "education-budget",
+    "label": "India's Education Budget",
+    "shortLabel": "Education Budget",
+    "value": 112899,
+    "year": 2024,
+    "emoji": "🏫",
+    "source": "https://indiabudget.gov.in/",
+    "sourceLabel": "India Budget"
+  },
+  {
+    "id": "health-budget",
+    "label": "India's Health & Family Welfare Budget",
+    "shortLabel": "Health Budget",
+    "value": 89155,
+    "year": 2024,
+    "emoji": "🏥",
+    "source": "https://indiabudget.gov.in/",
+    "sourceLabel": "India Budget"
+  },
+  {
+    "id": "pm-kisan",
+    "label": "PM-KISAN Annual Outlay",
+    "shortLabel": "PM-KISAN",
+    "value": 60000,
+    "year": 2024,
+    "emoji": "🌾",
+    "source": "https://pmkisan.gov.in/",
+    "sourceLabel": "PM-KISAN Portal"
+  },
+  {
+    "id": "isro-budget",
+    "label": "ISRO's Annual Budget",
+    "shortLabel": "ISRO Budget",
+    "value": 12900,
+    "year": 2024,
+    "emoji": "🚀",
+    "source": "https://isro.gov.in/",
+    "sourceLabel": "ISRO"
+  },
+  {
+    "id": "iit-budget",
+    "label": "Annual Budget of One IIT",
+    "shortLabel": "One IIT (Annual)",
+    "value": 1500,
+    "year": 2024,
+    "emoji": "🎓",
+    "source": "https://www.mhrd.gov.in/",
+    "sourceLabel": "MoE"
+  },
+  {
+    "id": "chandrayaan3",
+    "label": "Cost of the Chandrayaan-3 Mission",
+    "shortLabel": "Chandrayaan-3",
+    "value": 615,
+    "year": 2023,
+    "emoji": "🌙",
+    "source": "https://www.isro.gov.in/Chandrayaan3_Details.html",
+    "sourceLabel": "ISRO"
+  },
+  {
+    "id": "metro-station",
+    "label": "Cost to Build One Metro Station",
+    "shortLabel": "One Metro Station",
+    "value": 350,
+    "year": 2024,
+    "emoji": "🚇",
+    "source": "https://dmrc.co.in/",
+    "sourceLabel": "DMRC"
+  },
+  {
+    "id": "avg-salary",
+    "label": "Average Annual Indian Salary",
+    "shortLabel": "Avg. Annual Salary",
+    "value": 0.035,
+    "year": 2024,
+    "emoji": "👤",
+    "source": "https://paycheck.in/",
+    "sourceLabel": "Paycheck India"
+  }
+]

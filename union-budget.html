@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Union Budget — largenumbers.in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Light theme (default) — botanical green palette ── */
+:root {
+  --color-paper: #F7FAF6;
+  --color-surface: #EBF5E8;
+  --color-ink: #2F4B26;
+  --color-ink-muted: rgba(47,75,38,0.55);
+  --color-grid: rgba(47,75,38,0.1);
+  --color-outline: rgba(47,75,38,0.25);
+  --color-map-empty: #DCF0D8;
+  --color-map-stroke: rgba(47,75,38,0.2);
+  --color-ochre: #8A5A08;
+  --color-blue: #1A5A9E;
+  --color-red: #B02D12;
+  --color-green: #1D6840;
+  --color-violet: #6025A0;
+  --color-focus: #3E885B;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-ui: Inter, "Helvetica Neue", Arial, sans-serif;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+  --space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;
+  --radius-sm:4px;--radius-md:8px;
+  --border-thin:1px solid var(--color-grid);
+  --page-gutter:clamp(16px,3vw,48px);
+  --chart-axis: rgba(47,75,38,0.45);
+  --chart-grid: rgba(47,75,38,0.09);
+}
+html[data-theme="dark"] {
+  --color-paper: #020122;
+  --color-surface: #0A0935;
+  --color-ink: #F2F3AE;
+  --color-ink-muted: rgba(242,243,174,0.5);
+  --color-grid: rgba(242,243,174,0.1);
+  --color-outline: rgba(242,243,174,0.22);
+  --color-map-empty: #100E48;
+  --color-map-stroke: rgba(242,243,174,0.18);
+  --color-ochre: #EDD382;
+  --color-blue: #FC9E4F;
+  --color-red: #FF521B;
+  --color-green: #6BCB8A;
+  --color-violet: #B07AE0;
+  --color-focus: #FC9E4F;
+  --chart-axis: rgba(242,243,174,0.5);
+  --chart-grid: rgba(242,243,174,0.1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-ui)}
+body{margin:0;font-size:16px;line-height:1.5}
+.page{max-width:1440px;margin-inline:auto;padding:0 var(--page-gutter)}
+
+/* ── Nav ── */
+.site-nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--color-paper);border-bottom:var(--border-thin);
+  padding:var(--space-3) var(--page-gutter);
+  display:flex;align-items:center;gap:var(--space-5)
+}
+.site-nav .brand{display:inline-flex;align-items:center;text-decoration:none}
+.brand-logo{height:32px;width:auto;display:block}
+.brand-logo--dark{display:none}
+html[data-theme="dark"] .brand-logo--light{display:none}
+html[data-theme="dark"] .brand-logo--dark{display:block}
+.site-nav a{color:var(--color-ink-muted);text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.site-nav a.active,.site-nav a:hover{color:var(--color-ink)}
+.site-nav .spacer{flex:1}
+.nav-group{position:relative;display:flex;align-items:center}
+.nav-group-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);cursor:default;padding:4px 0;display:flex;align-items:center;gap:4px}
+.nav-group-label::after{content:'▾';font-size:8px;opacity:.6}
+.nav-group:hover .nav-group-label{color:var(--color-ink)}
+.nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:var(--border-thin);border-radius:var(--radius-md);padding:6px 0;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200}
+.nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+.nav-group:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:12px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);text-decoration:none;white-space:nowrap}
+.nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
+/* Keep dropdowns inside viewport */
+.nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
+.theme-toggle{background:none;border:var(--border-thin);border-radius:var(--radius-sm);padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-ui);color:var(--color-ink-muted);letter-spacing:.04em;transition:color .15s,background .15s}
+.theme-toggle:hover{color:var(--color-ink);background:var(--color-grid)}
+
+/* ── Header ── */
+.viz-header{padding:var(--space-7) 0 var(--space-6);border-bottom:var(--border-thin);margin-bottom:var(--space-6)}
+.viz-header-inner{display:flex;align-items:flex-start;gap:var(--space-6);flex-wrap:wrap}
+.viz-header-left{flex:1 1 auto;min-width:0}
+.viz-header-right{flex:0 0 380px;padding-top:var(--space-2)}
+.eyebrow{display:inline-block;background:var(--color-blue);color:var(--color-paper);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 11px;border-radius:100px;margin:0 0 var(--space-4)}
+.viz-header h1{font-family:var(--font-display);font-size:clamp(52px,8vw,100px);font-weight:600;margin:0 0 var(--space-3);letter-spacing:-.03em;line-height:.9;color:var(--color-ink)}
+.viz-header .subtitle{font-size:14px;color:var(--color-ink-muted);margin:0 0 var(--space-5);max-width:54ch;line-height:1.7}
+.benchmark-block{display:flex;align-items:flex-start;gap:var(--space-3);background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-3)}
+.benchmark-logo-wrap{flex-shrink:0;width:56px;display:flex;align-items:center;justify-content:center}
+.benchmark-logo{width:48px;height:auto;border-radius:var(--radius-sm);object-fit:contain}
+.benchmark-amount{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--color-blue);font-variant-numeric:tabular-nums;line-height:1.1;margin-bottom:2px}
+.benchmark-name{font-size:13px;font-weight:600;color:var(--color-ink);margin-bottom:3px}
+.benchmark-label{font-size:11px;color:var(--color-ink-muted);line-height:1.5}
+.benchmark-why{font-size:12px;color:var(--color-ink-muted);line-height:1.6;padding:var(--space-3) var(--space-4);background:var(--color-grid);border-radius:var(--radius-sm);border-left:3px solid var(--color-blue)}
+
+/* ── Controls ── */
+.controls-bar{
+  display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-4) var(--space-6);
+  padding:var(--space-4) 0;margin-bottom:var(--space-6);
+  border-bottom:var(--border-thin)
+}
+.controls-label{font-size:12px;color:var(--color-ink-muted);letter-spacing:.04em}
+.toggle-pill{display:inline-flex;border:var(--border-thin);border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface)}
+.toggle-opt{border:none;background:none;cursor:pointer;padding:6px 16px;font-size:12px;font-family:var(--font-ui);color:var(--color-ink-muted);font-weight:500;letter-spacing:.03em;transition:background .15s,color .15s}
+.toggle-opt.active{background:var(--color-blue);color:var(--color-paper)}
+.toggle-opt:not(.active):hover{background:var(--color-grid);color:var(--color-ink)}
+
+/* ── Chart Sections ── */
+.chart-section{margin-bottom:var(--space-8)}
+.section-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);margin-bottom:var(--space-5)}
+.section-title-group{flex:1 1 auto}
+.section-title{font-family:var(--font-display);font-size:24px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em;color:var(--color-ink)}
+.section-subtitle{font-size:13px;color:var(--color-ink-muted);margin:0}
+.section-controls{display:flex;align-items:center;gap:var(--space-3);flex-wrap:wrap;padding-top:4px}
+.ctrl-label{font-size:12px;color:var(--color-ink-muted);letter-spacing:.04em;font-weight:500;white-space:nowrap}
+.ctrl-select{
+  appearance:none;background:var(--color-surface);border:var(--border-thin);
+  border-radius:var(--radius-sm);padding:6px 32px 6px 12px;
+  font-size:13px;font-family:var(--font-ui);color:var(--color-ink);cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232F4B26' opacity='.4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  min-width:160px
+}
+html[data-theme="dark"] .ctrl-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23F2F3AE' opacity='.4'/%3E%3C/svg%3E")
+}
+.ctrl-select:focus{outline:2px solid var(--color-focus);outline-offset:1px}
+.chart-wrap{overflow-x:auto;overflow-y:visible;scrollbar-width:thin;scrollbar-color:var(--color-grid) transparent}
+.chart-wrap::-webkit-scrollbar{height:4px}
+.chart-wrap::-webkit-scrollbar-thumb{background:var(--color-grid);border-radius:2px}
+.chart-svg{display:block;overflow:visible}
+
+/* ── Tooltip ── */
+.head-tooltip{
+  display:none;position:fixed;z-index:500;
+  background:var(--color-surface);border:var(--border-thin);
+  border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);
+  font-size:13px;max-width:280px;line-height:1.6;
+  box-shadow:0 8px 32px rgba(0,0,0,.2);color:var(--color-ink);pointer-events:none
+}
+.head-tooltip strong{display:block;margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--color-ink-muted)}
+.basis-note{font-size:11px;color:var(--color-ink-muted);margin:6px 0 0;padding:6px 10px;background:var(--color-grid);border-radius:var(--radius-sm);line-height:1.6}
+.basis-note strong{color:var(--color-ink);font-weight:600}
+.bar-tooltip{
+  display:none;position:fixed;z-index:500;
+  background:var(--color-surface);border:var(--border-thin);
+  border-radius:var(--radius-md);padding:6px 10px;
+  font-size:12px;line-height:1.6;max-width:180px;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);color:var(--color-ink);pointer-events:none
+}
+.bar-tooltip strong{font-size:13px;font-weight:700}
+.tt2-basis{font-size:10px;color:var(--color-ink-muted);margin-left:4px}
+
+/* ── YoY badge ── */
+.yoy-up{fill:var(--color-green)}
+.yoy-down{fill:var(--color-red)}
+
+/* ── How to read ── */
+.htr-section{margin-bottom:var(--space-8);padding-top:var(--space-6);border-top:var(--border-thin)}
+.htr-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--color-ink-muted);margin:0 0 var(--space-4)}
+.htr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-4)}
+.htr-card{background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);padding:var(--space-4) var(--space-4)}
+.htr-card h4{margin:0 0 var(--space-2);font-size:13px;font-weight:600;color:var(--color-ink)}
+.htr-card p{margin:0;font-size:13px;color:var(--color-ink-muted);line-height:1.6}
+
+/* ── Chart tabs ── */
+.chart-tabs{display:flex;gap:0;border-bottom:var(--border-thin);margin-bottom:var(--space-6)}
+.chart-tab{
+  border:none;background:none;cursor:pointer;
+  padding:var(--space-3) var(--space-5);
+  font-size:14px;font-family:var(--font-ui);font-weight:500;
+  color:var(--color-ink-muted);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .15s,border-color .15s
+}
+.chart-tab:hover{color:var(--color-ink)}
+.chart-tab.active{color:var(--color-ink);border-bottom-color:var(--color-blue)}
+.chart-panel{display:none}
+.chart-panel.active{display:block}
+
+/* ── Data note ── */
+.data-note{font-size:12px;color:var(--color-ink-muted);line-height:1.7;padding:var(--space-5) 0 var(--space-7);border-top:var(--border-thin);margin-top:var(--space-6)}
+.data-note strong{color:var(--color-ink)}
+.data-note-link{color:var(--color-blue);text-decoration:none;border-bottom:1px solid currentColor;opacity:.8}
+.data-note-link:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="brand">
+    <img src="css/image/largenumbers_light.png" class="brand-logo brand-logo--light" alt="largenumbers.in">
+    <img src="css/image/largenumbers_dark.png" class="brand-logo brand-logo--dark" alt="largenumbers.in">
+  </span>
+  <div class="nav-group">
+    <span class="nav-group-label">Government</span>
+    <div class="nav-dropdown">
+      <a href="scams.html">Scams</a>
+      <a href="union-budget.html" class="active">Union Budget</a>
+    </div>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">Economics</span>
+    <div class="nav-dropdown">
+      <a href="fii-outflows.html">FII Outflows</a>
+    </div>
+  </div>
+  <a href="about.html">About</a>
+  <span class="spacer"></span>
+  <button id="themeToggle" class="theme-toggle" aria-label="Switch colour theme">◑ Dark</button>
+</nav>
+
+<div class="page">
+
+  <header class="viz-header">
+    <div class="viz-header-inner">
+      <div class="viz-header-left">
+        <span class="eyebrow">Union Budget</span>
+        <h1>Where India<br>Spends</h1>
+        <p class="subtitle">Central government budget allocations across key heads, from 2000–01 to 2025–26. Figures are Budget Estimates (BE) unless noted.</p>
+      </div>
+      <div class="viz-header-right">
+        <div class="benchmark-block">
+          <div class="benchmark-logo-wrap">
+            <img src="css/image/APOLLOHOSP.png" alt="Apollo Hospitals" class="benchmark-logo">
+          </div>
+          <div>
+            <div class="benchmark-name">The scale: Apollo Hospitals</div>
+            <div class="benchmark-amount">₹1,02,665 cr</div>
+            <div class="benchmark-label">Market cap · 2 January 2026 (NSE: APOLLOHOSP)<br>Used as a fixed benchmark across all years.</div>
+          </div>
+        </div>
+        <p class="benchmark-why">
+          <strong>Why Apollo?</strong> It is India's largest standalone hospital chain by market capitalisation — a number most readers intuitively grasp. At ~₹1 lakh crore, it is large enough to feel substantial, yet small enough that even mid-sized budget heads run into meaningful multiples, making the comparison easy to feel.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global controls -->
+  <div class="controls-bar">
+    <span class="controls-label">View as</span>
+    <div class="toggle-pill" id="modeToggle">
+      <button class="toggle-opt active" data-val="multiple">× Apollo Hospitals</button>
+      <button class="toggle-opt" data-val="absolute">Absolute ₹</button>
+    </div>
+    <span class="controls-label">Values</span>
+    <div class="toggle-pill" id="inflationToggle">
+      <button class="toggle-opt active" data-val="nominal">Nominal</button>
+      <button class="toggle-opt" data-val="real">Inflation-adjusted (2025–26 prices)</button>
+    </div>
+  </div>
+
+  <!-- ── Tabbed chart view ── -->
+  <section class="chart-section" style="margin-bottom:var(--space-8)">
+
+    <!-- Tab bar -->
+    <div class="chart-tabs">
+      <button class="chart-tab active" data-tab="snapshot">Yearly breakdown</button>
+      <button class="chart-tab" data-tab="trend">Historical trend</button>
+    </div>
+
+    <!-- Panel: Yearly Snapshot -->
+    <div class="chart-panel active" id="panel-snapshot">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2 class="section-title" id="c1Title">Budget breakdown — 2025-26</h2>
+          <p class="section-subtitle">Key budget heads for the selected year. Receipt figures are gross collection before state devolution. Hover a label for an explanation.</p>
+        </div>
+        <div class="section-controls">
+          <label class="ctrl-label" for="yearSelect">Financial year</label>
+          <select class="ctrl-select" id="yearSelect"></select>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <svg id="chart1" class="chart-svg"></svg>
+      </div>
+    </div>
+
+    <!-- Panel: Historical Trend -->
+    <div class="chart-panel" id="panel-trend">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2 class="section-title" id="c2Title">Total Expenditure — year by year</h2>
+          <p class="section-subtitle">Amount (bars) and year-on-year change (line) for the selected budget head.</p>
+        </div>
+        <div class="section-controls">
+          <label class="ctrl-label" for="headSelect">Budget head</label>
+          <select class="ctrl-select" id="headSelect"></select>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <svg id="chart2" class="chart-svg"></svg>
+      </div>
+      <p class="basis-note"><strong>BE</strong> = Budget Estimate (announced on Budget Day) · <strong>RE</strong> = Revised Estimate (mid-year revision) · <strong>Actual</strong> = audited spending · <a href="https://www.indiabudget.gov.in" target="_blank" rel="noopener" class="data-note-link">Official source ↗</a></p>
+    </div>
+
+  </section>
+
+  <!-- ── How to read ── -->
+  <section class="htr-section">
+    <p class="htr-title">How to read these charts</p>
+    <div class="htr-grid">
+      <div class="htr-card">
+        <h4>Budget breakdown (top chart)</h4>
+        <p>In <strong>× Apollo</strong> mode, each row shows Apollo Hospitals logos — one per ₹1,02,665 cr allocated. A partial logo shows the remainder. Hover a label for an explanation. Switch to <strong>Absolute ₹</strong> for a proportional bar chart. The multiple label always appears to the right.</p>
+      </div>
+      <div class="htr-card">
+        <h4>Historical trend (bottom chart)</h4>
+        <p>Bars show the nominal or inflation-adjusted allocation for each year. The overlaid line tracks year-on-year percentage change — rising above zero means an increase, falling below means a cut. Dots are green for growth years, red for cuts. Select a budget head from the dropdown to explore it.</p>
+      </div>
+      <div class="htr-card">
+        <h4>Inflation adjustment</h4>
+        <p>Toggling to inflation-adjusted converts all amounts to 2025–26 prices using CPI (2011–12 = 100). This lets you compare real spending across years — for instance, a large nominal increase may be modest in real terms. The YoY % line recalculates accordingly.</p>
+      </div>
+      <div class="htr-card">
+        <h4>Budget estimate vs actual</h4>
+        <p>Older figures are Actuals; recent years show Budget Estimates (BE) or Revised Estimates (RE). BE is what was announced on Budget Day. Actuals sometimes differ. Each bar is labelled with its basis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Data note ── -->
+  <div class="data-note">
+    <strong>Data:</strong> Government of India
+    <a href="https://www.indiabudget.gov.in/doc/Budget_at_a_Glance/budget_at_a_glance.pdf" target="_blank" rel="noopener" class="data-note-link">Budget at a Glance ↗</a>
+    and Expenditure Profile.
+    2022-23 and earlier are Actuals; 2023-24 is Actual (provisional); 2024-25 and 2025-26 are Revised Estimates (RE); 2026-27 is a Budget Estimate (BE).
+    "Transfers to states" captures grants-in-aid only — excludes tax devolution (~₹1.4 L cr in 2025-26 RE).
+    CPI deflator is approximate (base 2011–12 = 100); use
+    <a href="https://data.rbi.org.in" target="_blank" rel="noopener" class="data-note-link">RBI data ↗</a>
+    or MOSPI for precision.
+    Apollo Hospitals benchmark: NSE closing price ₹7,129.50 on 2 January 2026 × ~14.4 crore shares ≈ ₹1,02,665 crore market cap. Fixed across all years for comparability.
+    <strong>Verify all figures against official GoI documents before publication.</strong>
+    For cross-checks see
+    <a href="https://prsindia.org/budgets/parliament" target="_blank" rel="noopener" class="data-note-link">PRS India ↗</a>.
+  </div>
+
+</div><!-- /.page -->
+
+<!-- Floating tooltip -->
+<div class="head-tooltip" id="headTooltip"><strong id="ttTitle"></strong><span id="ttDesc"></span></div>
+<div class="bar-tooltip" id="barTooltip"></div>
+
+<script>
+// ── Data & state ─────────────────────────────────────────────────────────────
+let BUDGET = null;
+let inflationMode = 'nominal';
+let displayMode = 'multiple';
+let selectedFY = '2025-26';
+let selectedHead = 'total_expenditure';
+
+// Color keys per head id
+const HEAD_COLOR_KEY = {
+  total_expenditure:       'ink',
+  revenue_expenditure:     'ochre',
+  capital_expenditure:     'blue',
+  interest_payments:       'red',
+  defence:                 'ochre',
+  agriculture:             'green',
+  education:               'focus',
+  health:                  'focus',
+  subsidies:               'ochre',
+  transfers_to_states:     'ochre',
+  receipts_excl_borrowing: 'green',
+  fiscal_deficit:          'red',
+  income_tax:              'blue',
+  corporation_tax:         'green',
+  indirect_taxes:          'ochre',
+  non_tax_revenue:         'focus'
+};
+
+function getCSSVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function colorForKey(k) {
+  const map = {
+    ink:    getCSSVar('--color-ink'),
+    ochre:  getCSSVar('--color-ochre'),
+    blue:   getCSSVar('--color-blue'),
+    red:    getCSSVar('--color-red'),
+    green:  getCSSVar('--color-green'),
+    focus:  getCSSVar('--color-focus'),
+  };
+  return map[k] || map.ink;
+}
+
+function adjustedVal(row, headId) {
+  const v = row[headId];
+  if (inflationMode === 'real') {
+    return v * (BUDGET.meta.cpi_base_value / row.cpi);
+  }
+  return v;
+}
+
+function fmtLakhCr(cr) {
+  if (cr >= 100000) return (cr / 100000).toFixed(1) + ' L cr';
+  return Math.round(cr / 1000) + ' K cr';
+}
+
+function fmtMult(cr) {
+  const m = cr / BUDGET.meta.benchmark_cr;
+  if (m >= 10) return m.toFixed(1) + '×';
+  return m.toFixed(2) + '×';
+}
+
+function fmtAxis(cr) {
+  if (displayMode === 'multiple') {
+    const m = cr / BUDGET.meta.benchmark_cr;
+    if (m >= 10) return m.toFixed(0) + '×';
+    return m.toFixed(1) + '×';
+  }
+  return fmtLakhCr(cr);
+}
+
+// ── Populate selects ─────────────────────────────────────────────────────────
+function populateSelects() {
+  const yearSel = document.getElementById('yearSelect');
+  const headSel = document.getElementById('headSelect');
+
+  // Year select — newest first
+  [...BUDGET.data].reverse().forEach(row => {
+    const opt = document.createElement('option');
+    opt.value = row.fy;
+    opt.textContent = row.fy + ' (' + row.basis + ')';
+    if (row.fy === selectedFY) opt.selected = true;
+    yearSel.appendChild(opt);
+  });
+
+  // Head select — main heads first, then receipt detail in an optgroup
+  const mainHeads = BUDGET.heads.filter(h => h.chart1 !== false);
+  const detailHeads = BUDGET.heads.filter(h => h.chart1 === false);
+
+  mainHeads.forEach(h => {
+    const opt = document.createElement('option');
+    opt.value = h.id;
+    opt.textContent = h.label;
+    if (h.id === selectedHead) opt.selected = true;
+    headSel.appendChild(opt);
+  });
+
+  if (detailHeads.length) {
+    const grp = document.createElement('optgroup');
+    grp.label = 'Receipt detail';
+    detailHeads.forEach(h => {
+      const opt = document.createElement('option');
+      opt.value = h.id;
+      opt.textContent = h.label;
+      if (h.id === selectedHead) opt.selected = true;
+      grp.appendChild(opt);
+    });
+    headSel.appendChild(grp);
+  }
+
+  yearSel.addEventListener('change', () => {
+    selectedFY = yearSel.value;
+    document.getElementById('c1Title').textContent = 'Budget breakdown — ' + selectedFY;
+    renderChart1();
+  });
+
+  headSel.addEventListener('change', () => {
+    selectedHead = headSel.value;
+    const h = BUDGET.heads.find(x => x.id === selectedHead);
+    document.getElementById('c2Title').textContent = (h ? h.label : '') + ' — year by year';
+    renderChart2();
+  });
+}
+
+// ── SVG helpers ──────────────────────────────────────────────────────────────
+function svgEl(tag, attrs = {}) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function svgText(txt, attrs = {}) {
+  const el = svgEl('text', attrs);
+  el.textContent = txt;
+  return el;
+}
+
+// ── Chart 1: Yearly Snapshot ─────────────────────────────────────────────────
+function renderChart1() {
+  const svg = document.getElementById('chart1');
+  svg.innerHTML = '';
+  const container = svg.parentElement;
+  const W = Math.max(container.clientWidth, 600);
+  const row = BUDGET.data.find(d => d.fy === selectedFY);
+  if (!row) return;
+  if (displayMode === 'multiple') {
+    _renderChart1Multiple(svg, row, W);
+  } else {
+    _renderChart1Absolute(svg, row, W);
+  }
+  bindTooltips(svg);
+}
+
+const GROUP_HEADER_H = 28;
+const INTER_GROUP_GAP = 6;
+const GROUP_LABEL_MAP = { expenditure: 'EXPENDITURE', receipts_detail: 'RECEIPTS (GROSS COLLECTION, BEFORE STATE DEVOLUTION)', fiscal: 'FISCAL POSITION' };
+function _chart1Heads() { return BUDGET.heads.filter(h => h.chart1 !== false); }
+
+function _buildRowYMap(ROW_H, PAD_top) {
+  const rowYMap = {};
+  let currentY = PAD_top;
+  let prevGroup = null;
+  _chart1Heads().forEach(h => {
+    if (h.group !== prevGroup) {
+      if (prevGroup) currentY += INTER_GROUP_GAP;
+      currentY += GROUP_HEADER_H;
+      prevGroup = h.group;
+    }
+    rowYMap[h.id] = currentY + ROW_H / 2;
+    currentY += ROW_H;
+  });
+  return rowYMap;
+}
+
+function _totalChartH(rowYMap, ROW_H, PAD_bottom) {
+  return Math.max(...Object.values(rowYMap)) + ROW_H / 2 + PAD_bottom;
+}
+
+function _drawGroupHeaders(svg, rowYMap, ROW_H, svgW, inkMuted, surfC) {
+  let prevGrp = null;
+  _chart1Heads().forEach(h => {
+    if (h.group !== prevGrp) {
+      const headerY = rowYMap[h.id] - ROW_H / 2 - GROUP_HEADER_H;
+      svg.appendChild(svgEl('rect', { x: 0, y: headerY, width: svgW, height: GROUP_HEADER_H, fill: surfC }));
+      svg.appendChild(svgText(GROUP_LABEL_MAP[h.group] || h.group.toUpperCase(), {
+        x: 8, y: headerY + GROUP_HEADER_H / 2 + 4,
+        'font-size': 10, 'font-weight': 700, fill: inkMuted,
+        'font-family': 'Inter, sans-serif', 'letter-spacing': '0.09em'
+      }));
+      prevGrp = h.group;
+    }
+  });
+}
+
+function _drawHeadLabel(svg, h, cy, PAD_left, ink, inkMuted) {
+  const labelGroup = svgEl('g', { class: 'head-label-group', 'data-head-id': h.id, cursor: 'help' });
+  labelGroup.appendChild(svgText(h.label, {
+    x: PAD_left - 22, y: cy + 5, 'text-anchor': 'end',
+    'font-size': 13, fill: ink, 'font-family': 'Inter, sans-serif', 'font-weight': 500
+  }));
+  labelGroup.appendChild(svgEl('circle', { cx: PAD_left - 11, cy, r: 8, fill: 'none', stroke: inkMuted, 'stroke-width': 1 }));
+  labelGroup.appendChild(svgText('i', {
+    x: PAD_left - 11, y: cy + 4, 'text-anchor': 'middle', 'font-size': 9, fill: inkMuted,
+    'font-family': 'Inter, sans-serif', 'font-weight': 600, 'font-style': 'italic'
+  }));
+  svg.appendChild(labelGroup);
+}
+
+function _renderChart1Absolute(svg, row, W) {
+  const PAD = { top: 48, right: 140, bottom: 16, left: 210 };
+  const ROW_H = 38;
+  const rowYMap = _buildRowYMap(ROW_H, PAD.top);
+  const totalH = _totalChartH(rowYMap, ROW_H, PAD.bottom);
+
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', totalH);
+
+  const barMaxW = W - PAD.left - PAD.right;
+  const maxVal = adjustedVal(row, 'total_expenditure');
+  const ink = getCSSVar('--color-ink');
+  const inkMuted = getCSSVar('--color-ink-muted');
+  const gridC = getCSSVar('--chart-grid');
+  const surfC = getCSSVar('--color-surface');
+
+  // Gridlines
+  [0.25, 0.5, 0.75, 1.0].forEach(pct => {
+    const x = PAD.left + pct * barMaxW;
+    svg.appendChild(svgEl('line', {
+      x1: x, y1: PAD.top - 12, x2: x, y2: totalH - PAD.bottom,
+      stroke: gridC, 'stroke-width': 1, 'stroke-dasharray': pct < 1 ? '3,3' : 'none'
+    }));
+    svg.appendChild(svgText(fmtLakhCr(maxVal * pct), {
+      x, y: PAD.top - 16, 'text-anchor': 'middle',
+      'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif'
+    }));
+  });
+
+  _drawGroupHeaders(svg, rowYMap, ROW_H, W, inkMuted, surfC);
+
+  _chart1Heads().forEach(h => {
+    const val = adjustedVal(row, h.id);
+    const cy = rowYMap[h.id];
+    const barW = (val / maxVal) * barMaxW;
+    const color = colorForKey(HEAD_COLOR_KEY[h.id] || 'ink');
+    const barH = 16;
+    const barY = cy - barH / 2;
+
+    svg.appendChild(svgEl('rect', { x: PAD.left, y: barY, width: barMaxW, height: barH, fill: surfC, rx: 3 }));
+    svg.appendChild(svgEl('rect', { x: PAD.left, y: barY, width: barW, height: barH, fill: color, rx: 3, opacity: 0.85 }));
+    _drawHeadLabel(svg, h, cy, PAD.left, ink, inkMuted);
+
+    svg.appendChild(svgText(fmtLakhCr(val), {
+      x: PAD.left + barW + 8, y: cy + 1,
+      'font-size': 12, fill: color, 'font-family': 'Inter, sans-serif',
+      'font-weight': 600, 'dominant-baseline': 'middle'
+    }));
+    svg.appendChild(svgText(fmtMult(val), {
+      x: PAD.left + barW + 8, y: cy + 14,
+      'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif', 'dominant-baseline': 'middle'
+    }));
+  });
+}
+
+function _renderChart1Multiple(svg, row, W) {
+  const ICON_W = 24;
+  const ICON_H = 30;
+  const ICON_STEP = ICON_W + 3;
+  const PAD = { top: 44, right: 200, bottom: 16, left: 210 };
+  const ROW_H = 44;
+
+  const logo = BUDGET.meta.benchmark_logo;
+  const multiples = _chart1Heads().map(h => ({
+    ...h,
+    val: adjustedVal(row, h.id),
+    mult: adjustedVal(row, h.id) / BUDGET.meta.benchmark_cr
+  }));
+
+  const rowYMap = _buildRowYMap(ROW_H, PAD.top);
+  const totalH = _totalChartH(rowYMap, ROW_H, PAD.bottom);
+  const maxMult = Math.max(...multiples.map(m => m.mult));
+  const svgW = Math.max(PAD.left + Math.ceil(maxMult + 1) * ICON_STEP + PAD.right, W);
+
+  svg.setAttribute('width', svgW);
+  svg.setAttribute('height', totalH);
+
+  const defs = svgEl('defs');
+  svg.appendChild(defs);
+
+  const ink = getCSSVar('--color-ink');
+  const inkMuted = getCSSVar('--color-ink-muted');
+  const gridC = getCSSVar('--chart-grid');
+  const surfC = getCSSVar('--color-surface');
+
+  // Vertical scale gridlines every 5 multiples
+  [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].forEach(n => {
+    if (n > maxMult * 1.1) return;
+    const x = PAD.left + n * ICON_STEP;
+    svg.appendChild(svgEl('line', {
+      x1: x, y1: PAD.top - 8, x2: x, y2: totalH - PAD.bottom,
+      stroke: gridC, 'stroke-width': 1, 'stroke-dasharray': '3,3'
+    }));
+    if (n === 1 || n % 5 === 0) {
+      svg.appendChild(svgText(n + '×', {
+        x, y: PAD.top - 12, 'text-anchor': 'middle',
+        'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif'
+      }));
+    }
+  });
+
+  _drawGroupHeaders(svg, rowYMap, ROW_H, svgW, inkMuted, surfC);
+
+  multiples.forEach(h => {
+    const { val, mult, id } = h;
+    const cy = rowYMap[id];
+    const color = colorForKey(HEAD_COLOR_KEY[id] || 'ink');
+    const n_full = Math.floor(mult);
+    const frac = mult - n_full;
+    const iconY = cy - ICON_H / 2;
+
+    // Full icons
+    for (let i = 0; i < n_full; i++) {
+      svg.appendChild(svgEl('image', {
+        href: logo, x: PAD.left + i * ICON_STEP, y: iconY,
+        width: ICON_W, height: ICON_H, preserveAspectRatio: 'xMidYMid meet'
+      }));
+    }
+
+    // Partial icon (faded ghost + clipped foreground)
+    if (frac > 0.02) {
+      svg.appendChild(svgEl('image', {
+        href: logo, x: PAD.left + n_full * ICON_STEP, y: iconY,
+        width: ICON_W, height: ICON_H, preserveAspectRatio: 'xMidYMid meet', opacity: 0.15
+      }));
+      const clipId = 'pc-' + id;
+      const clipPath = svgEl('clipPath', { id: clipId });
+      clipPath.appendChild(svgEl('rect', {
+        x: PAD.left + n_full * ICON_STEP, y: iconY,
+        width: frac * ICON_W, height: ICON_H
+      }));
+      defs.appendChild(clipPath);
+      svg.appendChild(svgEl('image', {
+        href: logo, x: PAD.left + n_full * ICON_STEP, y: iconY,
+        width: ICON_W, height: ICON_H, preserveAspectRatio: 'xMidYMid meet',
+        'clip-path': 'url(#' + clipId + ')'
+      }));
+    }
+
+    _drawHeadLabel(svg, h, cy, PAD.left, ink, inkMuted);
+
+    // Right-side labels: "N.NN×" primary, "₹X L cr" secondary
+    const totalIcons = n_full + (frac > 0.02 ? 1 : 0);
+    const labelX = PAD.left + totalIcons * ICON_STEP + 10;
+    const multStr = mult >= 10 ? mult.toFixed(1) + '×' : mult.toFixed(2) + '×';
+    svg.appendChild(svgText(multStr, {
+      x: labelX, y: cy + 1,
+      'font-size': 13, fill: color, 'font-family': 'Inter, sans-serif',
+      'font-weight': 600, 'dominant-baseline': 'middle'
+    }));
+    svg.appendChild(svgText(fmtLakhCr(val), {
+      x: labelX, y: cy + 16,
+      'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif', 'dominant-baseline': 'middle'
+    }));
+  });
+}
+
+// ── Chart 2: Category Trend ───────────────────────────────────────────────────
+function renderChart2() {
+  const svg = document.getElementById('chart2');
+  svg.innerHTML = '';
+
+  const container = svg.parentElement;
+  const W = Math.max(container.clientWidth, 700);
+
+  const data = BUDGET.data;
+  const N = data.length;
+
+  const PAD = { top: 48, right: 80, bottom: 80, left: 80 };
+  const chartW = W - PAD.left - PAD.right;
+  const barGap = Math.floor(chartW / N);
+  const barW   = barGap - 2;
+
+  const vals = data.map(row => adjustedVal(row, selectedHead));
+  const yoys = data.map((row, i) => {
+    if (i === 0) return null;
+    const prev = vals[i - 1];
+    return prev > 0 ? ((vals[i] - prev) / prev) * 100 : null;
+  });
+
+  const maxVal    = Math.max(...vals.filter(v => v > 0));
+  const minYoy    = Math.min(...yoys.filter(v => v !== null));
+  const maxYoy    = Math.max(...yoys.filter(v => v !== null));
+  const yoyAbsMax = Math.max(Math.abs(minYoy), Math.abs(maxYoy), 15);
+
+  const inkMuted  = getCSSVar('--color-ink-muted');
+  const gridC     = getCSSVar('--chart-grid');
+  const axisC     = getCSSVar('--chart-axis');
+  const barColor  = colorForKey(HEAD_COLOR_KEY[selectedHead] || 'blue');
+  const lineColor = getCSSVar('--color-blue');
+  const upColor   = getCSSVar('--color-green');
+  const downColor = getCSSVar('--color-red');
+  const tt2       = document.getElementById('barTooltip');
+
+  // ── Reset container styles (both modes use fixed height) ───────────────────
+  container.style.maxHeight = '';
+  container.style.overflowY = '';
+
+  const C2H    = 360;
+  const totalH = C2H + PAD.top + PAD.bottom;
+  const chartH = C2H;
+
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', totalH);
+
+  const scaleY   = (v) => PAD.top + chartH - (v / (maxVal * 1.08)) * chartH;
+  const scaleYoy = (v) => PAD.top + chartH / 2 - (v / yoyAbsMax) * (chartH / 2);
+
+  // Y-axis gridlines
+  const nGridLines = 5;
+  for (let i = 0; i <= nGridLines; i++) {
+    const v = (maxVal * 1.08) * (i / nGridLines);
+    const y = scaleY(v);
+    svg.appendChild(svgEl('line', {
+      x1: PAD.left, y1: y, x2: PAD.left + chartW, y2: y,
+      stroke: gridC, 'stroke-width': 1
+    }));
+    svg.appendChild(svgText(fmtAxis(v), {
+      x: PAD.left - 8, y,
+      'text-anchor': 'end', 'dominant-baseline': 'middle',
+      'font-size': 10,
+      fill: displayMode === 'multiple' ? getCSSVar('--color-blue') : inkMuted,
+      'font-weight': displayMode === 'multiple' ? '600' : '400',
+      'font-family': 'Inter, sans-serif'
+    }));
+  }
+
+  // YoY zero line
+  const zeroY = scaleYoy(0);
+  svg.appendChild(svgEl('line', {
+    x1: PAD.left, y1: zeroY, x2: PAD.left + chartW, y2: zeroY,
+    stroke: axisC, 'stroke-width': 1, 'stroke-dasharray': '4,4'
+  }));
+
+  // Right Y axis labels (YoY %)
+  [-20, -10, 0, 10, 20, 30, 50, 100].forEach(pct => {
+    if (Math.abs(pct) > yoyAbsMax * 1.1) return;
+    const y = scaleYoy(pct);
+    if (y < PAD.top || y > PAD.top + chartH) return;
+    svg.appendChild(svgText(pct + '%', {
+      x: PAD.left + chartW + 8, y,
+      'dominant-baseline': 'middle', 'font-size': 9, fill: inkMuted,
+      'font-family': 'Inter, sans-serif'
+    }));
+  });
+
+  // Axis labels
+  svg.appendChild(svgText(displayMode === 'multiple' ? '× Apollo Hospitals (left axis)' : '₹ Amount (left axis)', {
+    x: PAD.left, y: PAD.top - 28, 'font-size': 10,
+    fill: displayMode === 'multiple' ? getCSSVar('--color-blue') : inkMuted,
+    'font-weight': displayMode === 'multiple' ? '600' : '400',
+    'font-family': 'Inter, sans-serif'
+  }));
+  svg.appendChild(svgText('YoY % change (right axis)', {
+    x: PAD.left + chartW, y: PAD.top - 28,
+    'text-anchor': 'end', 'font-size': 10, fill: inkMuted,
+    'font-family': 'Inter, sans-serif'
+  }));
+
+  // Legend
+  const legendX = PAD.left + chartW / 2;
+  const legendY = PAD.top - 30;
+  svg.appendChild(svgEl('rect', { x: legendX - 80, y: legendY - 7, width: 12, height: 10, fill: barColor, opacity: 0.7, rx: 2 }));
+  svg.appendChild(svgText('Allocation', { x: legendX - 64, y: legendY + 1, 'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif', 'dominant-baseline': 'middle' }));
+  svg.appendChild(svgEl('line', { x1: legendX, y1: legendY - 2, x2: legendX + 20, y2: legendY - 2, stroke: lineColor, 'stroke-width': 2 }));
+  svg.appendChild(svgEl('circle', { cx: legendX + 10, cy: legendY - 2, r: 3, fill: upColor, stroke: getCSSVar('--color-paper'), 'stroke-width': 1.5 }));
+  svg.appendChild(svgText('YoY % change', { x: legendX + 26, y: legendY + 1, 'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif', 'dominant-baseline': 'middle' }));
+
+  // Bars
+  data.forEach((row, i) => {
+    const x  = PAD.left + i * barGap;
+    const v  = vals[i];
+    const y  = scaleY(v);
+    const bh = PAD.top + chartH - y;
+    const basisAlpha = row.basis === 'Actual' ? '0.75' : row.basis === 'BE' ? '0.55' : '0.65';
+    svg.appendChild(svgEl('rect', {
+      x: x + 1, y, width: Math.max(barW, 2), height: bh,
+      fill: barColor, opacity: basisAlpha, rx: 2
+    }));
+
+    if (i % 5 === 0 || i === N - 1) {
+      const shortFY = "'" + row.fy.slice(2, 4);
+      const g = svgEl('g', { transform: `translate(${x + barGap / 2}, ${PAD.top + chartH + 10})` });
+      g.appendChild(svgText(shortFY, {
+        transform: 'rotate(-45)', 'text-anchor': 'end',
+        'font-size': 10, fill: inkMuted, 'font-family': 'Inter, sans-serif'
+      }));
+      svg.appendChild(g);
+    } else if (i % 2 === 0) {
+      svg.appendChild(svgEl('line', {
+        x1: x + barGap / 2, y1: PAD.top + chartH, x2: x + barGap / 2, y2: PAD.top + chartH + 4,
+        stroke: gridC, 'stroke-width': 1
+      }));
+    }
+  });
+
+  // YoY line + dots
+  const linePoints = [];
+  data.forEach((row, i) => {
+    if (yoys[i] === null) return;
+    linePoints.push([PAD.left + i * barGap + barGap / 2, scaleYoy(yoys[i])]);
+  });
+  if (linePoints.length > 1) {
+    svg.appendChild(svgEl('path', {
+      d: linePoints.map((p, i) => (i === 0 ? 'M' : 'L') + p[0] + ',' + p[1]).join(' '),
+      fill: 'none', stroke: lineColor, 'stroke-width': 2, 'stroke-linejoin': 'round'
+    }));
+  }
+  const nonNullYoys = yoys.filter(v => v !== null);
+  linePoints.forEach(([x, y], idx) => {
+    const pct = nonNullYoys[idx];
+    svg.appendChild(svgEl('circle', {
+      cx: x, cy: y, r: 3,
+      fill: pct >= 0 ? upColor : downColor,
+      stroke: getCSSVar('--color-paper'), 'stroke-width': 1.5
+    }));
+  });
+
+  // Basis labels for last 3 bars
+  data.slice(-3).forEach((row, i) => {
+    const idx = N - 3 + i;
+    const x   = PAD.left + idx * barGap + barGap / 2;
+    const v   = vals[idx];
+    svg.appendChild(svgText(row.basis, {
+      x, y: scaleY(v) - 6, 'text-anchor': 'middle',
+      'font-size': 9, fill: inkMuted, 'font-family': 'Inter, sans-serif'
+    }));
+  });
+
+  // X axis base line
+  svg.appendChild(svgEl('line', {
+    x1: PAD.left, y1: PAD.top + chartH, x2: PAD.left + chartW, y2: PAD.top + chartH,
+    stroke: axisC, 'stroke-width': 1
+  }));
+
+  // Hover overlay rects
+  data.forEach((row, i) => {
+    const x   = PAD.left + i * barGap;
+    const v   = vals[i];
+    const yoy = yoys[i];
+    const rect = svgEl('rect', {
+      x: x + 1, y: PAD.top, width: Math.max(barGap - 2, 2), height: chartH,
+      fill: 'transparent', style: 'cursor:crosshair'
+    });
+    rect.addEventListener('mouseenter', () => {
+      const valStr = displayMode === 'multiple'
+        ? (v / BUDGET.meta.benchmark_cr).toFixed(2) + '× Apollo'
+        : fmtLakhCr(v);
+      const yoyStr = yoy !== null ? (yoy >= 0 ? '+' : '') + yoy.toFixed(1) + '% YoY' : '—';
+      tt2.innerHTML = `<strong>${row.fy}</strong> <span class="tt2-basis">${row.basis}</span><br>` +
+        `${valStr}<br><span class="tt2-yoy" style="color:${yoy !== null && yoy >= 0 ? getCSSVar('--color-green') : getCSSVar('--color-red')}">${yoyStr}</span>`;
+      tt2.style.display = 'block';
+    });
+    rect.addEventListener('mousemove', (e) => {
+      tt2.style.left = Math.min(e.clientX + 14, window.innerWidth - 180) + 'px';
+      tt2.style.top  = Math.max(e.clientY - 60, 8) + 'px';
+    });
+    rect.addEventListener('mouseleave', () => { tt2.style.display = 'none'; });
+    svg.appendChild(rect);
+  });
+}
+
+// ── Tooltip logic ─────────────────────────────────────────────────────────────
+function bindTooltips(svg) {
+  const tt = document.getElementById('headTooltip');
+  const ttTitle = document.getElementById('ttTitle');
+  const ttDesc  = document.getElementById('ttDesc');
+
+  svg.querySelectorAll('.head-label-group').forEach(g => {
+    const headId = g.getAttribute('data-head-id');
+    const head = BUDGET.heads.find(h => h.id === headId);
+    if (!head) return;
+
+    g.addEventListener('mouseenter', (e) => {
+      ttTitle.textContent = head.label;
+      ttDesc.textContent  = head.desc;
+      tt.style.display = 'block';
+    });
+    g.addEventListener('mousemove', (e) => {
+      const tx = Math.min(e.clientX + 14, window.innerWidth - 300);
+      const ty = e.clientY + 14;
+      tt.style.left = tx + 'px';
+      tt.style.top  = ty + 'px';
+    });
+    g.addEventListener('mouseleave', () => {
+      tt.style.display = 'none';
+    });
+  });
+}
+
+// ── Chart tab toggle ──────────────────────────────────────────────────────────
+let activeTab = 'snapshot';
+document.querySelectorAll('.chart-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    if (tab.dataset.tab === activeTab) return;
+    activeTab = tab.dataset.tab;
+    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.chart-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + activeTab).classList.add('active');
+    // Render newly visible chart (SVG was hidden so width=0 before)
+    if (activeTab === 'snapshot') renderChart1();
+    else renderChart2();
+  });
+});
+
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  themeBtn.textContent = isDark ? '◑ Dark' : '◑ Light';
+  if (activeTab === 'snapshot') renderChart1(); else renderChart2();
+});
+
+// ── Mode toggle (× Apollo / Absolute ₹) ─────────────────────────────────────
+document.getElementById('modeToggle').addEventListener('click', e => {
+  const btn = e.target.closest('.toggle-opt');
+  if (!btn) return;
+  document.querySelectorAll('#modeToggle .toggle-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  displayMode = btn.dataset.val;
+  if (activeTab === 'snapshot') renderChart1(); else renderChart2();
+});
+
+// ── Inflation toggle ──────────────────────────────────────────────────────────
+document.getElementById('inflationToggle').addEventListener('click', e => {
+  const btn = e.target.closest('.toggle-opt');
+  if (!btn) return;
+  document.querySelectorAll('#inflationToggle .toggle-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  inflationMode = btn.dataset.val;
+  if (activeTab === 'snapshot') renderChart1(); else renderChart2();
+});
+
+// ── Load data & boot ──────────────────────────────────────────────────────────
+async function init() {
+  const res = await fetch('data/union_budget.json');
+  BUDGET = await res.json();
+
+  populateSelects();
+  renderChart1();
+  renderChart2();
+}
+
+// Re-render on resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    renderChart1();
+    renderChart2();
+  }, 150);
+});
+
+init();
+</script>
+</body>
+</html>

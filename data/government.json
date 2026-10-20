@@ -1,0 +1,89 @@
+{
+  "id": "government",
+  "label": "Government Spending",
+  "emoji": "🏛️",
+  "description": "How India spends its public money",
+  "items": [
+    {
+      "id": "union-budget-fy25",
+      "label": "India's Total Union Budget FY 2024–25",
+      "value": 4765000,
+      "year": 2024,
+      "context": "The Union Budget presented by Finance Minister Nirmala Sitharaman covered ₹47.65 lakh crore in total expenditure and receipts.",
+      "source": "https://indiabudget.gov.in/",
+      "sourceLabel": "India Budget"
+    },
+    {
+      "id": "defence-spending",
+      "label": "Annual Defence Spending",
+      "value": 621541,
+      "year": 2024,
+      "context": "India's defence allocation, the largest budget line, covers armed forces pay, pensions, modernisation and border infrastructure.",
+      "source": "https://indiabudget.gov.in/",
+      "sourceLabel": "India Budget"
+    },
+    {
+      "id": "rural-development",
+      "label": "Rural Development Budget",
+      "value": 265808,
+      "year": 2024,
+      "context": "Covers MGNREGS (rural jobs guarantee), PMGSY (rural roads) and PM Awas Yojana (rural housing).",
+      "source": "https://indiabudget.gov.in/",
+      "sourceLabel": "India Budget"
+    },
+    {
+      "id": "railways-capex",
+      "label": "Railways Capital Expenditure",
+      "value": 252200,
+      "year": 2024,
+      "context": "Record capital outlay for Indian Railways covering new lines, electrification, station upgrades and Vande Bharat trains.",
+      "source": "https://indianrailways.gov.in/",
+      "sourceLabel": "Indian Railways"
+    },
+    {
+      "id": "education-spending",
+      "label": "Education Budget",
+      "value": 112899,
+      "year": 2024,
+      "context": "Covers school education (Samagra Shiksha), higher education (IITs, IIMs, central universities) and mid-day meals.",
+      "source": "https://indiabudget.gov.in/",
+      "sourceLabel": "India Budget"
+    },
+    {
+      "id": "health-spending",
+      "label": "Health & Family Welfare Budget",
+      "value": 89155,
+      "year": 2024,
+      "context": "Covers PMJAY (Ayushman Bharat), AIIMS expansions, NHM and COVID-19 response infrastructure.",
+      "source": "https://indiabudget.gov.in/",
+      "sourceLabel": "India Budget"
+    },
+    {
+      "id": "pm-kisan",
+      "label": "PM-KISAN Annual Outlay",
+      "value": 60000,
+      "year": 2024,
+      "context": "Direct benefit transfer of ₹6,000/year to ~10 crore farmers, distributed in three instalments.",
+      "source": "https://pmkisan.gov.in/",
+      "sourceLabel": "PM-KISAN"
+    },
+    {
+      "id": "space-budget",
+      "label": "Department of Space Annual Budget",
+      "value": 12900,
+      "year": 2024,
+      "context": "Covers ISRO's satellite launches, planetary missions, PSLV/GSLV production and the Gaganyaan human spaceflight programme.",
+      "source": "https://isro.gov.in/",
+      "sourceLabel": "ISRO"
+    },
+    {
+      "id": "chandrayaan3-mission",
+      "label": "Chandrayaan-3 Mission Cost",
+      "value": 615,
+      "year": 2023,
+      "context": "Total mission cost for India's successful lunar south-pole lander — famously cheaper than several Hollywood space movies.",
+      "source": "https://isro.gov.in/",
+      "sourceLabel": "ISRO"
+    }
+  ]
+}

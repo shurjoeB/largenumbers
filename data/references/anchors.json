@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "description": "One anchor (reference yardstick) per category. All amounts in crore INR at the year stated. The anchor is NOT inflation-adjusted — it is a fixed, named reference point. The display reads: '[item] = N× the [anchor_label]'.",
+    "last_updated": "2025-01"
+  },
+  "scams": {
+    "anchor_id": "india-health-budget-fy25",
+    "label": "India's Annual Union Health Budget",
+    "short_label": "Annual Health Budget",
+    "amount_crore": 90958.63,
+    "currency": "INR",
+    "year": 2025,
+    "fiscal_year": "FY 2024-25",
+    "emoji": "🏥",
+    "source_url": "https://health.economictimes.indiatimes.com/news/policy/govt-hikes-healthcare-budgetary-allocation-by-9-7-to-99k-crore-for-fy25-26/117831464",
+    "source_label": "Economic Times Health, citing Union Budget 2024-25",
+    "note": "Total Union health budgetary allocation for FY 2024-25: ₹90,958.63 crore. The FY 2025-26 allocation was raised 9.7% to ~₹99,000 crore. Does not include state health budgets."
+  }
+}

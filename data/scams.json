@@ -1,0 +1,89 @@
+{
+  "id": "scams",
+  "label": "Financial Scams",
+  "emoji": "🏦",
+  "description": "Alleged and proven financial frauds in India",
+  "items": [
+    {
+      "id": "coal-scam",
+      "label": "Coal Block Allocation Scam",
+      "value": 185591,
+      "year": 2012,
+      "context": "The CAG estimated the government forfeited ₹1.86 lakh crore by allocating coal blocks through discretionary allotment instead of auctions.",
+      "source": "https://cag.gov.in/",
+      "sourceLabel": "CAG India"
+    },
+    {
+      "id": "2g-spectrum",
+      "label": "2G Spectrum Scam",
+      "value": 176000,
+      "year": 2008,
+      "context": "The CAG estimated the treasury lost ₹1.76 lakh crore due to spectrum being sold at 2001 prices instead of through competitive auctions.",
+      "source": "https://cag.gov.in/",
+      "sourceLabel": "CAG India"
+    },
+    {
+      "id": "cwg",
+      "label": "Commonwealth Games Scam",
+      "value": 70000,
+      "year": 2010,
+      "context": "Multiple agencies identified massive over-invoicing and kickbacks in the ₹70,000 crore CWG 2010 preparations in Delhi.",
+      "source": "https://cbi.gov.in/",
+      "sourceLabel": "CBI"
+    },
+    {
+      "id": "ilfs",
+      "label": "IL&FS Group Default",
+      "value": 91000,
+      "year": 2018,
+      "context": "Infrastructure conglomerate IL&FS collapsed with ₹91,000 crore in debt, triggering a liquidity crisis in India's NBFC sector.",
+      "source": "https://sfio.nic.in/",
+      "sourceLabel": "SFIO"
+    },
+    {
+      "id": "abg-shipyard",
+      "label": "ABG Shipyard Bank Fraud",
+      "value": 22842,
+      "year": 2022,
+      "context": "India's largest bank fraud case. ABG Shipyard allegedly defrauded 28 banks of ₹22,842 crore through falsified accounts.",
+      "source": "https://cbi.gov.in/",
+      "sourceLabel": "CBI"
+    },
+    {
+      "id": "pnb-fraud",
+      "label": "PNB–Nirav Modi Fraud",
+      "value": 13500,
+      "year": 2018,
+      "context": "Diamantaire Nirav Modi and associates allegedly siphoned ₹13,500 crore from Punjab National Bank using fraudulent Letters of Undertaking.",
+      "source": "https://cbi.gov.in/",
+      "sourceLabel": "CBI"
+    },
+    {
+      "id": "satyam",
+      "label": "Satyam Accounting Scandal",
+      "value": 7136,
+      "year": 2009,
+      "context": "Ramalinga Raju confessed to inflating Satyam Computer's balance sheet by ₹7,136 crore — India's version of Enron.",
+      "source": "https://sebi.gov.in/",
+      "sourceLabel": "SEBI"
+    },
+    {
+      "id": "vijay-mallya",
+      "label": "Vijay Mallya Bank Defaults",
+      "value": 9000,
+      "year": 2016,
+      "context": "Kingfisher Airlines chairman Vijay Mallya fled India with alleged unpaid loans of ₹9,000 crore owed to a consortium of 17 banks.",
+      "source": "https://enforcemented.gov.in/",
+      "sourceLabel": "ED"
+    },
+    {
+      "id": "harshad-mehta",
+      "label": "Harshad Mehta Securities Scam",
+      "value": 4025,
+      "year": 1992,
+      "context": "Stockbroker Harshad Mehta manipulated BSE stocks using fraudulently obtained bank funds worth ₹4,025 crore — roughly ₹50,000 crore in today's value.",
+      "source": "https://sebi.gov.in/",
+      "sourceLabel": "SEBI"
+    }
+  ]
+}

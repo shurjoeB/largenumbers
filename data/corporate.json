@@ -1,0 +1,80 @@
+{
+  "id": "corporate",
+  "label": "Corporate Wealth",
+  "emoji": "🏢",
+  "description": "India's biggest companies and the people who run them",
+  "items": [
+    {
+      "id": "billionaire-wealth",
+      "label": "Combined Wealth of India's Billionaires",
+      "value": 8000000,
+      "year": 2024,
+      "context": "Forbes 2024 counted ~200 Indian billionaires with combined net worth exceeding ₹80 lakh crore — more than twice India's annual health + education budgets combined.",
+      "source": "https://www.forbes.com/india-billionaires/",
+      "sourceLabel": "Forbes"
+    },
+    {
+      "id": "reliance-mcap",
+      "label": "Reliance Industries Market Cap",
+      "value": 1900000,
+      "year": 2024,
+      "context": "India's most valuable company by market capitalisation, spanning refining, telecom (Jio), retail and new energy.",
+      "source": "https://www.bseindia.com/",
+      "sourceLabel": "BSE India"
+    },
+    {
+      "id": "tcs-mcap",
+      "label": "TCS Market Capitalisation",
+      "value": 1400000,
+      "year": 2024,
+      "context": "Tata Consultancy Services, India's largest IT exporter, is among the world's top 10 most valuable IT companies.",
+      "source": "https://www.bseindia.com/",
+      "sourceLabel": "BSE India"
+    },
+    {
+      "id": "ambani-networth",
+      "label": "Mukesh Ambani Net Worth",
+      "value": 830000,
+      "year": 2024,
+      "context": "Asia's richest person. His wealth is roughly equal to 6× India's annual education budget.",
+      "source": "https://www.forbes.com/profile/mukesh-ambani/",
+      "sourceLabel": "Forbes"
+    },
+    {
+      "id": "hdfc-bank-mcap",
+      "label": "HDFC Bank Market Cap",
+      "value": 1200000,
+      "year": 2024,
+      "context": "India's largest private-sector bank by assets and market value.",
+      "source": "https://www.bseindia.com/",
+      "sourceLabel": "BSE India"
+    },
+    {
+      "id": "infosys-mcap",
+      "label": "Infosys Market Capitalisation",
+      "value": 620000,
+      "year": 2024,
+      "context": "India's second-largest IT exporter, co-founded by N.R. Narayana Murthy.",
+      "source": "https://www.bseindia.com/",
+      "sourceLabel": "BSE India"
+    },
+    {
+      "id": "adani-networth",
+      "label": "Gautam Adani Net Worth",
+      "value": 470000,
+      "year": 2024,
+      "context": "Founder of the Adani Group, spanning ports, airports, power, green energy and media.",
+      "source": "https://www.forbes.com/profile/gautam-adani/",
+      "sourceLabel": "Forbes"
+    },
+    {
+      "id": "zomato-ipo",
+      "label": "Zomato IPO Valuation",
+      "value": 64000,
+      "year": 2021,
+      "context": "India's largest internet IPO at the time, food-delivery startup Zomato listed at a valuation of ₹64,000 crore in July 2021.",
+      "source": "https://www.bseindia.com/",
+      "sourceLabel": "BSE India"
+    }
+  ]
+}

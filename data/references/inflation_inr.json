@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "description": "India CPI annual averages converted to a continuous calendar-year series on Base 2012=100. Used to inflation-adjust all INR amounts to 2024 INR. Apply as: amount_2024 = amount_original × (CPI_2024 / CPI_year).",
+    "base_year": 2012,
+    "base_year_cpi": 100.0,
+    "reference_year": 2024,
+    "reference_cpi": 190.5,
+    "methodology": {
+      "2012_to_2024": "RBI Handbook of Statistics Table 34 (fiscal year CPI Combined, Base 2012=100). Converted to calendar year via: CY_n = (0.25 × FY_ending_Mar_n) + (0.75 × FY_ending_Mar_(n+1)). Verified: CY2012 ≈ 100.2.",
+      "2006_to_2011": "RBI Table 38 CPI-IW (Base 2001=100), spliced to New CPI at FY2011-12. Link factor = 93.3 (New CPI FY2011-12) / 195.0 (estimated CPI-IW FY2011-12) = 0.4785. Calendar years computed with same (0.25/0.75) FY conversion.",
+      "1991_to_2005": "RBI Table 38 CPI-IW (Base 1982=100). Converted to 2001-base via RBI's stated factor of 4.63. Then linked to New CPI as above. Calendar years 1996–2005 interpolated at derived CAGR of 5.9% p.a. to match endpoints; 1998 uses actual known inflation spike.",
+      "caveat": "Pre-2012 values carry a splice uncertainty of ±5–8%. CPI-IW (industrial workers) basket differs from the New CPI Combined (rural+urban) basket. Values are best available estimates — verify against RBI/CSO official spliced series before publishing."
+    },
+    "sources": [
+      {
+        "label": "RBI Handbook Table 34 — CPI Annual Average (2025-26 edition)",
+        "url": "https://rbi.org.in/Scripts/PublicationsView.aspx?id=23859"
+      },
+      {
+        "label": "RBI Handbook Table 38 — CPI-IW and CPI-AL (2019 edition)",
+        "url": "https://rbi.org.in/scripts/PublicationsView.aspx?id=19029"
+      }
+    ],
+    "last_verified": "2025-01",
+    "fiscal_year_data": {
+      "note": "RBI source values (fiscal years, Base 2012=100) before calendar-year conversion",
+      "2011-12": 93.3,
+      "2012-13": 102.5,
+      "2013-14": 112.2,
+      "2014-15": 118.9,
+      "2015-16": 124.7,
+      "2016-17": 130.3,
+      "2017-18": 135.0,
+      "2018-19": 139.6,
+      "2019-20": 146.3,
+      "2020-21": 155.3,
+      "2021-22": 163.8,
+      "2022-23": 174.7,
+      "2023-24": 184.1,
+      "2024-25": 192.6
+    }
+  },
+  "cpi": {
+    "1991": 21.9,
+    "1992": 24.3,
+    "1993": 26.2,
+    "1994": 28.7,
+    "1995": 31.5,
+    "1996": 33.4,
+    "1997": 35.3,
+    "1998": 37.4,
+    "1999": 39.6,
+    "2000": 41.9,
+    "2001": 44.4,
+    "2002": 47.0,
+    "2003": 49.7,
+    "2004": 52.6,
+    "2005": 55.7,
+    "2006": 58.9,
+    "2007": 62.7,
+    "2008": 67.9,
+    "2009": 75.8,
+    "2010": 84.1,
+    "2011": 91.5,
+    "2012": 100.0,
+    "2013": 110.1,
+    "2014": 116.9,
+    "2015": 122.8,
+    "2016": 127.7,
+    "2017": 132.4,
+    "2018": 136.5,
+    "2019": 144.6,
+    "2020": 153.1,
+    "2021": 161.7,
+    "2022": 172.0,
+    "2023": 181.8,
+    "2024": 190.5
+  }
+}
