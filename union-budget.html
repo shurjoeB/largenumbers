@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Union Budget — largenumbers.in</title>
+<script>try{var t=sessionStorage.getItem('ln-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -210,7 +211,8 @@ html[data-theme="dark"] .ctrl-select{
   <div class="nav-group">
     <span class="nav-group-label">Economics</span>
     <div class="nav-dropdown">
-      <a href="fii-outflows.html">FII Outflows</a>
+      <a href="fii-outflows.html">FPI Flows</a>
+      <a href="gdp-index.html">GDP Index</a>
     </div>
   </div>
   <a href="about.html">About</a>
@@ -736,7 +738,7 @@ function renderChart2() {
   const yoys = data.map((row, i) => {
     if (i === 0) return null;
     const prev = vals[i - 1];
-    return prev > 0 ? ((vals[i] - prev) / prev) * 100 : null;
+    return prev > 0 && vals[i] > 0 ? ((vals[i] - prev) / prev) * 100 : null;
   });
 
   const maxVal    = Math.max(...vals.filter(v => v > 0));
@@ -967,10 +969,13 @@ document.querySelectorAll('.chart-tab').forEach(tab => {
 
 // ── Theme toggle ─────────────────────────────────────────────────────────────
 const themeBtn = document.getElementById('themeToggle');
+themeBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '◑ Light' : '◑ Dark';
 themeBtn.addEventListener('click', () => {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  themeBtn.textContent = isDark ? '◑ Dark' : '◑ Light';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '◑ Light' : '◑ Dark';
+  try { sessionStorage.setItem('ln-theme', next); } catch(e) {}
   if (activeTab === 'snapshot') renderChart1(); else renderChart2();
 });
 
@@ -1016,5 +1021,7 @@ window.addEventListener('resize', () => {
 
 init();
 </script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
 </body>
 </html>

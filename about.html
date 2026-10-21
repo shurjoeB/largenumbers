@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — largenumbers.in</title>
+  <meta name="description" content="Why large numbers stop making sense — and what we're doing about it.">
+  <script>try{var t=sessionStorage.getItem('ln-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --color-paper:    #F7FAF6;
+      --color-ink:      #2F4B26;
+      --color-ink-muted:rgba(47,75,38,0.55);
+      --color-grid:     rgba(47,75,38,0.06);
+      --color-blue:     #1A5A9E;
+      --font-ui:        'Inter', system-ui, sans-serif;
+      --font-display:   Georgia, "Times New Roman", serif;
+      --border-thin:    1px solid rgba(47,75,38,0.15);
+      --radius-sm:      6px;
+      --radius-md:      10px;
+      --page-gutter:    clamp(16px, 4vw, 48px);
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+      --space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;
+    }
+    @media (prefers-color-scheme:dark){
+      :root:not([data-theme="light"]){
+        --color-paper:    #020122;
+        --color-ink:      #F2F3AE;
+        --color-ink-muted:rgba(242,243,174,0.5);
+        --color-grid:     rgba(242,243,174,0.06);
+        --color-blue:     #FC9E4F;
+        --border-thin:    1px solid rgba(242,243,174,0.12);
+      }
+    }
+    html[data-theme="dark"]{
+      --color-paper:    #020122;
+      --color-ink:      #F2F3AE;
+      --color-ink-muted:rgba(242,243,174,0.5);
+      --color-grid:     rgba(242,243,174,0.06);
+      --color-blue:     #FC9E4F;
+      --border-thin:    1px solid rgba(242,243,174,0.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-ui)}
+    body{min-height:100vh;-webkit-font-smoothing:antialiased}
+
+    /* ── Nav ── */
+    .page{max-width:1440px;margin-inline:auto;padding:0 var(--page-gutter)}
+    .site-nav{
+      position:sticky;top:0;z-index:100;
+      background:var(--color-paper);border-bottom:var(--border-thin);
+      padding:var(--space-3) var(--page-gutter);
+      display:flex;align-items:center;gap:var(--space-5)
+    }
+    .site-nav .brand{display:inline-flex;align-items:center;text-decoration:none}
+    .brand-logo{height:32px;width:auto;display:block}
+    .brand-logo--dark{display:none}
+    html[data-theme="dark"] .brand-logo--light{display:none}
+    html[data-theme="dark"] .brand-logo--dark{display:block}
+    @media(prefers-color-scheme:dark){
+      :root:not([data-theme="light"]) .brand-logo--light{display:none}
+      :root:not([data-theme="light"]) .brand-logo--dark{display:block}
+    }
+    .site-nav a{color:var(--color-ink-muted);text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+    .site-nav a.active,.site-nav a:hover{color:var(--color-ink)}
+    .site-nav .spacer{flex:1}
+    .nav-group{position:relative;display:flex;align-items:center}
+    .nav-group-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);cursor:default;padding:4px 0;display:flex;align-items:center;gap:4px}
+    .nav-group-label::after{content:'▾';font-size:8px;opacity:.6}
+    .nav-group:hover .nav-group-label{color:var(--color-ink)}
+    .nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:var(--border-thin);border-radius:var(--radius-md);padding:6px 0;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200}
+    .nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+    .nav-group:hover .nav-dropdown{display:block}
+    .nav-dropdown a{display:block;padding:12px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);text-decoration:none;white-space:nowrap}
+    .nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
+    .nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
+    .theme-toggle{background:none;border:var(--border-thin);border-radius:var(--radius-sm);padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-ui);color:var(--color-ink-muted);letter-spacing:.04em;transition:color .15s,background .15s}
+    .theme-toggle:hover{color:var(--color-ink);background:var(--color-grid)}
+
+    /* ── Page layout ── */
+    .about-wrap{
+      max-width:680px;
+      margin-inline:auto;
+      padding:var(--space-8) var(--page-gutter) var(--space-8);
+    }
+    .about-eyebrow{
+      font-size:11px;text-transform:uppercase;letter-spacing:.1em;
+      font-weight:600;color:var(--color-ink-muted);margin-bottom:var(--space-4);
+    }
+    .about-headline{
+      font-family:var(--font-display);
+      font-size:clamp(36px,6vw,64px);
+      font-weight:400;
+      line-height:1.05;
+      letter-spacing:-.02em;
+      color:var(--color-ink);
+      margin-bottom:var(--space-6);
+    }
+    .about-divider{
+      width:40px;height:2px;
+      background:var(--color-ink);opacity:.25;
+      margin-bottom:var(--space-6);
+    }
+    .about-body{
+      font-size:17px;line-height:1.75;
+      color:var(--color-ink);
+      font-weight:400;
+    }
+    .about-body p+p{margin-top:var(--space-5)}
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="brand">
+    <img src="css/image/largenumbers_light.png" class="brand-logo brand-logo--light" alt="largenumbers.in">
+    <img src="css/image/largenumbers_dark.png" class="brand-logo brand-logo--dark" alt="largenumbers.in">
+  </span>
+  <div class="nav-group">
+    <span class="nav-group-label">Government</span>
+    <div class="nav-dropdown">
+      <a href="scams.html">Scams</a>
+      <a href="union-budget.html">Union Budget</a>
+    </div>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">Economics</span>
+    <div class="nav-dropdown">
+      <a href="fii-outflows.html">FPI Flows</a>
+      <a href="gdp-index.html">Global GDP</a>
+    </div>
+  </div>
+  <a href="about.html" class="active">About</a>
+  <span class="spacer"></span>
+  <button id="themeToggle" class="theme-toggle" aria-label="Switch colour theme">◑ Dark</button>
+</nav>
+
+<div class="page">
+  <div class="about-wrap">
+    <p class="about-eyebrow">About this project</p>
+    <h1 class="about-headline">Large numbers<br>stop making sense.</h1>
+    <div class="about-divider"></div>
+    <div class="about-body">
+      <p>We come across very large numbers every day: Nvidia crosses $5 trillion in market cap, FIIs take out $50 million from the Indian markets, the BJP spends ₹3,335 crore on elections in 2024–25, so on and so forth. After a certain threshold we can't comprehend these very large numbers — the FII outflow gets lumped in the same group of numbers as Nvidia's market cap in our head.</p>
+      <p>This space is an effort to contextualise these very large numbers in relatable terms and make sense of the numbers which we struggle with when represented in their absolute form.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '◑ Light' : '◑ Dark';
+  toggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { sessionStorage.setItem('ln-theme', next); } catch(e) {}
+    toggle.textContent = next === 'dark' ? '◑ Light' : '◑ Dark';
+  });
+</script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
+</body>
+</html>
