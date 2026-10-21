@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global GDP — largenumbers.in</title>
+<meta name="description" content="Every country's GDP as a multiple of one person's net worth.">
+<script>try{var t=sessionStorage.getItem('ln-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-paper:#F7FAF6;--color-surface:#EDF4EB;--color-ink:#2F4B26;
+  --color-ink-2:rgba(47,75,38,0.65);--color-ink-3:rgba(47,75,38,0.35);
+  --color-grid:rgba(47,75,38,0.08);--color-line:rgba(47,75,38,0.14);
+  --color-ochre:#7A4E05;--color-blue:#1A5A9E;
+  --font-d:Georgia,"Times New Roman",serif;--font-u:Inter,"Helvetica Neue",Arial,sans-serif;
+  --sp1:4px;--sp2:8px;--sp3:12px;--sp4:16px;--sp5:24px;--sp6:32px;--sp7:48px;--sp8:64px;
+  --r1:3px;--r2:6px;--gutter:clamp(16px,3vw,48px);
+  --c-nam:#2563A8;--c-sam:#1A7A48;--c-eur:#6344A0;
+  --c-afr:#B85A1F;--c-asi:#9B2828;--c-oce:#17878A;
+}
+html[data-theme="dark"]{
+  --color-paper:#020122;--color-surface:#090930;--color-ink:#F2F3AE;
+  --color-ink-2:rgba(242,243,174,0.6);--color-ink-3:rgba(242,243,174,0.3);
+  --color-grid:rgba(242,243,174,0.07);--color-line:rgba(242,243,174,0.14);
+  --color-ochre:#EDD382;--color-blue:#FC9E4F;
+  --c-nam:#4A90D9;--c-sam:#4AAF78;--c-eur:#9A7ED0;
+  --c-afr:#E0804A;--c-asi:#D05858;--c-oce:#3ABABA;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --color-paper:#020122;--color-surface:#090930;--color-ink:#F2F3AE;
+  --color-ink-2:rgba(242,243,174,0.6);--color-ink-3:rgba(242,243,174,0.3);
+  --color-grid:rgba(242,243,174,0.07);--color-line:rgba(242,243,174,0.14);
+  --color-ochre:#EDD382;--color-blue:#FC9E4F;
+  --c-nam:#4A90D9;--c-sam:#4AAF78;--c-eur:#9A7ED0;
+  --c-afr:#E0804A;--c-asi:#D05858;--c-oce:#3ABABA;
+}}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-u)}
+body{margin:0;-webkit-font-smoothing:antialiased}
+
+/* ── Nav ── */
+.page{max-width:1440px;margin-inline:auto;padding:0 var(--gutter)}
+.site-nav{position:sticky;top:0;z-index:100;background:var(--color-paper);border-bottom:1px solid var(--color-line);padding:var(--sp3) var(--gutter);display:flex;align-items:center;gap:var(--sp5)}
+.site-nav .brand{display:inline-flex;align-items:center;text-decoration:none}
+.brand-logo{height:28px;width:auto;display:block}
+.brand-logo--dark{display:none}
+html[data-theme="dark"] .brand-logo--light{display:none}
+html[data-theme="dark"] .brand-logo--dark{display:block}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand-logo--light{display:none}:root:not([data-theme="light"]) .brand-logo--dark{display:block}}
+.site-nav a{color:var(--color-ink-2);text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.site-nav a.active,.site-nav a:hover{color:var(--color-ink)}
+.site-nav .spacer{flex:1}
+.nav-group{position:relative;display:flex;align-items:center}
+.nav-group-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-2);cursor:default;padding:4px 0;display:flex;align-items:center;gap:4px}
+.nav-group-label::after{content:'▾';font-size:8px;opacity:.5}
+.nav-group:hover .nav-group-label{color:var(--color-ink)}
+.nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:1px solid var(--color-line);border-radius:var(--r2);padding:6px 0;min-width:160px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200}
+.nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+.nav-group:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:10px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-2);text-decoration:none;white-space:nowrap}
+.nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
+.nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
+.theme-btn{background:none;border:1px solid var(--color-line);border-radius:var(--r1);padding:4px 10px;cursor:pointer;font-size:11px;font-family:var(--font-u);color:var(--color-ink-2);transition:color .15s,border-color .15s}
+.theme-btn:hover{color:var(--color-ink)}
+
+/* ── Header ── */
+.viz-header{padding:var(--sp7) 0 var(--sp6);border-bottom:1px solid var(--color-line);margin-bottom:var(--sp5)}
+.viz-header-inner{display:flex;align-items:flex-start;gap:var(--sp7)}
+.viz-header-main{flex:1;min-width:0}
+.eyebrow{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--color-ink-2);margin-bottom:var(--sp3);display:block}
+.viz-header h1{font-family:var(--font-d);font-size:clamp(52px,8vw,100px);font-weight:400;margin:0 0 var(--sp4);letter-spacing:-.03em;line-height:.92;color:var(--color-ink)}
+.viz-header .subtitle{font-size:14px;color:var(--color-ink-2);margin:0;max-width:52ch;line-height:1.75}
+@media(max-width:900px){.viz-header-inner{flex-direction:column;gap:var(--sp5)}.bm-aside{width:100%}}
+/* Benchmark */
+.bm-aside{flex-shrink:0;width:380px}
+.bm-card{display:flex;align-items:flex-start;gap:var(--sp4);padding:var(--sp4) var(--sp5);background:var(--color-surface);border:1px solid var(--color-line);border-radius:var(--r2);margin-bottom:var(--sp3)}
+.bm-logo-wrap{flex-shrink:0;width:56px;display:flex;align-items:center;justify-content:center}
+.bm-img{width:48px;height:48px;border-radius:50%;object-fit:cover;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.bm-label{font-size:13px;font-weight:600;color:var(--color-ink);margin-bottom:3px}
+.bm-amt{font-family:var(--font-d);font-size:28px;font-weight:700;color:var(--color-ochre);line-height:1.05;margin-bottom:2px}
+.bm-meta{font-size:11px;color:var(--color-ink-2);line-height:1.5}
+.bm-meta a{color:inherit;border-bottom:1px solid currentColor;opacity:.7;text-decoration:none}
+.bm-why{font-size:12px;color:var(--color-ink-2);line-height:1.6;padding:var(--sp3) var(--sp4);background:var(--color-grid);border-radius:var(--r1);border-left:3px solid var(--color-ochre);margin:0 0 var(--sp3)}
+
+/* ── Controls ── */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp3) var(--sp6);padding:var(--sp4) 0;margin-bottom:var(--sp5)}
+.ctrl-grp{display:flex;align-items:center;gap:0}
+.ctrl-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--color-ink-3);margin-right:var(--sp3);white-space:nowrap}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:4px 14px 6px;cursor:pointer;font-size:12px;font-family:var(--font-u);font-weight:500;color:var(--color-ink-2);letter-spacing:.02em;transition:color .12s,border-color .12s}
+.tab-btn:hover{color:var(--color-ink)}
+.tab-btn.active{color:var(--color-ink);border-bottom-color:var(--color-ink)}
+.seg-btn{background:none;border:1px solid var(--color-line);padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-u);font-weight:500;color:var(--color-ink-2);transition:all .12s;white-space:nowrap}
+.seg-btn:first-of-type{border-radius:var(--r1) 0 0 var(--r1)}
+.seg-btn:last-of-type{border-radius:0 var(--r1) var(--r1) 0}
+.seg-btn:not(:first-of-type){border-left:none}
+.seg-btn:hover{color:var(--color-ink);background:var(--color-grid)}
+.seg-btn.active{background:var(--color-ink);color:var(--color-paper);border-color:var(--color-ink)}
+.yr-sel{appearance:none;background:none;border:1px solid var(--color-line);border-radius:var(--r1);padding:4px 22px 4px 10px;font-size:11px;font-family:var(--font-u);color:var(--color-ink);cursor:pointer;outline:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%232F4B26' opacity='.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center}
+.loading{font-size:12px;color:var(--color-ink-2);display:none}
+
+/* ── Legend row ── */
+.legend-row{display:flex;flex-wrap:wrap;gap:6px var(--sp5);margin-bottom:var(--sp4)}
+.lg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-ink-2);cursor:pointer;padding:4px 8px;border-radius:var(--r1);border:1px solid transparent;user-select:none;transition:background .1s,border-color .1s}
+.lg-item:hover{background:var(--color-grid)}
+.lg-item.zone-active{background:var(--color-surface);border-color:var(--color-line);color:var(--color-ink)}
+.lg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.lg-dot.nam{background:var(--c-nam)}.lg-dot.sam{background:var(--c-sam)}
+.lg-dot.eur{background:var(--c-eur)}.lg-dot.afr{background:var(--c-afr)}
+.lg-dot.asi{background:var(--c-asi)}.lg-dot.oce{background:var(--c-oce)}
+.lg-item .ct{font-size:10px;color:var(--color-ink-3);margin-left:2px;font-variant-numeric:tabular-nums}
+
+/* ── Bubble Grid ── */
+.bubble-wrap{margin-bottom:var(--sp7)}
+.bubble-flat{display:flex;flex-wrap:wrap;gap:6px}
+.bbl{width:64px;height:64px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:transform .12s,box-shadow .12s;flex-shrink:0;position:relative}
+.bbl:hover{transform:scale(1.09);z-index:1;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.bbl .b-iso{font-size:9px;font-weight:600;letter-spacing:.04em;opacity:.72;line-height:1}
+.bbl .b-x{font-size:12px;font-weight:700;line-height:1.2;margin-top:2px;font-variant-numeric:tabular-nums}
+.bbl.nam{background:var(--c-nam)}.bbl.sam{background:var(--c-sam)}
+.bbl.eur{background:var(--c-eur)}.bbl.afr{background:var(--c-afr)}
+.bbl.asi{background:var(--c-asi)}.bbl.oce{background:var(--c-oce)}
+
+/* ── Cartogram ── */
+.carto-wrap{margin-bottom:var(--sp6);border-radius:var(--r2);overflow:hidden}
+.carto-grid{display:grid;gap:2px;padding:2px;background:var(--color-line);border-radius:var(--r2);overflow:hidden}
+.cc{display:flex;align-items:center;justify-content:center;border-radius:2px;position:relative;cursor:default;min-width:0;overflow:hidden}
+.cc.occ{cursor:pointer}
+.cc.occ:hover{filter:brightness(1.1);z-index:1}
+.cc.emp{background:var(--color-paper)}
+.cc-mult{font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1;text-align:center;pointer-events:none}
+/* Heatmap gradient legend */
+.heat-legend{display:flex;align-items:center;gap:var(--sp3);margin:var(--sp3) 0 var(--sp5);font-size:11px;color:var(--color-ink-2)}
+.hl-bar{flex:1;height:8px;border-radius:4px;max-width:200px}
+.hl-lo,.hl-hi{white-space:nowrap;font-size:10px}
+
+/* ── Tooltip ── */
+#tip{position:fixed;z-index:500;background:var(--color-paper);border:1px solid var(--color-line);border-radius:var(--r2);padding:14px 18px;pointer-events:none;box-shadow:0 8px 32px rgba(0,0,0,.18);min-width:230px;display:none}
+.tip-name{font-weight:600;font-size:14px;color:var(--color-ink);margin-bottom:2px}
+.tip-zone{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-2);margin-bottom:12px}
+.tip-body{display:flex;align-items:center;gap:14px}
+.tip-img{width:52px;height:52px;border-radius:50%;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.tip-mult{font-size:22px;font-weight:700;color:var(--color-ochre);font-variant-numeric:tabular-nums;line-height:1}
+.tip-gdp{font-size:12px;color:var(--color-ink-2);margin-top:4px}
+
+/* ── Data table ── */
+.data-table-wrap{overflow-x:auto;margin-bottom:var(--sp7)}
+.data-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.data-tbl th{text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-2);padding:6px 12px;border-bottom:2px solid var(--color-line);white-space:nowrap;cursor:pointer;user-select:none}
+.data-tbl th:hover{color:var(--color-ink)}
+.data-tbl th.sort-asc::after{content:' ↑'}
+.data-tbl th.sort-desc::after{content:' ↓'}
+.data-tbl td{padding:7px 12px;border-bottom:1px solid var(--color-grid);color:var(--color-ink);font-variant-numeric:tabular-nums;vertical-align:middle}
+.data-tbl tr:hover td{background:var(--color-grid)}
+.td-zone{display:inline-flex;align-items:center;gap:5px}
+.td-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.td-dot.nam{background:var(--c-nam)}.td-dot.sam{background:var(--c-sam)}
+.td-dot.eur{background:var(--c-eur)}.td-dot.afr{background:var(--c-afr)}
+.td-dot.asi{background:var(--c-asi)}.td-dot.oce{background:var(--c-oce)}
+.td-num{text-align:right}
+.td-bar-wrap{display:flex;align-items:center;gap:6px}
+.td-bar{height:6px;border-radius:3px;background:var(--c-nam);flex-shrink:0}
+.tbl-dl{font-size:11px;color:var(--color-ink-2);margin-top:var(--sp3);display:flex;align-items:center;gap:var(--sp3)}
+.tbl-dl a{color:var(--color-blue);text-decoration:none;border-bottom:1px solid currentColor;opacity:.75;font-size:11px}
+.tbl-dl a:hover{opacity:1}
+
+/* ── Data note ── */
+.data-note{margin-top:var(--sp5);margin-bottom:var(--sp8);padding:var(--sp5);background:var(--color-surface);border:1px solid var(--color-line);border-radius:var(--r2);font-size:12px;line-height:1.75;color:var(--color-ink-2)}
+.data-note strong{color:var(--color-ink)}
+.data-note a{color:var(--color-blue);text-decoration:none;border-bottom:1px solid currentColor;opacity:.75}
+.data-note a:hover{opacity:1}
+.dn-sec{display:block;margin-top:var(--sp3);padding-top:var(--sp3);border-top:1px solid var(--color-grid)}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="brand">
+    <img src="css/image/largenumbers_light.png" class="brand-logo brand-logo--light" alt="largenumbers.in">
+    <img src="css/image/largenumbers_dark.png" class="brand-logo brand-logo--dark" alt="largenumbers.in">
+  </span>
+  <div class="nav-group">
+    <span class="nav-group-label">Government</span>
+    <div class="nav-dropdown">
+      <a href="scams.html">Scams</a>
+      <a href="union-budget.html">Union Budget</a>
+    </div>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">Economics</span>
+    <div class="nav-dropdown">
+      <a href="fii-outflows.html">FPI Flows</a>
+      <a href="gdp-index.html" class="active">Global GDP</a>
+    </div>
+  </div>
+  <a href="about.html">About</a>
+  <span class="spacer"></span>
+  <button id="themeToggle" class="theme-btn">◑ Dark</button>
+</nav>
+
+<div class="page">
+  <div class="viz-header">
+    <div class="viz-header-inner">
+      <div class="viz-header-main">
+        <span class="eyebrow">Economics</span>
+        <h1>Global GDP</h1>
+        <p class="subtitle">Every country's annual output expressed as a multiple of one person's net worth.</p>
+      </div>
+      <aside class="bm-aside">
+        <div class="bm-card">
+          <div class="bm-logo-wrap">
+            <img src="css/image/elon-musk.png" alt="Elon Musk" class="bm-img">
+          </div>
+          <div>
+            <div class="bm-label">The scale: Elon Musk</div>
+            <div class="bm-amt">$432B</div>
+            <div class="bm-meta">Net worth · 31 Dec 2024 · <a href="https://www.bloomberg.com/billionaires/profiles/elon-r-musk/" target="_blank" rel="noopener">Bloomberg ↗</a></div>
+          </div>
+        </div>
+        <p class="bm-why">
+          <strong>Why Elon Musk?</strong> At $432B, his 2024 year-end net worth exceeded the entire GDP of over 150 countries. Using a single person's fortune as a unit of national output makes the scale of the world economy visceral — when the US clocks 68× and Tuvalu a fraction of 1×, the breadth of human economic activity becomes impossible to ignore.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-grp" style="border-bottom:2px solid var(--color-line)">
+      <button class="tab-btn active" data-view="bubble">Bubble Grid</button>
+      <button class="tab-btn" data-view="carto">Cartogram</button>
+      <button class="tab-btn" data-view="table">Data Table</button>
+    </div>
+    <div class="ctrl-grp">
+      <span class="ctrl-lbl">Year</span>
+      <select id="yearSelect" class="yr-sel"></select>
+    </div>
+    <div class="ctrl-grp">
+      <span class="ctrl-lbl">Filter</span>
+      <button class="seg-btn active" data-filter="all">All</button>
+      <button class="seg-btn" data-filter="gt1">&gt;1×</button>
+      <button class="seg-btn" data-filter="lte1">≤1×</button>
+    </div>
+    <span id="loadingMsg" class="loading">Loading…</span>
+  </div>
+
+  <div id="legendRow" class="legend-row"></div>
+  <div id="viz"></div>
+
+  <div class="data-note">
+    <strong>GDP data:</strong> <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD" target="_blank" rel="noopener">World Bank — NY.GDP.MKTP.CD ↗</a>. Nominal GDP in current USD. 2024 data is embedded; earlier years are fetched live.
+    <span class="dn-sec"><strong>Benchmark:</strong> Elon Musk net worth $432B as of 31 December 2024, per <a href="https://www.bloomberg.com/billionaires/profiles/elon-r-musk/" target="_blank" rel="noopener">Bloomberg Billionaires ↗</a>. Highly volatile; used as a fixed contemporaneous yardstick.</span>
+    <span class="dn-sec"><strong>Regions:</strong> Africa zone includes Middle East &amp; North Africa. Asia includes Central Asia. Europe includes Turkey and the Caucasus. Russia placed in Europe.</span>
+  </div>
+</div>
+
+<div id="tip">
+  <div class="tip-name" id="tipName"></div>
+  <div class="tip-zone" id="tipZone"></div>
+  <div class="tip-body">
+    <img src="css/image/elon-musk.png" class="tip-img" alt="">
+    <div>
+      <div class="tip-mult" id="tipMult"></div>
+      <div class="tip-gdp" id="tipGDP"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Benchmark ──────────────────────────────────────────────────────────────
+// Source: Bloomberg Billionaires — https://www.bloomberg.com/billionaires/profiles/elon-r-musk/ (31 Dec 2024)
+const ELON_NW = 432e9; // $432B USD
+
+// ── Zones ──────────────────────────────────────────────────────────────────
+const ZONES = {
+  nam:{label:'North America'},sam:{label:'South America'},
+  eur:{label:'Europe'},     afr:{label:'Africa'},
+  asi:{label:'Asia'},        oce:{label:'Oceania'},
+};
+const ZONE_ORDER = ['nam','sam','eur','afr','asi','oce'];
+
+// ── Country data ── [zone, iso3, name, gdpM, lat, lon]
+const CDATA = [
+  // North America
+  ['nam','USA','United States',29298013,37.09,-95.71],
+  ['nam','CAN','Canada',2270076,56.13,-106.35],
+  ['nam','MEX','Mexico',1830489,23.63,-102.55],
+  ['nam','CUB','Cuba',17000,21.52,-77.78],
+  ['nam','DOM','Dominican Rep.',124282,18.74,-70.16],
+  ['nam','PRI','Puerto Rico',126030,18.22,-66.59],
+  ['nam','GTM','Guatemala',113216,15.78,-90.23],
+  ['nam','CRI','Costa Rica',96716,9.75,-83.75],
+  ['nam','PAN','Panama',86524,8.54,-80.78],
+  ['nam','HTI','Haiti',21547,18.97,-72.29],
+  ['nam','HND','Honduras',35204,15.20,-86.24],
+  ['nam','JAM','Jamaica',20270,18.11,-77.30],
+  ['nam','NIC','Nicaragua',18203,12.87,-85.21],
+  ['nam','SLV','El Salvador',36060,13.79,-88.90],
+  ['nam','TTO','Trinidad & T.',28069,10.69,-61.22],
+  ['nam','BHS','Bahamas',15232,25.03,-77.40],
+  ['nam','BRB','Barbados',6403,13.19,-59.54],
+  ['nam','BLZ','Belize',4118,17.19,-88.50],
+  ['nam','GRD','Grenada',1388,12.26,-61.60],
+  ['nam','ATG','Antigua',2220,17.06,-61.80],
+  ['nam','DMA','Dominica',650,15.41,-61.37],
+  ['nam','KNA','St. Kitts',1147,17.36,-62.78],
+  ['nam','LCA','St. Lucia',2740,13.91,-60.98],
+  ['nam','VCT','St. Vincent',1127,13.25,-61.20],
+  ['nam','BMU','Bermuda',7200,32.32,-64.76],
+  ['nam','CUW','Curaçao',3700,12.17,-68.99],
+  ['nam','ABW','Aruba',3800,12.52,-69.97],
+  ['nam','MTQ','Martinique',9000,14.64,-61.02],
+  ['nam','GLP','Guadeloupe',9100,16.26,-61.55],
+  // South America
+  ['sam','BRA','Brazil',2185822,-14.24,-51.93],
+  ['sam','ARG','Argentina',638365,-38.42,-63.62],
+  ['sam','COL','Colombia',420504,4.57,-74.30],
+  ['sam','CHL','Chile',329261,-35.68,-71.54],
+  ['sam','PER','Peru',291752,-9.19,-75.02],
+  ['sam','VEN','Venezuela',120566,6.42,-66.59],
+  ['sam','ECU','Ecuador',123802,-1.83,-78.18],
+  ['sam','BOL','Bolivia',54881,-16.29,-63.59],
+  ['sam','PRY','Paraguay',44739,-23.44,-58.44],
+  ['sam','URY','Uruguay',82323,-32.52,-55.77],
+  ['sam','GUY','Guyana',16563,4.86,-58.93],
+  ['sam','SUR','Suriname',11104,3.92,-56.03],
+  ['sam','GUF','French Guiana',5600,3.93,-53.13],
+  // Europe
+  ['eur','DEU','Germany',4686490,51.17,10.45],
+  ['eur','GBR','United Kingdom',3696278,55.38,-3.44],
+  ['eur','FRA','France',3160090,46.23,2.21],
+  ['eur','ITA','Italy',2382920,41.87,12.57],
+  ['eur','RUS','Russia',2046470,61.52,105.32],
+  ['eur','ESP','Spain',1763255,40.46,-3.75],
+  ['eur','TUR','Türkiye',1597060,38.96,35.24],
+  ['eur','NLD','Netherlands',1069780,52.13,5.29],
+  ['eur','CHE','Switzerland',905684,46.82,8.23],
+  ['eur','POL','Poland',850720,51.92,19.14],
+  ['eur','BEL','Belgium',650073,50.50,4.47],
+  ['eur','SWE','Sweden',592460,60.13,18.64],
+  ['eur','IRL','Ireland',583280,53.41,-8.24],
+  ['eur','NOR','Norway',567980,60.47,8.47],
+  ['eur','AUT','Austria',528030,47.52,14.55],
+  ['eur','DNK','Denmark',418553,56.26,9.50],
+  ['eur','ROU','Romania',348875,45.94,24.97],
+  ['eur','CZE','Czech Rep.',338127,49.82,15.47],
+  ['eur','PRT','Portugal',287720,39.40,-8.22],
+  ['eur','FIN','Finland',297095,61.92,25.75],
+  ['eur','GRC','Greece',242250,39.07,21.82],
+  ['eur','HUN','Hungary',210365,47.16,19.50],
+  ['eur','UKR','Ukraine',189064,48.38,31.17],
+  ['eur','SVK','Slovakia',131945,48.67,19.70],
+  ['eur','BGR','Bulgaria',105930,42.73,25.49],
+  ['eur','LUX','Luxembourg',88330,49.82,6.13],
+  ['eur','HRV','Croatia',83140,45.10,15.20],
+  ['eur','SRB','Serbia',79845,44.02,21.01],
+  ['eur','AZE','Azerbaijan',75425,40.14,47.58],
+  ['eur','LTU','Lithuania',77695,55.17,23.88],
+  ['eur','SVN','Slovenia',71830,46.15,14.99],
+  ['eur','BLR','Belarus',64410,53.71,27.95],
+  ['eur','LVA','Latvia',45325,56.88,24.60],
+  ['eur','EST','Estonia',41470,58.60,25.01],
+  ['eur','CYP','Cyprus',32240,35.13,33.43],
+  ['eur','ISL','Iceland',30415,64.96,-19.02],
+  ['eur','GEO','Georgia',32525,42.32,43.36],
+  ['eur','BIH','Bosnia',26295,43.92,17.68],
+  ['eur','ARM','Armenia',24325,40.07,45.04],
+  ['eur','ALB','Albania',21545,41.15,20.17],
+  ['eur','MLT','Malta',21865,35.94,14.38],
+  ['eur','MDA','Moldova',15430,47.41,28.37],
+  ['eur','MKD','N. Macedonia',14660,41.61,21.75],
+  ['eur','XKX','Kosovo',10355,42.60,20.90],
+  ['eur','MNE','Montenegro',6990,42.71,19.37],
+  ['eur','LIE','Liechtenstein',7200,47.17,9.56],
+  ['eur','MCO','Monaco',9000,43.75,7.41],
+  ['eur','AND','Andorra',3800,42.55,1.60],
+  ['eur','SMR','San Marino',2100,43.94,12.46],
+  // Africa (incl. MENA)
+  ['afr','SAU','Saudi Arabia',1126666,23.89,45.08],
+  ['afr','ARE','UAE',527797,23.42,53.85],
+  ['afr','ISR','Israel',523145,31.05,34.85],
+  ['afr','IRN','Iran',400000,32.43,53.69],
+  ['afr','NGA','Nigeria',361758,9.08,8.68],
+  ['afr','ZAF','South Africa',373954,-30.56,22.94],
+  ['afr','EGY','Egypt',375533,26.82,30.80],
+  ['afr','IRQ','Iraq',258688,33.22,43.68],
+  ['afr','QAT','Qatar',250386,25.35,51.18],
+  ['afr','DZA','Algeria',229001,28.03,1.66],
+  ['afr','ETH','Ethiopia',163695,9.15,40.49],
+  ['afr','KWT','Kuwait',144534,29.31,47.49],
+  ['afr','MAR','Morocco',148953,31.79,-7.09],
+  ['afr','OMN','Oman',108191,21.47,55.97],
+  ['afr','KEN','Kenya',116535,-0.02,37.91],
+  ['afr','TZA','Tanzania',81555,-6.37,34.89],
+  ['afr','AGO','Angola',84154,-11.20,17.87],
+  ['afr','CIV',"Côte d'Ivoire",78665,7.54,-5.55],
+  ['afr','GHA','Ghana',76534,7.95,-1.02],
+  ['afr','TUN','Tunisia',49499,33.89,9.54],
+  ['afr','CMR','Cameroon',48440,3.85,11.50],
+  ['afr','LBY','Libya',47200,26.34,17.23],
+  ['afr','BHR','Bahrain',44369,26.04,50.55],
+  ['afr','JOR','Jordan',52512,30.59,36.24],
+  ['afr','UGA','Uganda',50655,1.37,32.29],
+  ['afr','ZMB','Zambia',30050,-13.13,27.85],
+  ['afr','SEN','Senegal',28825,14.50,-14.45],
+  ['afr','ZWE','Zimbabwe',35110,-19.02,29.15],
+  ['afr','COD','Congo DR',61210,-4.04,21.76],
+  ['afr','MOZ','Mozambique',19960,-18.67,35.53],
+  ['afr','LBN','Lebanon',17720,33.85,35.86],
+  ['afr','YEM','Yemen',17090,15.55,48.52],
+  ['afr','GAB','Gabon',17100,-0.80,11.61],
+  ['afr','MLI','Mali',19655,17.57,-3.99],
+  ['afr','PSE','Palestine',19000,31.95,35.23],
+  ['afr','BFA','Burkina Faso',19305,12.36,-1.56],
+  ['afr','NER','Niger',16340,17.61,8.08],
+  ['afr','MDG','Madagascar',15155,-18.77,46.87],
+  ['afr','SYR','Syria',12000,34.80,38.99],
+  ['afr','GIN','Guinea',20005,9.95,-11.24],
+  ['afr','BEN','Benin',20835,9.31,2.32],
+  ['afr','MWI','Malawi',13875,-13.25,34.30],
+  ['afr','RWA','Rwanda',14310,-1.94,29.87],
+  ['afr','SOM','Somalia',9920,5.15,46.20],
+  ['afr','TCD','Chad',12390,15.45,18.73],
+  ['afr','COG','Congo Rep.',13310,-0.23,15.83],
+  ['afr','BWA','Botswana',20455,-22.33,24.68],
+  ['afr','SSD','South Sudan',8360,7.87,29.69],
+  ['afr','NAM','Namibia',15640,-22.96,18.49],
+  ['afr','MUS','Mauritius',14615,-20.35,57.55],
+  ['afr','TGO','Togo',10200,8.62,0.82],
+  ['afr','GNQ','Eq. Guinea',12400,1.65,10.27],
+  ['afr','MRT','Mauritania',10010,21.01,-10.94],
+  ['afr','SLE','Sierra Leone',5920,8.46,-11.78],
+  ['afr','LBR','Liberia',4410,6.43,-9.43],
+  ['afr','SWZ','Eswatini',4415,-26.52,31.47],
+  ['afr','DJI','Djibouti',3745,11.83,42.59],
+  ['afr','ERI','Eritrea',2065,15.18,39.78],
+  ['afr','GMB','Gambia',2470,13.44,-15.31],
+  ['afr','LSO','Lesotho',2390,-29.61,28.23],
+  ['afr','CAF','C.A.R.',3020,6.61,20.94],
+  ['afr','SYC','Seychelles',2230,-4.68,55.49],
+  ['afr','GNB','Guinea-Bissau',2200,11.80,-15.18],
+  ['afr','CPV','Cabo Verde',2415,16.54,-23.04],
+  ['afr','COM','Comoros',1610,-11.65,43.33],
+  ['afr','STP','São Tomé',825,0.19,6.61],
+  ['afr','MRU','Mauritania2',10010,20.0,-12.0], // skip dupe
+  // Asia (incl. Central Asia)
+  ['asi','CHN','China',18730000,35.86,104.20],
+  ['asi','JPN','Japan',4190341,36.20,138.25],
+  ['asi','IND','India',3761635,20.59,78.96],
+  ['asi','KOR','South Korea',1872154,35.91,127.77],
+  ['asi','IDN','Indonesia',1446067,-0.79,113.92],
+  ['asi','TWN','Taiwan',752000,23.70,121.00],
+  ['asi','THA','Thailand',565539,15.87,100.99],
+  ['asi','SGP','Singapore',504261,1.35,103.82],
+  ['asi','MYS','Malaysia',441791,4.21,108.00],
+  ['asi','PHL','Philippines',435667,12.88,121.77],
+  ['asi','VNM','Vietnam',468984,14.06,108.28],
+  ['asi','BGD','Bangladesh',421533,23.68,90.36],
+  ['asi','HKG','Hong Kong',383946,22.40,114.11],
+  ['asi','PAK','Pakistan',363697,30.38,69.35],
+  ['asi','KAZ','Kazakhstan',295736,48.02,66.92],
+  ['asi','MMR','Myanmar',70800,21.92,95.96],
+  ['asi','LKA','Sri Lanka',88702,7.87,80.77],
+  ['asi','UZB','Uzbekistan',101758,41.38,64.59],
+  ['asi','NPL','Nepal',43869,28.39,84.12],
+  ['asi','KHM','Cambodia',31988,12.57,104.99],
+  ['asi','MNG','Mongolia',22408,46.86,103.85],
+  ['asi','LAO','Lao PDR',16247,19.86,102.50],
+  ['asi','AFG','Afghanistan',14795,33.93,67.71],
+  ['asi','BTN','Bhutan',3060,27.51,90.43],
+  ['asi','MDV','Maldives',7701,3.20,73.22],
+  ['asi','TLS','Timor-Leste',2628,-8.87,125.73],
+  ['asi','KGZ','Kyrgyzstan',13265,41.20,74.77],
+  ['asi','TJK','Tajikistan',12070,38.86,71.28],
+  ['asi','TKM','Turkmenistan',60000,38.97,59.56],
+  // Oceania
+  ['oce','AUS','Australia',1799347,-25.27,133.78],
+  ['oce','NZL','New Zealand',253459,-40.90,174.89],
+  ['oce','PNG','Papua N.G.',31155,-6.31,143.96],
+  ['oce','FJI','Fiji',5489,-17.71,178.07],
+  ['oce','WSM','Samoa',1010,-13.76,188.00],
+  ['oce','VUT','Vanuatu',1098,-15.38,166.96],
+  ['oce','SLB','Solomon Is.',1763,-9.65,160.16],
+  ['oce','KIR','Kiribati',285,1.87,173.00],
+  ['oce','MHL','Marshall Is.',260,7.13,171.18],
+  ['oce','FSM','Micronesia',467,6.92,158.19],
+  ['oce','PLW','Palau',280,7.52,134.58],
+  ['oce','TUV','Tuvalu',50,-7.11,177.65],
+  ['oce','NRU','Nauru',160,-0.52,166.93],
+];
+
+// Remove the accidental MRU dupe entry
+const CDATA_CLEAN = CDATA.filter(d => d[1] !== 'MRU');
+
+const AGGREGATES = new Set(['WLD','HIC','LMC','MIC','LIC','UMC','LMY','OED','ECS','ECA','LAC','LCN',
+  'MNA','MEA','SAS','SSA','SSF','EAP','EAS','NAC','INX','IBD','IBT','IDB','IDX','TSA','TSS',
+  'EMU','EUU','FCS','HPC','PRE','PST','PSS','LTE','EAR','ARB','CEB','TLA','TEC','TMN','IDA',
+  'AFE','AFW','ZAR','ZAS','ZTJ','ZMQ','CSS','FCV','LDC']);
+
+const ZONE_OF = {}, NAME_OF = {};
+CDATA_CLEAN.forEach(([z,iso,name]) => { ZONE_OF[iso]=z; NAME_OF[iso]=name; });
+
+// ── State ──────────────────────────────────────────────────────────────────
+const state = { year:2024, view:'bubble', filter:'all', zone:null };
+let currentData = null;
+let gridCache = null; // cached cartogram positions
+
+// ── Formatting ─────────────────────────────────────────────────────────────
+function fmtGDP(usd) {
+  if (usd >= 1e12) return '$' + (usd/1e12).toFixed(2) + 'T';
+  if (usd >= 1e9)  return '$' + (usd/1e9).toFixed(0) + 'B';
+  return '$' + (usd/1e6).toFixed(0) + 'M';
+}
+function fmtX(mult) { // always decimal ×
+  if (mult >= 100) return Math.round(mult) + '×';
+  if (mult >= 10)  return mult.toFixed(0) + '×';
+  if (mult >= 1)   return mult.toFixed(1) + '×';
+  if (mult >= 0.1) return mult.toFixed(2) + '×';
+  return mult.toFixed(3) + '×';
+}
+function fmtXTile(mult) { // compact for small tiles
+  if (mult >= 100) return Math.round(mult) + '×';
+  if (mult >= 10)  return mult.toFixed(0) + '×';
+  if (mult >= 1)   return mult.toFixed(1) + '×';
+  return mult.toFixed(2) + '×';
+}
+function fmtXLong(mult) {
+  return fmtX(mult) + ' Elon';
+}
+
+// ── Year selector ──────────────────────────────────────────────────────────
+const yearSel = document.getElementById('yearSelect');
+for (let y = 2024; y >= 2000; y--) {
+  const o = document.createElement('option');
+  o.value = y; o.textContent = y;
+  if (y === 2024) o.selected = true;
+  yearSel.appendChild(o);
+}
+yearSel.addEventListener('change', () => { state.year = +yearSel.value; gridCache = null; loadAndRender(); });
+
+// ── Toggle handlers ────────────────────────────────────────────────────────
+document.querySelectorAll('[data-view]').forEach(b =>
+  b.addEventListener('click', () => {
+    document.querySelectorAll('[data-view]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    state.view = b.dataset.view;
+    state.zone = null; // reset zone filter when switching views
+    render(currentData);
+  })
+);
+document.querySelectorAll('[data-filter]').forEach(b =>
+  b.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    state.filter = b.dataset.filter;
+    render(currentData);
+  })
+);
+
+// ── Data ───────────────────────────────────────────────────────────────────
+function buildFromEmbed() {
+  const m = {};
+  CDATA_CLEAN.forEach(([z,iso,name,gdpM,lat,lon]) => {
+    m[iso] = { iso3:iso, name, gdp:gdpM*1e6, zone:z, lat, lon };
+  });
+  return m;
+}
+function buildFromAPI(rows) {
+  const m = {};
+  for (const r of rows) {
+    const iso3 = r.countryiso3code;
+    if (!iso3 || iso3.length !== 3 || AGGREGATES.has(iso3)) continue;
+    if (r.value == null) continue;
+    const zone = ZONE_OF[iso3]; if (!zone) continue;
+    const orig = CDATA_CLEAN.find(d => d[1] === iso3);
+    m[iso3] = { iso3, name:NAME_OF[iso3]||r.country.value, gdp:r.value, zone, lat:orig?orig[4]:0, lon:orig?orig[5]:0 };
+  }
+  return m;
+}
+async function loadAndRender() {
+  if (state.year === 2024) { currentData = buildFromEmbed(); render(currentData); return; }
+  document.getElementById('loadingMsg').style.display = 'block';
+  try {
+    const res = await fetch(`https://api.worldbank.org/v2/country/all/indicator/NY.GDP.MKTP.CD?date=${state.year}&format=json&per_page=300`);
+    currentData = buildFromAPI((await res.json())[1]);
+  } catch(e) { document.getElementById('loadingMsg').textContent = 'Error.'; return; }
+  document.getElementById('loadingMsg').style.display = 'none';
+  render(currentData);
+}
+
+// ── Filter ─────────────────────────────────────────────────────────────────
+function applyFilter(arr) {
+  let out = state.zone ? arr.filter(c => c.zone === state.zone) : arr;
+  if (state.filter === 'gt1')  return out.filter(c => c.gdp >= ELON_NW);
+  if (state.filter === 'lte1') return out.filter(c => c.gdp < ELON_NW);
+  return out;
+}
+
+// ── Legend row ─────────────────────────────────────────────────────────────
+function renderLegend(data, showZones) {
+  const row = document.getElementById('legendRow');
+  if (!showZones) { row.innerHTML = ''; return; }
+  // Count using zone-agnostic filter so counts reflect the multiplier filter only
+  const savedZone = state.zone;
+  state.zone = null;
+  let html = '';
+  for (const zk of ZONE_ORDER) {
+    const all = Object.values(data).filter(c => c.zone === zk);
+    const shown = applyFilter(all);
+    const isActive = savedZone === zk;
+    html += `<span class="lg-item${isActive ? ' zone-active' : ''}" data-zone="${zk}" title="Click to filter by ${ZONES[zk].label}; click again to clear">
+      <span class="lg-dot ${zk}"></span>
+      ${ZONES[zk].label}
+      <span class="ct">${shown.length}/${all.length}</span>
+    </span>`;
+  }
+  state.zone = savedZone;
+  row.innerHTML = html;
+  row.addEventListener('click', e => {
+    const item = e.target.closest('.lg-item[data-zone]');
+    if (!item) return;
+    state.zone = state.zone === item.dataset.zone ? null : item.dataset.zone;
+    render(currentData);
+  });
+}
+
+// ── Bubble Grid ────────────────────────────────────────────────────────────
+function renderBubble(data) {
+  // Build flat sorted list: continent-grouped, GDP desc within
+  let all = [];
+  for (const zk of ZONE_ORDER) {
+    const zc = Object.values(data).filter(c => c.zone === zk).sort((a,b) => b.gdp - a.gdp);
+    all = all.concat(zc);
+  }
+  const shown = applyFilter(all);
+
+  let html = '<div class="bubble-wrap"><div class="bubble-flat">';
+  for (const c of shown) {
+    const mult = c.gdp / ELON_NW;
+    html += `<div class="bbl ${c.zone}"
+      data-iso="${c.iso3}" data-name="${c.name.replace(/"/g,'&quot;')}"
+      data-zone="${c.zone}" data-mult="${mult}" data-gdp="${c.gdp}">
+      <span class="b-iso">${c.iso3}</span>
+      <span class="b-x">${fmtXTile(mult)}</span>
+    </div>`;
+  }
+  html += '</div></div>';
+  document.getElementById('viz').innerHTML = html;
+
+  const viz = document.getElementById('viz');
+  viz.addEventListener('mouseover', e => {
+    const b = e.target.closest('.bbl');
+    if (b) showTip(b.dataset.name, b.dataset.zone, +b.dataset.mult, +b.dataset.gdp, e);
+  });
+  viz.addEventListener('mouseout', e => { if (e.target.closest('.bbl')) hideTip(); });
+  viz.addEventListener('mousemove', e => { if (e.target.closest('.bbl')) moveTip(e); });
+}
+
+// ── Cartogram ──────────────────────────────────────────────────────────────
+const CG_W = 26, CG_H = 12;
+
+function buildGridPositions(countries) {
+  const grid = new Map();
+  const pos = {};
+  const sorted = [...countries].sort((a,b) => b.gdp - a.gdp);
+  for (const c of sorted) {
+    let r0 = Math.round((90 - c.lat) / 180 * (CG_H - 1));
+    let c0 = Math.round(((c.lon > 180 ? c.lon - 360 : c.lon) + 180) / 360 * (CG_W - 1));
+    r0 = Math.max(0, Math.min(CG_H-1, r0));
+    c0 = Math.max(0, Math.min(CG_W-1, c0));
+    let placed = false;
+    for (let radius = 0; radius <= Math.max(CG_W, CG_H) && !placed; radius++) {
+      for (let dr = -radius; dr <= radius && !placed; dr++) {
+        for (let dc = -radius; dc <= radius && !placed; dc++) {
+          if (radius > 0 && Math.abs(dr) < radius && Math.abs(dc) < radius) continue;
+          const nr = r0 + dr, nc = c0 + dc;
+          if (nr < 0 || nr >= CG_H || nc < 0 || nc >= CG_W) continue;
+          const key = `${nr},${nc}`;
+          if (!grid.has(key)) { grid.set(key, c.iso3); pos[c.iso3] = [nr, nc]; placed = true; }
+        }
+      }
+    }
+  }
+  return pos;
+}
+
+function isDarkMode() {
+  const t = document.documentElement.getAttribute('data-theme');
+  if (t === 'dark') return true;
+  if (t === 'light') return false;
+  return window.matchMedia('(prefers-color-scheme:dark)').matches;
+}
+
+function heatColor(t) {
+  if (isDarkMode()) {
+    // Dark: nearly-transparent tint → bright ochre-yellow
+    const r = Math.round(2   + t * (237-2));
+    const g = Math.round(1   + t * (195-1));
+    const b = Math.round(34  + t * (80-34));
+    return `rgb(${r},${g},${b})`;
+  } else {
+    // Light: pale green → dark ink green
+    const r = Math.round(232 + t * (26-232));
+    const g = Math.round(248 + t * (55-248));
+    const b = Math.round(226 + t * (16-226));
+    return `rgb(${r},${g},${b})`;
+  }
+}
+
+function heatTextColor(t) {
+  return isDarkMode() ? (t > 0.65 ? 'rgba(2,1,34,0.9)' : 'rgba(242,243,174,0.85)') :
+                        (t > 0.55 ? '#fff' : 'rgba(30,55,22,0.85)');
+}
+
+function renderCarto(data) {
+  // Build or reuse grid positions
+  if (!gridCache) {
+    gridCache = buildGridPositions(Object.values(data));
+  }
+  const pos = gridCache;
+
+  const shown = new Set(applyFilter(Object.values(data)).map(c => c.iso3));
+  const gdps = Object.values(data).map(c => c.gdp).filter(v => v > 0);
+  const minL = Math.log10(Math.min(...gdps));
+  const maxL = Math.log10(Math.max(...gdps));
+
+  const cells = new Map();
+  for (const c of Object.values(data)) {
+    const p = pos[c.iso3];
+    if (p) cells.set(`${p[0]},${p[1]}`, c);
+  }
+
+  // Build gradient for legend
+  const gradStops = [];
+  for (let i = 0; i <= 10; i++) {
+    gradStops.push(heatColor(i/10));
+  }
+  const gradCSS = `linear-gradient(to right,${gradStops.join(',')})`;
+
+  let grid = '';
+  for (let r = 0; r < CG_H; r++) {
+    for (let c = 0; c < CG_W; c++) {
+      const country = cells.get(`${r},${c}`);
+      if (country) {
+        const t = (Math.log10(country.gdp) - minL) / (maxL - minL);
+        const bg = heatColor(t);
+        const tc = heatTextColor(t);
+        const mult = country.gdp / ELON_NW;
+        const dimmed = !shown.has(country.iso3);
+        grid += `<div class="cc occ" style="background:${bg};color:${tc};opacity:${dimmed?0.18:1}"
+          data-iso="${country.iso3}" data-name="${country.name.replace(/"/g,'&quot;')}"
+          data-zone="${country.zone}" data-mult="${mult}" data-gdp="${country.gdp}">
+          <span class="cc-mult">${fmtXTile(mult)}</span>
+        </div>`;
+      } else {
+        grid += `<div class="cc emp"></div>`;
+      }
+    }
+  }
+
+  const html = `
+    <div class="carto-wrap">
+      <div class="carto-grid" style="grid-template-columns:repeat(${CG_W},1fr);grid-template-rows:repeat(${CG_H},1fr);aspect-ratio:${CG_W}/${CG_H}">
+        ${grid}
+      </div>
+      <div class="heat-legend">
+        <span class="hl-lo">Smaller</span>
+        <div class="hl-bar" style="background:${gradCSS}"></div>
+        <span class="hl-hi">Larger</span>
+        <span style="font-size:10px;color:var(--color-ink-3);margin-left:var(--sp3)">GDP magnitude</span>
+      </div>
+    </div>`;
+
+  document.getElementById('viz').innerHTML = html;
+
+  // Font size: responsive to tile size
+  function setFontSize() {
+    const grid = document.querySelector('.carto-grid');
+    if (!grid) return;
+    const cellW = grid.getBoundingClientRect().width / CG_W;
+    const fs = Math.max(6, Math.min(10, cellW * 0.18));
+    document.querySelectorAll('.cc-mult').forEach(el => el.style.fontSize = fs + 'px');
+  }
+  setFontSize();
+  window.addEventListener('resize', setFontSize, { once: true });
+
+  const wrap = document.querySelector('.carto-wrap');
+  wrap.addEventListener('mouseover', e => {
+    const c = e.target.closest('.occ');
+    if (c) showTip(c.dataset.name, c.dataset.zone, +c.dataset.mult, +c.dataset.gdp, e);
+  });
+  wrap.addEventListener('mouseout', e => { if (e.target.closest('.occ')) hideTip(); });
+  wrap.addEventListener('mousemove', e => { if (e.target.closest('.occ')) moveTip(e); });
+}
+
+// ── Data Table ─────────────────────────────────────────────────────────────
+let tableSort = { col: 'gdp', dir: -1 }; // -1 = desc
+
+function renderTable(data) {
+  const all = Object.values(data);
+  const shown = applyFilter(all);
+  const maxGDP = Math.max(...shown.map(c => c.gdp));
+
+  const cols = [
+    { key: 'rank',  label: '#',           numeric: true },
+    { key: 'iso3',  label: 'ISO',         numeric: false },
+    { key: 'name',  label: 'Country',     numeric: false },
+    { key: 'zone',  label: 'Region',      numeric: false },
+    { key: 'gdp',   label: 'GDP (USD)',   numeric: true },
+    { key: 'mult',  label: 'Elon ×',      numeric: true },
+  ];
+
+  const sorted = [...shown].sort((a,b) => {
+    const c = tableSort.col;
+    let va = c === 'mult' ? a.gdp / ELON_NW : c === 'rank' ? a.gdp : a[c];
+    let vb = c === 'mult' ? b.gdp / ELON_NW : c === 'rank' ? b.gdp : b[c];
+    if (typeof va === 'string') return tableSort.dir * va.localeCompare(vb);
+    return tableSort.dir * (va - vb);
+  });
+
+  const thHTML = cols.map(c => {
+    const cls = tableSort.col === c.key || (c.key === 'rank' && tableSort.col === 'rank')
+      ? (tableSort.dir === -1 ? 'sort-desc' : 'sort-asc') : '';
+    return `<th data-col="${c.key}" class="${cls}" style="${c.numeric?'text-align:right':''}">${c.label}</th>`;
+  }).join('');
+
+  const rows = sorted.map((c, i) => {
+    const mult = c.gdp / ELON_NW;
+    const barW = Math.max(2, Math.round((c.gdp / maxGDP) * 80));
+    const zoneColor = `var(--c-${c.zone})`;
+    return `<tr>
+      <td class="td-num">${i+1}</td>
+      <td style="font-weight:600;letter-spacing:.04em">${c.iso3}</td>
+      <td>${c.name}</td>
+      <td><span class="td-zone"><span class="td-dot ${c.zone}"></span>${ZONES[c.zone]?.label||c.zone}</span></td>
+      <td class="td-num"><div class="td-bar-wrap" style="justify-content:flex-end">
+        <div class="td-bar" style="width:${barW}px;background:${zoneColor}"></div>
+        ${fmtGDP(c.gdp)}
+      </div></td>
+      <td class="td-num" style="color:var(--color-ochre);font-weight:600">${fmtX(mult)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('viz').innerHTML = `
+    <div class="data-table-wrap">
+      <table class="data-tbl">
+        <thead><tr>${thHTML}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="tbl-dl">
+        <span>${shown.length} countries shown</span>
+        <span>·</span>
+        <a href="data/gdp-world.json" download>Download gdp-world.json ↓</a>
+        <span>·</span>
+        Source: <a href="https://data.worldbank.org/indicator/NY.GDP.MKTP.CD" target="_blank" rel="noopener">World Bank NY.GDP.MKTP.CD ↗</a>
+      </div>
+    </div>`;
+
+  document.querySelector('.data-tbl thead').addEventListener('click', e => {
+    const th = e.target.closest('th[data-col]');
+    if (!th) return;
+    const col = th.dataset.col;
+    if (tableSort.col === col) tableSort.dir *= -1;
+    else { tableSort.col = col; tableSort.dir = col === 'name' || col === 'iso3' || col === 'zone' ? 1 : -1; }
+    renderTable(data);
+  });
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function render(data) {
+  if (!data) return;
+  const showLegend = state.view === 'bubble';
+  renderLegend(data, showLegend);
+  if (state.view === 'bubble') renderBubble(data);
+  else if (state.view === 'carto') renderCarto(data);
+  else renderTable(data);
+}
+
+// ── Tooltip ────────────────────────────────────────────────────────────────
+const tip = document.getElementById('tip');
+function showTip(name, zone, mult, gdp, e) {
+  document.getElementById('tipName').textContent = name;
+  document.getElementById('tipZone').textContent = ZONES[zone]?.label || zone;
+  document.getElementById('tipMult').textContent = fmtXLong(mult);
+  document.getElementById('tipGDP').textContent = fmtGDP(gdp);
+  tip.style.display = 'block';
+  moveTip(e);
+}
+function moveTip(e) {
+  const x = e.clientX + 14, y = e.clientY - 10;
+  tip.style.left = (x + 200 > window.innerWidth ? e.clientX - 215 : x) + 'px';
+  tip.style.top  = (y + 100 > window.innerHeight ? e.clientY - 105 : y) + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+
+// ── Theme toggle ───────────────────────────────────────────────────────────
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '◑ Light' : '◑ Dark';
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '◑ Light' : '◑ Dark';
+  try { sessionStorage.setItem('ln-theme', next); } catch(e) {}
+  render(currentData);
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────
+currentData = buildFromEmbed();
+render(currentData);
+</script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
+</body>
+</html>

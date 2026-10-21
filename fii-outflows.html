@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPI Net Flows — largenumbers.in</title>
+<meta name="description" content="26 years of Foreign Portfolio Investor net flows into India, contextualised by Apollo Hospitals market cap.">
+<script>try{var t=sessionStorage.getItem('ln-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-paper: #F7FAF6;
+  --color-surface: #EBF5E8;
+  --color-ink: #2F4B26;
+  --color-ink-muted: rgba(47,75,38,0.55);
+  --color-grid: rgba(47,75,38,0.1);
+  --color-outline: rgba(47,75,38,0.25);
+  --color-ochre: #8A5A08;
+  --color-blue: #1A5A9E;
+  --color-red: #B02D12;
+  --color-green: #1D6840;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-ui: Inter, "Helvetica Neue", Arial, sans-serif;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+  --space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;
+  --radius-sm:4px;--radius-md:8px;
+  --border-thin:1px solid var(--color-grid);
+  --page-gutter:clamp(16px,3vw,48px);
+  --chart-grid: rgba(47,75,38,0.09);
+  --yaxis-spine: rgba(47,75,38,0.35);
+  --yaxis-label: rgba(47,75,38,0.5);
+}
+html[data-theme="dark"] {
+  --color-paper: #020122;
+  --color-surface: #0A0935;
+  --color-ink: #F2F3AE;
+  --color-ink-muted: rgba(242,243,174,0.5);
+  --color-grid: rgba(242,243,174,0.1);
+  --color-outline: rgba(242,243,174,0.22);
+  --color-ochre: #EDD382;
+  --color-blue: #FC9E4F;
+  --color-red: #FF521B;
+  --color-green: #6BCB8A;
+  --chart-grid: rgba(242,243,174,0.1);
+  --yaxis-spine: rgba(242,243,174,0.4);
+  --yaxis-label: rgba(242,243,174,0.4);
+}
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --color-paper:#020122;--color-surface:#0A0935;--color-ink:#F2F3AE;
+    --color-ink-muted:rgba(242,243,174,0.5);--color-grid:rgba(242,243,174,0.1);
+    --color-outline:rgba(242,243,174,0.22);--color-ochre:#EDD382;
+    --color-blue:#FC9E4F;--color-red:#FF521B;--color-green:#6BCB8A;
+    --chart-grid:rgba(242,243,174,0.1);--yaxis-spine:rgba(242,243,174,0.4);
+    --yaxis-label:rgba(242,243,174,0.4);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--color-paper);color:var(--color-ink);font-family:var(--font-ui)}
+body{margin:0;font-size:16px;line-height:1.5}
+.page{max-width:1440px;margin-inline:auto;padding:0 var(--page-gutter)}
+
+/* Nav */
+.site-nav{position:sticky;top:0;z-index:100;background:var(--color-paper);border-bottom:var(--border-thin);padding:var(--space-3) var(--page-gutter);display:flex;align-items:center;gap:var(--space-5)}
+.site-nav .brand{display:inline-flex;align-items:center;text-decoration:none}
+.brand-logo{height:32px;width:auto;display:block}
+.brand-logo--dark{display:none}
+html[data-theme="dark"] .brand-logo--light{display:none}
+html[data-theme="dark"] .brand-logo--dark{display:block}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand-logo--light{display:none}:root:not([data-theme="light"]) .brand-logo--dark{display:block}}
+.site-nav a{color:var(--color-ink-muted);text-decoration:none;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.site-nav a.active,.site-nav a:hover{color:var(--color-ink)}
+.site-nav .spacer{flex:1}
+.nav-group{position:relative;display:flex;align-items:center}
+.nav-group-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);cursor:default;padding:4px 0;display:flex;align-items:center;gap:4px}
+.nav-group-label::after{content:'▾';font-size:8px;opacity:.6}
+.nav-group:hover .nav-group-label{color:var(--color-ink)}
+.nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:var(--border-thin);border-radius:var(--radius-md);padding:6px 0;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200}
+.nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
+.nav-group:hover .nav-dropdown{display:block}
+.nav-dropdown a{display:block;padding:12px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);text-decoration:none;white-space:nowrap}
+.nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
+.nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
+.theme-toggle{background:none;border:var(--border-thin);border-radius:var(--radius-sm);padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-ui);color:var(--color-ink-muted);letter-spacing:.04em;transition:color .15s,background .15s}
+.theme-toggle:hover{color:var(--color-ink);background:var(--color-grid)}
+
+/* Header */
+.viz-header{padding:var(--space-7) 0 var(--space-5);margin-bottom:var(--space-5)}
+.viz-header-inner{display:flex;align-items:flex-start;gap:var(--space-6)}
+.viz-header-main{flex:1;min-width:0}
+.benchmark-aside{flex-shrink:0;width:380px}
+@media(max-width:780px){.viz-header-inner{flex-direction:column}.benchmark-aside{width:100%}}
+.eyebrow{display:inline-block;background:var(--color-ochre);color:var(--color-paper);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 11px;border-radius:100px;margin-bottom:var(--space-4)}
+.viz-header h1{font-family:var(--font-display);font-size:clamp(48px,8vw,96px);font-weight:600;margin:0 0 var(--space-4);letter-spacing:-.03em;line-height:.9;color:var(--color-ink)}
+.viz-header .subtitle{font-size:14px;color:var(--color-ink-muted);margin:0;max-width:56ch;line-height:1.7}
+.benchmark-block{display:flex;align-items:flex-start;gap:var(--space-3);background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-3)}
+.benchmark-logo-wrap{flex-shrink:0;width:56px;display:flex;align-items:center;justify-content:center}
+.benchmark-logo{width:48px;height:auto;border-radius:var(--radius-sm);object-fit:contain}
+.benchmark-name{font-size:13px;font-weight:600;color:var(--color-ink);margin-bottom:3px}
+.benchmark-amount{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--color-ochre);font-variant-numeric:tabular-nums;line-height:1.1;margin-bottom:2px}
+.benchmark-label{font-size:11px;color:var(--color-ink-muted);line-height:1.5}
+.benchmark-why{font-size:12px;color:var(--color-ink-muted);line-height:1.6;padding:var(--space-3) var(--space-4);background:var(--color-grid);border-radius:var(--radius-sm);border-left:3px solid var(--color-ochre)}
+
+/* Controls */
+.controls-bar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3) var(--space-5);padding:var(--space-4) 0;border-top:var(--border-thin);border-bottom:var(--border-thin);margin-bottom:var(--space-5)}
+.control-group{display:flex;align-items:center;gap:var(--space-2)}
+.control-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--color-ink-muted);white-space:nowrap}
+.seg-btn{background:none;border:var(--border-thin);border-radius:var(--radius-sm);padding:4px 12px;cursor:pointer;font-size:11px;font-family:var(--font-ui);color:var(--color-ink-muted);letter-spacing:.03em;font-weight:500;transition:all .15s;white-space:nowrap}
+.seg-btn:hover{color:var(--color-ink);background:var(--color-grid)}
+.seg-btn.active{background:var(--color-ink);color:var(--color-paper);border-color:var(--color-ink)}
+
+/* Chart frame */
+.chart-wrap{margin:0 calc(-1 * var(--page-gutter));position:relative}
+.chart-frame{display:flex;align-items:flex-start}
+.chart-yaxis{flex-shrink:0;display:block;overflow:visible}
+.chart-scroll-outer{overflow-x:auto;overflow-y:visible;flex:1;padding:0 var(--page-gutter) var(--space-4) 0;scrollbar-width:thin;scrollbar-color:var(--color-grid) transparent}
+.chart-scroll-outer::-webkit-scrollbar{height:4px}
+.chart-scroll-outer::-webkit-scrollbar-thumb{background:var(--color-grid);border-radius:2px}
+.chart-inner{display:block;overflow:visible}
+
+/* Tooltip */
+.fpi-tooltip{position:fixed;pointer-events:none;z-index:300;background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);font-size:12px;line-height:1.6;box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:220px;display:none}
+.fpi-tooltip.visible{display:block}
+.fpi-tooltip strong{font-size:13px;display:block;margin-bottom:4px;color:var(--color-ink)}
+.fpi-tooltip .tip-row{display:flex;justify-content:space-between;gap:12px}
+.fpi-tooltip .tip-val{font-variant-numeric:tabular-nums;font-weight:600}
+.fpi-tooltip .tip-val.pos{color:var(--color-green)}
+.fpi-tooltip .tip-val.neg{color:var(--color-red)}
+
+/* Data note */
+.data-note{margin-top:var(--space-7);padding:var(--space-5);background:var(--color-surface);border:var(--border-thin);border-radius:var(--radius-md);font-size:12px;line-height:1.7;color:var(--color-ink-muted)}
+.data-note strong{color:var(--color-ink)}
+.data-note a{color:var(--color-blue);text-decoration:none;border-bottom:1px solid currentColor;opacity:.8}
+.data-note a:hover{opacity:1}
+.data-note-section{margin-top:var(--space-3);padding-top:var(--space-3);border-top:var(--border-thin)}
+
+/* Year event labels */
+.event-label{font-size:9px;fill:currentColor;opacity:.55;pointer-events:none;dominant-baseline:auto}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <span class="brand">
+    <img src="css/image/largenumbers_light.png" class="brand-logo brand-logo--light" alt="largenumbers.in">
+    <img src="css/image/largenumbers_dark.png" class="brand-logo brand-logo--dark" alt="largenumbers.in">
+  </span>
+  <div class="nav-group">
+    <span class="nav-group-label">Government</span>
+    <div class="nav-dropdown">
+      <a href="scams.html">Scams</a>
+      <a href="union-budget.html">Union Budget</a>
+    </div>
+  </div>
+  <div class="nav-group">
+    <span class="nav-group-label">Economics</span>
+    <div class="nav-dropdown">
+      <a href="fii-outflows.html" class="active">FPI Flows</a>
+      <a href="gdp-index.html">GDP Index</a>
+    </div>
+  </div>
+  <a href="about.html">About</a>
+  <span class="spacer"></span>
+  <button id="themeToggle" class="theme-toggle" aria-label="Switch colour theme">◑ Dark</button>
+</nav>
+
+<div class="page">
+  <div class="viz-header">
+    <div class="viz-header-inner">
+      <div class="viz-header-main">
+        <span class="eyebrow">Economics</span>
+        <h1>FPI Net Flows</h1>
+        <p class="subtitle">Foreign Portfolio Investor net investment in India, 2000–2025. Each bar is one month (or year). Green = inflow, red = outflow.</p>
+      </div>
+      <aside class="benchmark-aside">
+        <div class="benchmark-block">
+          <div class="benchmark-logo-wrap">
+            <img src="css/image/APOLLOHOSP.png" alt="Apollo Hospitals" class="benchmark-logo">
+          </div>
+          <div>
+            <div class="benchmark-name">The scale: Apollo Hospitals</div>
+            <div class="benchmark-amount">₹1,02,665 cr</div>
+            <div class="benchmark-label">Market cap · 2 January 2026 (NSE: APOLLOHOSP)<br>Used as a fixed benchmark across all years.</div>
+          </div>
+        </div>
+        <p class="benchmark-why">
+          <strong>Why Apollo?</strong> It is India's largest standalone hospital chain by market capitalisation — a number most readers intuitively grasp. At ~₹1 lakh crore, it is large enough to feel substantial, yet small enough that even large FPI flow events run into meaningful multiples, making the comparison easy to feel.
+        </p>
+      </aside>
+    </div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="control-group">
+      <span class="control-label">Segment</span>
+      <button class="seg-btn active" data-ctrl="seg" data-val="total">Total</button>
+      <button class="seg-btn" data-ctrl="seg" data-val="equity">Equity</button>
+      <button class="seg-btn" data-ctrl="seg" data-val="debt">Debt</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Period</span>
+      <button class="seg-btn active" data-ctrl="period" data-val="annual">Annual</button>
+      <button class="seg-btn" data-ctrl="period" data-val="monthly">Monthly</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Value</span>
+      <button class="seg-btn active" data-ctrl="adj" data-val="nominal">Nominal</button>
+      <button class="seg-btn" data-ctrl="adj" data-val="real">Real 2025</button>
+    </div>
+    <div class="control-group">
+      <span class="control-label">Scale</span>
+      <button class="seg-btn" data-ctrl="scale" data-val="abs">₹ Crore</button>
+      <button class="seg-btn active" data-ctrl="scale" data-val="apollo">× Apollo</button>
+      <button class="seg-btn" data-ctrl="scale" data-val="nifty">% NSE MC</button>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-frame">
+      <svg id="yaxis" class="chart-yaxis" width="72" height="400"></svg>
+      <div class="chart-scroll-outer" id="chartScrollOuter">
+        <svg id="chartMain" class="chart-inner"></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="fpi-tooltip" id="tooltip"></div>
+
+  <div class="data-note">
+    <strong>Data:</strong>
+    <a href="https://www.fpi.nsdl.co.in/web/Reports/Yearwise.aspx?RptType=6" target="_blank" rel="noopener">NSDL FPI Investment Reports ↗</a> (2002–2025, calendar year) and
+    <a href="https://www.sebi.gov.in/statistics/fpi-investment/archive/" target="_blank" rel="noopener">SEBI FPI Archive ↗</a> (2000–2001).
+    Net investment = gross purchases minus gross sales; inflow/outflow refers to the net position.
+    Equity and Debt are sub-segments; Debt includes General Limit, VRR, and FAR categories (post-2014).
+    <span class="data-note-section">
+      <strong>Real 2025 adjustment:</strong> Uses CPI (base 2011–12 = 100) to deflate to 2025–26 prices. CPI base ≈ 220 (2025–26) vs annual CPI for each year. Source:
+      <a href="https://data.rbi.org.in" target="_blank" rel="noopener">RBI Handbook ↗</a> / MOSPI.
+      Deflation captures how much larger the flows were in real purchasing-power terms relative to today.
+    </span>
+    <span class="data-note-section">
+      <strong>Apollo benchmark:</strong> ₹1,02,665 crore = NSE closing price ₹7,129.50 × ~14.4 crore shares on 2 January 2026. Fixed across all years for comparability — this is a contemporaneous yardstick, not historical Apollo size.
+    </span>
+    <span class="data-note-section">
+      <strong>% NSE market cap:</strong> FPI net flow as a share of total NSE listed-company market cap for that year (December year-end). Market cap data: <a href="https://dbie.rbihub.in/statistics?table=financial_markets.r1351_market_capitalisation_nse" target="_blank" rel="noopener">RBI DBIE — Market Capitalisation, NSE (Table R1351) ↗</a>.
+      <strong>Verify all figures against NSDL, SEBI and RBI before publication.</strong>
+    </span>
+  </div>
+</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+const APOLLO = 102665;
+const CPI_BASE = 220;
+const CPI = {
+  2000:38.0,2001:39.6,2002:41.4,2003:43.3,2004:45.4,
+  2005:47.4,2006:51.1,2007:55.5,2008:61.3,2009:69.2,
+  2010:75.2,2011:83.5,2012:93.0,2013:103.0,2014:112.0,
+  2015:119.0,2016:128.0,2017:136.0,2018:144.0,2019:149.0,
+  2020:152.0,2021:158.0,2022:168.0,2023:177.0,2024:186.0,
+  2025:198.0
+};
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Monthly records: [year, month, equity, debt, total]
+const RAW = [
+  [2000,1,151,45,196],
+  [2000,2,2784,300,3084],
+  [2000,3,1064,134,1199],
+  [2000,4,2691,-104,2587],
+  [2000,5,484,-231,253],
+  [2000,6,-959,24,-935],
+  [2000,7,-1418,16,-1402],
+  [2000,8,1346,-87,1259],
+  [2000,9,142,76,218],
+  [2000,10,-272,53,-219],
+  [2000,11,932,-27,905],
+  [2000,12,-577,-58,-635],
+  [2001,1,4045,228,4273],
+  [2001,2,1819,44,1863],
+  [2001,3,1973,-207,1766],
+  [2001,4,1770,209,1979],
+  [2001,5,-112,-16,-128],
+  [2001,6,715,464,1180],
+  [2001,7,722,-245,478],
+  [2001,8,437,65,502],
+  [2001,9,-416,-118,-533],
+  [2001,10,716,169,884],
+  [2001,11,50,-47,4],
+  [2001,12,250,-22,228],
+  [2002,1,424,275,699],
+  [2002,2,1967,369,2336],
+  [2002,3,391,-61,330],
+  [2002,4,10,-123,-113],
+  [2002,5,-55,102,47],
+  [2002,6,-382,-486,-868],
+  [2002,7,350,-110,240],
+  [2002,8,207,-31,176],
+  [2002,9,468,-146,322],
+  [2002,10,-776,-99,-875],
+  [2002,11,601,137,738],
+  [2002,12,429,221,650],
+  [2003,1,887,98,985],
+  [2003,2,377,49,426],
+  [2003,3,413,552,965],
+  [2003,4,430,564,994],
+  [2003,5,1220,1839,3059],
+  [2003,6,2584,880,3464],
+  [2003,7,2346,-184,2162],
+  [2003,8,2091,137,2228],
+  [2003,9,3852,325,4177],
+  [2003,10,6797,-75,6722],
+  [2003,11,3301,294,3595],
+  [2003,12,6159,222,6381],
+  [2004,1,3179,691,3870],
+  [2004,2,2398,274,2672],
+  [2004,3,5604,840,6444],
+  [2004,4,7637,-919,6718],
+  [2004,5,-3248,-301,-3549],
+  [2004,6,518,-788,-270],
+  [2004,7,914,-201,713],
+  [2004,8,2894,-371,2523],
+  [2004,9,2386,191,2577],
+  [2004,10,3263,-1235,2028],
+  [2004,11,6739,1445,8184],
+  [2004,12,6685,3455,10140],
+  [2005,1,458,-774,-316],
+  [2005,2,8375,834,9209],
+  [2005,3,7501,425,7926],
+  [2005,4,-655,-821,-1476],
+  [2005,5,-1143,-246,-1389],
+  [2005,6,5330,-70,5260],
+  [2005,7,7935,-172,7763],
+  [2005,8,5052,-430,4622],
+  [2005,9,4645,-187,4458],
+  [2005,10,-3694,-934,-4628],
+  [2005,11,4039,-2166,1873],
+  [2005,12,9337,-975,8362],
+  [2006,1,3679,-921,2758],
+  [2006,2,7587,-151,7436],
+  [2006,3,6690,-259,6431],
+  [2006,4,523,249,772],
+  [2006,5,-7353,706,-6647],
+  [2006,6,480,394,874],
+  [2006,7,1143,154,1297],
+  [2006,8,4645,804,5449],
+  [2006,9,5424,708,6132],
+  [2006,10,8014,657,8671],
+  [2006,11,9381,805,10186],
+  [2006,12,-3669,900,-2769],
+  [2007,1,492,-2174,-1682],
+  [2007,2,7239,956,8195],
+  [2007,3,-1081,1443,362],
+  [2007,4,6678,1041,7719],
+  [2007,5,3960,1360,5320],
+  [2007,6,1640,-542,1098],
+  [2007,7,23873,-1264,22609],
+  [2007,8,-7770,607,-7163],
+  [2007,9,16131,2655,18786],
+  [2007,10,20591,2500,23091],
+  [2007,11,-5850,-468,-6318],
+  [2007,12,5577,3312,8889],
+  [2008,1,-13035,1951,-11084],
+  [2008,2,1733,2496,4229],
+  [2008,3,-131,-880,-1011],
+  [2008,4,1076,-1702,-626],
+  [2008,5,-5013,-163,-5176],
+  [2008,6,-10098,-999,-11097],
+  [2008,7,-1833,3620,1787],
+  [2008,8,-1210,1256,46],
+  [2008,9,-8280,3206,-5074],
+  [2008,10,-15346,-1860,-17206],
+  [2008,11,-2598,4217,1619],
+  [2008,12,1748,629,2377],
+  [2009,1,-4245,804,-3441],
+  [2009,2,-2437,-688,-3125],
+  [2009,3,530,-6418,-5888],
+  [2009,4,6510,2488,8998],
+  [2009,5,20116,-2707,17409],
+  [2009,6,3831,1069,4900],
+  [2009,7,11066,2116,13182],
+  [2009,8,4906,-378,4528],
+  [2009,9,18346,2228,20574],
+  [2009,10,9076,6895,15971],
+  [2009,11,5498,684,6182],
+  [2009,12,10234,-1522,8712],
+  [2010,1,-499,8914,8415],
+  [2010,2,1215,3146,4361],
+  [2010,3,19927,9511,29438],
+  [2010,4,9362,3031,12393],
+  [2010,5,-9438,2451,-6987],
+  [2010,6,10507,740,11247],
+  [2010,7,16618,8105,24723],
+  [2010,8,11685,3000,14685],
+  [2010,9,24980,7688,32668],
+  [2010,10,28561,-4261,24300],
+  [2010,11,18294,2916,21210],
+  [2010,12,2048,1166,3214],
+  [2011,1,-4813,10179,5366],
+  [2011,2,-4585,1317,-3268],
+  [2011,3,6896,-16,6880],
+  [2011,4,7211,-16,7195],
+  [2011,5,-6613,2338,-4275],
+  [2011,6,4575,310,4885],
+  [2011,7,8030,2623,10653],
+  [2011,8,-10836,2932,-7904],
+  [2011,9,-159,-1706,-1865],
+  [2011,10,1678,1404,3082],
+  [2011,11,-4198,932,-3266],
+  [2011,12,100,21775,21875],
+  [2012,1,10355,15970,26325],
+  [2012,2,25212,10015,35227],
+  [2012,3,8382,-6588,1794],
+  [2012,4,-1109,-3789,-4898],
+  [2012,5,-348,3569,3221],
+  [2012,6,-503,1679,1176],
+  [2012,7,10276,3391,13667],
+  [2012,8,10804,264,11068],
+  [2012,9,19262,623,19885],
+  [2012,10,11365,7853,19218],
+  [2012,11,9579,290,9869],
+  [2012,12,25086,1704,26790],
+  [2013,1,22059,2948,25007],
+  [2013,2,24440,4000,28440],
+  [2013,3,9125,5796,14921],
+  [2013,4,5413,5334,10747],
+  [2013,5,22168,5968,28136],
+  [2013,6,-11027,-33135,-44162],
+  [2013,7,-6087,-12039,-18126],
+  [2013,8,-5923,-9775,-15698],
+  [2013,9,13057,-5678,7379],
+  [2013,10,15706,-13581,2125],
+  [2013,11,8116,-5983,2133],
+  [2013,12,16087,5291,21378],
+  [2014,1,714,12607,13321],
+  [2014,2,1405,11336,12741],
+  [2014,3,20078,11587,31665],
+  [2014,4,9600,-9182,418],
+  [2014,5,14007,19771,33778],
+  [2014,6,13990,16715,30705],
+  [2014,7,13110,22935,36045],
+  [2014,8,5431,16704,22135],
+  [2014,9,5104,15869,20973],
+  [2014,10,-1172,17901,16729],
+  [2014,11,13756,11723,25479],
+  [2014,12,1036,11189,12225],
+  [2015,1,12919,20768,33687],
+  [2015,2,11475,13089,24564],
+  [2015,3,12076,8649,20725],
+  [2015,4,11721,3610,15331],
+  [2015,5,-5769,-8503,-14272],
+  [2015,6,-3344,1737,-1607],
+  [2015,7,5321,2,5323],
+  [2015,8,-16878,-646,-17524],
+  [2015,9,-6477,690,-5787],
+  [2015,10,6649,15703,22352],
+  [2015,11,-7074,-3754,-10828],
+  [2015,12,-2818,-5489,-8307],
+  [2016,1,-11127,2313,-8814],
+  [2016,2,-5522,-8194,-13716],
+  [2016,3,21142,-1477,19665],
+  [2016,4,8415,6418,14833],
+  [2016,5,2542,-4409,-1867],
+  [2016,6,3714,-6221,-2507],
+  [2016,7,12611,6847,19458],
+  [2016,8,9071,-2626,6445],
+  [2016,9,10444,9789,20233],
+  [2016,10,-4306,-6000,-10306],
+  [2016,11,-18244,-21151,-39395],
+  [2016,12,-8177,-18933,-27110],
+  [2017,1,-1177,-2319,-3496],
+  [2017,2,9902,5960,15862],
+  [2017,3,30906,25355,56261],
+  [2017,4,2394,20364,22758],
+  [2017,5,7711,19155,26866],
+  [2017,6,3617,25685,29302],
+  [2017,7,5161,18867,24028],
+  [2017,8,-12770,15447,2677],
+  [2017,9,-11392,1349,-10043],
+  [2017,10,3055,16064,19119],
+  [2017,11,19728,530,20258],
+  [2017,12,-5883,2339,-3544],
+  [2018,1,13781,8491,22272],
+  [2018,2,-11423,-251,-11674],
+  [2018,3,11654,-8992,2662],
+  [2018,4,-5552,-10009,-15561],
+  [2018,5,-10060,-19716,-29776],
+  [2018,6,-4831,-10964,-15795],
+  [2018,7,2264,0,2264],
+  [2018,8,1775,3371,5146],
+  [2018,9,-10825,-10210,-21035],
+  [2018,10,-28921,-9985,-38906],
+  [2018,11,5981,5614,11595],
+  [2018,12,3143,4746,7889],
+  [2019,1,-4262,-1294,-5556],
+  [2019,2,17220,-5167,12053],
+  [2019,3,33981,14770,48751],
+  [2019,4,21193,-4465,16728],
+  [2019,5,7920,3450,11370],
+  [2019,6,2596,10515,13111],
+  [2019,7,-12419,9416,-3003],
+  [2019,8,-17592,11721,-5871],
+  [2019,9,7548,-966,6582],
+  [2019,10,12368,3701,16069],
+  [2019,11,25231,-2232,22999],
+  [2019,12,7338,-4576,2762],
+  [2020,1,12123,-11166,957],
+  [2020,2,1820,7150,8970],
+  [2020,3,-61973,-56230,-118203],
+  [2020,4,-6884,-7975,-14859],
+  [2020,5,14569,-21925,-7356],
+  [2020,6,21832,4177,26009],
+  [2020,7,7563,-4262,3301],
+  [2020,8,47080,2799,49879],
+  [2020,9,-7783,6587,-1196],
+  [2020,10,19541,2285,21826],
+  [2020,11,60358,2424,62782],
+  [2020,12,62016,9030,71046],
+  [2021,1,19473,-4842,14631],
+  [2021,2,25787,-1774,24013],
+  [2021,3,10482,6541,17023],
+  [2021,4,-9659,823,-8836],
+  [2021,5,-2954,996,-1958],
+  [2021,6,17215,-4241,12974],
+  [2021,7,-11308,3898,-7410],
+  [2021,8,2083,14473,16556],
+  [2021,9,13154,14602,27756],
+  [2021,10,-13550,1113,-12437],
+  [2021,11,-5945,3424,-2521],
+  [2021,12,-19026,-10676,-29702],
+  [2022,1,-33303,4777,-28526],
+  [2022,2,-35592,-2476,-38068],
+  [2022,3,-41123,-8945,-50068],
+  [2022,4,-17144,-5544,-22688],
+  [2022,5,-39993,3475,-36518],
+  [2022,6,-50203,-1219,-51422],
+  [2022,7,4989,-3018,1971],
+  [2022,8,51204,5317,56521],
+  [2022,9,-7624,3669,-3955],
+  [2022,10,-8,-3072,-3080],
+  [2022,11,36239,-2392,33847],
+  [2022,12,11119,-1948,9171],
+  [2023,1,-28852,2308,-26544],
+  [2023,2,-5294,1155,-4139],
+  [2023,3,7936,-2037,5899],
+  [2023,4,11631,1914,13545],
+  [2023,5,43838,4492,48330],
+  [2023,6,47148,9110,56258],
+  [2023,7,46618,1359,47977],
+  [2023,8,12262,6076,18338],
+  [2023,9,-14768,958,-13810],
+  [2023,10,-24548,6673,-17875],
+  [2023,11,9001,15545,24546],
+  [2023,12,66135,18402,84537],
+  [2024,1,-25744,19151,-6593],
+  [2024,2,1539,30278,31817],
+  [2024,3,35098,16898,51996],
+  [2024,4,-8671,-7589,-16260],
+  [2024,5,-25586,12675,-12911],
+  [2024,6,26565,15192,41757],
+  [2024,7,32365,16431,48796],
+  [2024,8,7320,18173,25493],
+  [2024,9,57724,35814,93538],
+  [2024,10,-94017,-2341,-96358],
+  [2024,11,-21612,168,-21444],
+  [2024,12,15446,10492,25938],
+  [2025,1,-78027,816,-77211],
+  [2025,2,-34574,10273,-24301],
+  [2025,3,-3973,36954,32981],
+  [2025,4,4223,-24413,-20190],
+  [2025,5,19860,11090,30950],
+  [2025,6,14590,-22153,-7563],
+  [2025,7,-17741,12203,-5538],
+  [2025,8,-34993,14488,-20505],
+  [2025,9,-23885,11346,-12539],
+  [2025,10,14610,20988,35598],
+  [2025,11,-3765,6601,2836],
+  [2025,12,-22611,-15957,-38568]
+];
+
+// ── NSE total market cap (₹ crore, December year-end) ───────────────────────
+// Source: RBI DBIE — "Market Capitalisation – NSE" (Table R1351)
+// https://dbie.rbihub.in/statistics?table=financial_markets.r1351_market_capitalisation_nse
+const NSE_MC = {
+  2000:760391,   2001:552908,   2002:672862,   2003:1167029,
+  2004:1579161,  2005:2322392,  2006:3426236,  2007:6543272,
+  2008:2916768,  2009:5699637,  2010:7139310,  2011:5232273,
+  2012:6763781,  2013:6884167,  2014:9600459,  2015:9831658,
+  2016:10439621, 2017:14982296, 2018:14279083, 2019:15431967,
+  2020:18646769, 2021:26402579, 2022:28019281, 2023:36105548,
+  2024:43893974, 2025:47363702
+};
+
+// ── State ────────────────────────────────────────────────────────────────────
+const state = { seg:'total', period:'annual', adj:'nominal', scale:'apollo' };
+
+// ── Controls ─────────────────────────────────────────────────────────────────
+document.querySelectorAll('.seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const ctrl = btn.dataset.ctrl;
+    document.querySelectorAll(`.seg-btn[data-ctrl="${ctrl}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state[ctrl] = btn.dataset.val;
+    renderChart();
+  });
+});
+
+// ── Data helpers ─────────────────────────────────────────────────────────────
+function getVal(r) {
+  const raw = state.seg === 'equity' ? r[2] : state.seg === 'debt' ? r[3] : r[4];
+  if (raw == null) return null;
+  if (state.adj === 'real') {
+    const cpi = CPI[r[0]];
+    return cpi ? raw * (CPI_BASE / cpi) : raw;
+  }
+  return raw;
+}
+
+function buildSeries() {
+  if (state.period === 'monthly') {
+    return RAW.map(r => ({
+      year: r[0], month: r[1], label: MONTH_NAMES[r[1]-1] + ' ' + r[0],
+      val: getVal(r), equity: r[2], debt: r[3], total: r[4]
+    }));
+  }
+  // Annual aggregation
+  const map = {};
+  for (const r of RAW) {
+    if (!map[r[0]]) map[r[0]] = {year:r[0],equity:0,debt:0,total:0};
+    map[r[0]].equity += (r[2]||0);
+    map[r[0]].debt   += (r[3]||0);
+    map[r[0]].total  += (r[4]||0);
+  }
+  return Object.values(map).sort((a,b)=>a.year-b.year).map(a => ({
+    year: a.year, month: null, label: String(a.year),
+    val: (() => {
+      const raw = state.seg === 'equity' ? a.equity : state.seg === 'debt' ? a.debt : a.total;
+      if (state.adj === 'real') { const c = CPI[a.year]; return c ? raw*(CPI_BASE/c) : raw; }
+      return raw;
+    })(),
+    equity: a.equity, debt: a.debt, total: a.total
+  }));
+}
+
+// ── Chart render ─────────────────────────────────────────────────────────────
+const YAXIS_W = 72;
+const CHART_H = 380;
+const PAD_T = 24;
+const PAD_B = 40;
+const PLOT_H = CHART_H - PAD_T - PAD_B;
+
+const colors = () => {
+  const s = getComputedStyle(document.documentElement);
+  return {
+    green: s.getPropertyValue('--color-green').trim() || '#1D6840',
+    red:   s.getPropertyValue('--color-red').trim()   || '#B02D12',
+    grid:  s.getPropertyValue('--chart-grid').trim()  || 'rgba(47,75,38,0.09)',
+    axis:  s.getPropertyValue('--yaxis-spine').trim() || 'rgba(47,75,38,0.35)',
+    label: s.getPropertyValue('--yaxis-label').trim() || 'rgba(47,75,38,0.5)',
+    ink:   s.getPropertyValue('--color-ink').trim()   || '#2F4B26',
+    ochre: s.getPropertyValue('--color-ochre').trim() || '#8A5A08',
+    inkMuted: s.getPropertyValue('--color-ink-muted').trim() || 'rgba(47,75,38,0.55)',
+  };
+};
+
+function nseMC(year) {
+  return NSE_MC[year] || NSE_MC[Math.max(...Object.keys(NSE_MC).map(Number).filter(y => y <= year))];
+}
+
+function fmtVal(v, year) {
+  if (state.scale === 'apollo') {
+    return (v / APOLLO).toFixed(2) + '×';
+  }
+  if (state.scale === 'nifty' && year) {
+    const mc = nseMC(year);
+    return (v / mc * 100).toFixed(2) + '%';
+  }
+  const abs = Math.abs(v);
+  const sign = v < 0 ? '-' : '';
+  if (abs >= 100000) return sign + '₹' + (abs/100000).toFixed(2) + 'L cr';
+  if (abs >= 1000)   return sign + '₹' + (abs/1000).toFixed(1) + 'K cr';
+  return sign + '₹' + Math.round(abs).toLocaleString('en-IN') + ' cr';
+}
+
+function fmtCr(v) {
+  const abs = Math.abs(v);
+  const sign = v < 0 ? '-' : '+';
+  if (abs >= 100000) return sign + '₹' + (abs/100000).toFixed(2) + 'L cr';
+  if (abs >= 1000)   return sign + '₹' + (abs/1000).toFixed(1) + 'K cr';
+  return sign + '₹' + Math.round(abs).toLocaleString('en-IN') + ' cr';
+}
+
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k,v] of Object.entries(attrs)) el.setAttribute(k, v);
+  return el;
+}
+
+function niceScale(maxAbs) {
+  const magnitude = Math.pow(10, Math.floor(Math.log10(maxAbs)));
+  const normalized = maxAbs / magnitude;
+  let nice;
+  if (normalized <= 1.5) nice = 1.5;
+  else if (normalized <= 2) nice = 2;
+  else if (normalized <= 3) nice = 3;
+  else if (normalized <= 5) nice = 5;
+  else nice = 10;
+  return nice * magnitude;
+}
+
+function gridLines(maxAbs) {
+  const top = niceScale(maxAbs);
+  const step = top / 4;
+  const lines = [];
+  for (let v = -top; v <= top + step*0.01; v += step) {
+    lines.push(Math.round(v));
+  }
+  return { lines, top };
+}
+
+function renderChart() {
+  const c = colors();
+  const series = buildSeries();
+  const isMonthly = state.period === 'monthly';
+  const BAR_W = isMonthly ? 5 : 24;
+  const BAR_GAP = isMonthly ? 2 : 6;
+  const UNIT = BAR_W + BAR_GAP;
+
+  const chartSeries = series.map(d => ({
+    ...d,
+    chartVal: state.scale === 'nifty'
+      ? (d.val != null ? d.val / nseMC(d.year) * 100 : 0)
+      : (d.val || 0)
+  }));
+  const maxAbs = Math.max(...chartSeries.map(d => Math.abs(d.chartVal)), 1);
+  const { lines, top } = gridLines(maxAbs);
+
+  const chartW = chartSeries.length * UNIT + 12;
+  const yScale = PLOT_H / (2 * top);
+  const zeroY = PAD_T + PLOT_H / 2;
+
+  // Render yaxis
+  const ysvg = document.getElementById('yaxis');
+  ysvg.setAttribute('width', YAXIS_W);
+  ysvg.setAttribute('height', CHART_H);
+  ysvg.innerHTML = '';
+
+  const ySpine = svgEl('line',{x1:YAXIS_W-1,y1:PAD_T,x2:YAXIS_W-1,y2:PAD_T+PLOT_H,stroke:c.axis,'stroke-width':'1'});
+  ysvg.appendChild(ySpine);
+
+  for (const v of lines) {
+    const y = zeroY - v * yScale;
+    const tick = svgEl('line',{x1:YAXIS_W-6,y1:y,x2:YAXIS_W,y2:y,stroke:c.axis,'stroke-width':'1'});
+    ysvg.appendChild(tick);
+    let lbl;
+    if (state.scale === 'apollo') {
+      lbl = (v/APOLLO).toFixed(1)+'×';
+    } else if (state.scale === 'nifty') {
+      lbl = v.toFixed(1)+'%';
+    } else {
+      const abs = Math.abs(v);
+      const sign = v < 0 ? '-' : v > 0 ? '' : '';
+      if (abs >= 100000) lbl = sign + (abs/100000).toFixed(1) + 'L';
+      else if (abs >= 1000) lbl = sign + (abs/1000).toFixed(0) + 'K';
+      else lbl = sign + abs;
+      if (v !== 0) lbl = (v<0?'-':'')+lbl;
+    }
+    const txt = svgEl('text',{x:YAXIS_W-9,y:y+4,'text-anchor':'end','font-size':'10','font-family':'Inter,sans-serif',fill:c.label});
+    txt.textContent = lbl;
+    ysvg.appendChild(txt);
+  }
+
+  // Apollo ±1× reference labels on y axis (logo + text, only in apollo scale)
+  if (state.scale === 'apollo') {
+    const apolloY1 = zeroY - APOLLO * yScale;
+    const apolloYm1 = zeroY + APOLLO * yScale;
+    for (const [refY, label] of [[apolloY1,'1×'],[apolloYm1,'-1×']]) {
+      if (refY >= PAD_T && refY <= PAD_T+PLOT_H) {
+        const isNeg = label.startsWith('-');
+        const img = svgEl('image',{'href':'css/image/APOLLOHOSP.png',x:YAXIS_W-9-22,y:isNeg?refY+1:refY-13,width:'12',height:'12'});
+        ysvg.appendChild(img);
+        const txt = svgEl('text',{x:YAXIS_W-9,y:isNeg?refY+9:refY-3,'text-anchor':'end','font-size':'8','font-family':'Inter,sans-serif',fill:c.ochre});
+        txt.textContent = label;
+        ysvg.appendChild(txt);
+      }
+    }
+  }
+
+  // Render main chart
+  const svg = document.getElementById('chartMain');
+  svg.setAttribute('width', chartW);
+  svg.setAttribute('height', CHART_H);
+  svg.innerHTML = '';
+
+  // Grid lines
+  for (const v of lines) {
+    const y = zeroY - v * yScale;
+    const grid = svgEl('line',{x1:0,y1:y,x2:chartW,y2:y,stroke:c.grid,'stroke-width': v===0 ? '1.5' : '1'});
+    svg.appendChild(grid);
+  }
+
+  // Apollo ±1× reference lines (dashed ochre, only in apollo scale)
+  if (state.scale === 'apollo') {
+    for (const mult of [1,-1]) {
+      const y = zeroY - mult*APOLLO*yScale;
+      if (y >= PAD_T && y <= PAD_T+PLOT_H) {
+        const l = svgEl('line',{x1:0,y1:y,x2:chartW,y2:y,stroke:c.ochre,'stroke-width':'1','stroke-dasharray':'4 3',opacity:'.55'});
+        svg.appendChild(l);
+        const logo = svgEl('image',{'href':'css/image/APOLLOHOSP.png',x:4,y:y-7,width:'12',height:'12',opacity:'0.7'});
+        svg.appendChild(logo);
+      }
+    }
+  }
+
+  // Year separators and labels for monthly view
+  if (isMonthly) {
+    let prevYear = null;
+    chartSeries.forEach((d, i) => {
+      if (d.year !== prevYear) {
+        const x = i * UNIT;
+        if (i > 0) {
+          const sep = svgEl('line',{x1:x,y1:PAD_T,x2:x,y2:PAD_T+PLOT_H,stroke:c.grid,'stroke-width':'1'});
+          svg.appendChild(sep);
+        }
+        const lbl = svgEl('text',{x:x+2,y:PAD_T+PLOT_H+14,'font-size':'9','font-family':'Inter,sans-serif',fill:c.label});
+        lbl.textContent = d.year;
+        svg.appendChild(lbl);
+        prevYear = d.year;
+      }
+    });
+  }
+
+  // Bars + x-axis labels
+  chartSeries.forEach((d, i) => {
+    const v = d.chartVal;
+    const barH = Math.abs(v) * yScale;
+    const x = i * UNIT;
+    const barY = v >= 0 ? zeroY - barH : zeroY;
+    const fill = v >= 0 ? c.green : c.red;
+
+    const bar = svgEl('rect',{
+      x, y:barY, width:BAR_W, height:Math.max(barH, 0.5),
+      fill, rx:'1', opacity:'.85'
+    });
+    bar.addEventListener('mousemove', (e) => showTip(e, d));
+    bar.addEventListener('mouseleave', hideTip);
+    bar.style.cursor = 'default';
+    svg.appendChild(bar);
+
+    if (!isMonthly) {
+      const lbl = svgEl('text',{
+        x: x + BAR_W/2, y: PAD_T+PLOT_H+14,
+        'text-anchor':'middle','font-size':'9','font-family':'Inter,sans-serif',fill:c.label
+      });
+      lbl.textContent = String(d.year).slice(2);
+      svg.appendChild(lbl);
+    }
+  });
+
+  // Scroll to most recent on monthly, or keep position
+  if (isMonthly) {
+    const outer = document.getElementById('chartScrollOuter');
+    outer.scrollLeft = outer.scrollWidth;
+  }
+}
+
+// ── Tooltip ──────────────────────────────────────────────────────────────────
+const tip = document.getElementById('tooltip');
+
+function showTip(e, d) {
+  const v = d.val || 0;
+  const posNeg = v >= 0 ? 'pos' : 'neg';
+  const flowWord = v >= 0 ? 'Inflow' : 'Outflow';
+
+  // compute nominal for tooltip regardless of adj setting
+  const rawTotal = d.total || 0;
+  const rawEquity = d.equity || 0;
+  const rawDebt = d.debt || 0;
+  const realTotal = CPI[d.year] ? rawTotal*(CPI_BASE/CPI[d.year]) : rawTotal;
+  const mc = nseMC(d.year);
+  const pctNSE = mc ? (rawTotal/mc*100).toFixed(2)+'%' : 'N/A';
+
+  tip.innerHTML = `
+    <strong>${d.label}</strong>
+    <div class="tip-row"><span>${flowWord} (nominal)</span><span class="tip-val ${posNeg}">${fmtCr(rawTotal)}</span></div>
+    <div class="tip-row"><span>Real 2025</span><span class="tip-val ${posNeg}">${fmtCr(realTotal)}</span></div>
+    <div class="tip-row"><span>× Apollo</span><span class="tip-val ${posNeg}">${(rawTotal/APOLLO).toFixed(2)}×</span></div>
+    <div class="tip-row"><span>% NSE mkt cap</span><span class="tip-val ${posNeg}">${pctNSE}</span></div>
+    <div class="tip-row" style="margin-top:4px;border-top:1px solid var(--color-grid);padding-top:4px"><span>Equity</span><span class="tip-val ${rawEquity>=0?'pos':'neg'}">${fmtCr(rawEquity)}</span></div>
+    <div class="tip-row"><span>Debt</span><span class="tip-val ${rawDebt>=0?'pos':'neg'}">${fmtCr(rawDebt)}</span></div>
+  `;
+  tip.classList.add('visible');
+  moveTip(e);
+}
+
+function moveTip(e) {
+  const x = e.clientX + 14;
+  const y = e.clientY - 10;
+  const w = tip.offsetWidth || 220;
+  const vw = window.innerWidth;
+  tip.style.left = (x + w > vw ? x - w - 28 : x) + 'px';
+  tip.style.top = y + 'px';
+}
+document.addEventListener('mousemove', (e) => {
+  if (tip.classList.contains('visible')) moveTip(e);
+});
+
+function hideTip() { tip.classList.remove('visible'); }
+
+// ── Theme toggle ─────────────────────────────────────────────────────────────
+const themeBtn = document.getElementById('themeToggle');
+themeBtn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '◑ Light' : '◑ Dark';
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '◑ Light' : '◑ Dark';
+  try { sessionStorage.setItem('ln-theme', next); } catch(e) {}
+  renderChart();
+});
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+renderChart();
+window.addEventListener('resize', renderChart);
+</script>
+<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
+</body>
+</html>
