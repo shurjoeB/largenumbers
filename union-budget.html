@@ -78,7 +78,7 @@ html[data-theme="dark"] .brand-logo--dark{display:block}
 .nav-group:hover .nav-group-label{color:var(--color-ink)}
 .nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:var(--border-thin);border-radius:var(--radius-md);padding:6px 0;min-width:140px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200}
 .nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
-.nav-group:hover .nav-dropdown{display:block}
+.nav-group:hover .nav-dropdown,.nav-group.open .nav-dropdown{display:block}
 .nav-dropdown a{display:block;padding:12px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-muted);text-decoration:none;white-space:nowrap}
 .nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
 /* Keep dropdowns inside viewport */
@@ -1020,6 +1020,20 @@ window.addEventListener('resize', () => {
 });
 
 init();
+</script>
+<!-- Nav: tap-to-open for mobile -->
+<script>
+document.querySelectorAll('.nav-group-label').forEach(function(label){
+  label.addEventListener('click',function(e){
+    var g=label.closest('.nav-group'),open=g.classList.contains('open');
+    document.querySelectorAll('.nav-group.open').forEach(function(x){x.classList.remove('open')});
+    if(!open)g.classList.add('open');
+    e.stopPropagation();
+  });
+});
+document.addEventListener('click',function(){
+  document.querySelectorAll('.nav-group.open').forEach(function(x){x.classList.remove('open')});
+});
 </script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>

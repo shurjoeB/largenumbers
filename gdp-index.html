@@ -58,7 +58,7 @@ html[data-theme="dark"] .brand-logo--dark{display:block}
 .nav-group:hover .nav-group-label{color:var(--color-ink)}
 .nav-dropdown{display:none;position:absolute;top:100%;left:-12px;background:var(--color-paper);border:1px solid var(--color-line);border-radius:var(--r2);padding:6px 0;min-width:160px;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:200}
 .nav-group::before{content:'';position:absolute;top:100%;left:0;right:0;height:12px}
-.nav-group:hover .nav-dropdown{display:block}
+.nav-group:hover .nav-dropdown,.nav-group.open .nav-dropdown{display:block}
 .nav-dropdown a{display:block;padding:10px 18px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:500;color:var(--color-ink-2);text-decoration:none;white-space:nowrap}
 .nav-dropdown a:hover,.nav-dropdown a.active{color:var(--color-ink);background:var(--color-grid)}
 .nav-group:last-of-type .nav-dropdown,.nav-group:nth-last-of-type(2) .nav-dropdown{left:auto;right:0}
@@ -908,6 +908,20 @@ themeBtn.addEventListener('click', () => {
 // ── Init ───────────────────────────────────────────────────────────────────
 currentData = buildFromEmbed();
 render(currentData);
+</script>
+<!-- Nav: tap-to-open for mobile -->
+<script>
+document.querySelectorAll('.nav-group-label').forEach(function(label){
+  label.addEventListener('click',function(e){
+    var g=label.closest('.nav-group'),open=g.classList.contains('open');
+    document.querySelectorAll('.nav-group.open').forEach(function(x){x.classList.remove('open')});
+    if(!open)g.classList.add('open');
+    e.stopPropagation();
+  });
+});
+document.addEventListener('click',function(){
+  document.querySelectorAll('.nav-group.open').forEach(function(x){x.classList.remove('open')});
+});
 </script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_YOUR_TOKEN"}'></script>
