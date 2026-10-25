@@ -616,12 +616,6 @@ function renderLegend(data, showZones) {
   }
   state.zone = savedZone;
   row.innerHTML = html;
-  row.addEventListener('click', e => {
-    const item = e.target.closest('.lg-item[data-zone]');
-    if (!item) return;
-    state.zone = state.zone === item.dataset.zone ? null : item.dataset.zone;
-    render(currentData);
-  });
 }
 
 // ── Bubble Grid ────────────────────────────────────────────────────────────
@@ -908,6 +902,14 @@ themeBtn.addEventListener('click', () => {
 // ── Init ───────────────────────────────────────────────────────────────────
 currentData = buildFromEmbed();
 render(currentData);
+
+// Legend zone filter — wired once so clicks don't stack across re-renders
+document.getElementById('legendRow').addEventListener('click', e => {
+  const item = e.target.closest('.lg-item[data-zone]');
+  if (!item) return;
+  state.zone = state.zone === item.dataset.zone ? null : item.dataset.zone;
+  render(currentData);
+});
 </script>
 <!-- Nav: tap-to-open for mobile -->
 <script>

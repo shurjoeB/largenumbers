@@ -171,7 +171,7 @@ html[data-theme="dark"] .brand-logo--dark{display:block}
       <div class="viz-header-main">
         <span class="eyebrow">Economics</span>
         <h1>FPI Net Flows</h1>
-        <p class="subtitle">Foreign Portfolio Investor net investment in India, 2000–2025. Each bar is one month (or year). Green = inflow, red = outflow.</p>
+        <p class="subtitle">Foreign Portfolio Investor net investment in India, 2000–2026. Each bar is one month (or year). Green = inflow, red = outflow. 2026 data through September.</p>
       </div>
       <aside class="benchmark-aside">
         <div class="benchmark-block">
@@ -258,7 +258,7 @@ const CPI = {
   2010:75.2,2011:83.5,2012:93.0,2013:103.0,2014:112.0,
   2015:119.0,2016:128.0,2017:136.0,2018:144.0,2019:149.0,
   2020:152.0,2021:158.0,2022:168.0,2023:177.0,2024:186.0,
-  2025:198.0
+  2025:198.0, 2026:208.0
 };
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -575,7 +575,17 @@ const RAW = [
   [2025,9,-23885,11346,-12539],
   [2025,10,14610,20988,35598],
   [2025,11,-3765,6601,2836],
-  [2025,12,-22611,-15957,-38568]
+  [2025,12,-22611,-15957,-38568],
+  // 2026 — Source: NSDL FPI Investment Reports (downloaded 25 Oct 2026)
+  [2026,1,-35962,6722,-29240],
+  [2026,2,22615,15189,37804],
+  [2026,3,-117775,-7961,-125736],
+  [2026,4,-60847,-10038,-70885],
+  [2026,5,-32963,3479,-29484],
+  [2026,6,-49340,54009,4669],
+  [2026,7,20200,19831,40031],
+  [2026,8,29631,-4139,25492],
+  [2026,9,-35861,-22582,-58443]
 ];
 
 // ── NSE total market cap (₹ crore, December year-end) ───────────────────────
